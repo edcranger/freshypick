@@ -169,7 +169,7 @@ const mutations = {
       status: "processing"
     });
 
-    consola.success("Orders", state.ordered);
+    consola.success("Orders:", state.ordered);
   }
 };
 
