@@ -1,4 +1,5 @@
 import consola from "consola";
+import uuid from "uuid/v4";
 
 const state = {
   cart: [],
@@ -82,7 +83,11 @@ const state = {
 
 const getters = {
   products: state => state.products,
-  cart: state => state.cart,
+  cart: state => {
+    return state.cart.filter(item => {
+      return item.stage === "cart";
+    });
+  },
   totalInCart: state => {
     let total = 0;
     state.cart.map(item => {
@@ -93,8 +98,16 @@ const getters = {
 
     return total;
   },
-  checkoutCart: state => state.checkoutCart,
-  ordered: state => state.ordered
+  checkoutCart: state => {
+    return state.cart.filter(item => {
+      return item.selected === true;
+    });
+  },
+  ordered: state => {
+    return state.ordered.filter(item => {
+      return item.stage === "ordered";
+    });
+  }
 };
 const actions = {
   async getItems({ commit }) {
@@ -124,7 +137,7 @@ const actions = {
   },
   async order({ commit }) {
     try {
-      commit("orderNow");
+      commit("addingToOrderedCollection");
     } catch (err) {
       // eslint-disable-next-line no-console
       console.log(err);
@@ -143,9 +156,12 @@ const mutations = {
       item.qty = 1;
     }
     item.selected = true;
+    item.id = uuid();
+    item.stage = "cart";
 
     state.cart.push({ ...item });
-    // eslint-disable-next-line no-console
+
+    consola.info("cartItems", state.cart);
   },
   setCartToAllSelectedItem(state, item) {
     state.cart = item;
@@ -157,19 +173,21 @@ const mutations = {
       return item.selected === true;
     });
     state.checkoutCart = checking;
-
-    consola.success("checkoutCart", state.checkoutCart);
   },
-  orderNow(state) {
-    consola.success("inCart", state.checkoutCart);
-    state.ordered.push({
-      id: Date.now(),
-      date: Date.now(),
-      items: { ...state.checkoutCart },
-      status: "processing"
+  addingToOrderedCollection(state) {
+    const purchaseId = `fp${Date.now()}`;
+
+    state.cart.forEach(item => {
+      if (item.selected) {
+        item.purchaseId = purchaseId;
+        item.stage = "ordered";
+        item.selected = false;
+        state.ordered.push(item);
+      }
     });
 
-    consola.success("Orders:", state.ordered);
+    consola.info("checkoutcart", state.checkoutCart);
+    consola.info("cartStatus", state.ordered);
   }
 };
 

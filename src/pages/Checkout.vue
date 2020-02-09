@@ -187,7 +187,6 @@
 </template>
 
 <script>
-import consola from "consola";
 import { mapGetters, mapActions } from "vuex";
 export default {
   name: "PageIndex",
@@ -205,7 +204,7 @@ export default {
   methods: {
     ...mapActions(["order"]),
     ordering() {
-      this.order().then(consola.success("orderRequest", this.ordered));
+      this.order();
     }
   }
 };

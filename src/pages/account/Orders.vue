@@ -11,7 +11,7 @@
       <div class="col-12 bg-white q-my-sm">
         <div
           class="row shadow-1 q-pa-sm"
-          v-for="item in checkoutCart"
+          v-for="item in ordered"
           :key="item.id"
         >
           <div class="col-md-3 col-4">
@@ -50,7 +50,7 @@
 import { mapGetters } from "vuex";
 export default {
   computed: {
-    ...mapGetters(["checkoutCart", "totalInCart"])
+    ...mapGetters(["checkoutCart", "totalInCart", "ordered"])
   }
 };
 </script>
