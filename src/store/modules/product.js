@@ -109,9 +109,9 @@ const getters = {
       return item.stage === "ordered";
     });
   },
-  orderedById: state => {
-    return state.ordered.filter(item => {
-      return item.purchaseId;
+  waa: state => {
+    return state.waa.filter(item => {
+      return item;
     });
   }
 };
@@ -195,19 +195,6 @@ const mutations = {
     consola.info("checkoutcart", state.checkoutCart);
     consola.info("orderstats", state.ordered);
     consola.info("cartStatus", state.cart);
-
-    const filterAr = () => {
-      let pow = [];
-      state.ordered.map(item => {
-        pow.push(item.purchaseId);
-      });
-
-      //this will remove the duplicates in the array
-      return new Set(pow);
-    };
-
-    const intoArray = [...filterAr()];
-    consola.success("uniqueSet", intoArray);
 
     const filt = () => {
       return state.ordered.filter(item => {

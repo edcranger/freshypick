@@ -7,7 +7,12 @@
           >Items
         </div>
       </div>
-
+      <div v-for="item in waa" :key="item.id" class="bg-white q-ma-sm">
+        <p>{{ item.id }}</p>
+        <p v-for="i in item.item" :key="i.purchaseid">
+          {{ i.name }}
+        </p>
+      </div>
       <div class="col-12 bg-white q-my-sm">
         <div
           class="row shadow-1 q-pa-sm"
@@ -50,7 +55,7 @@
 import { mapGetters } from "vuex";
 export default {
   computed: {
-    ...mapGetters(["checkoutCart", "totalInCart", "ordered"])
+    ...mapGetters(["checkoutCart", "totalInCart", "ordered", "waa"])
   }
 };
 </script>
