@@ -5,6 +5,7 @@ const state = {
   cart: [],
   checkoutCart: [],
   ordered: [],
+  waa: [],
   products: [
     {
       id: "wqedfgadasdas",
@@ -107,6 +108,11 @@ const getters = {
     return state.ordered.filter(item => {
       return item.stage === "ordered";
     });
+  },
+  orderedById: state => {
+    return state.ordered.filter(item => {
+      return item.purchaseId;
+    });
   }
 };
 const actions = {
@@ -187,7 +193,31 @@ const mutations = {
     });
 
     consola.info("checkoutcart", state.checkoutCart);
-    consola.info("cartStatus", state.ordered);
+    consola.info("orderstats", state.ordered);
+    consola.info("cartStatus", state.cart);
+
+    const filterAr = () => {
+      let pow = [];
+      state.ordered.map(item => {
+        pow.push(item.purchaseId);
+      });
+
+      //this will remove the duplicates in the array
+      return new Set(pow);
+    };
+
+    const intoArray = [...filterAr()];
+    consola.success("uniqueSet", intoArray);
+
+    const filt = () => {
+      return state.ordered.filter(item => {
+        return item.purchaseId === purchaseId;
+      });
+    };
+
+    state.waa.push({ id: purchaseId, item: filt() });
+
+    consola.success("wew", state.waa);
   }
 };
 
