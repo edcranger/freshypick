@@ -1,49 +1,36 @@
 <template>
-  <q-page class="row ">
+  <q-page class="row">
     <div class="col">
-      <div class=" bg-white q-py-sm">
+      <div class="bg-white q-py-sm">
         <div class="text-subtitle2">
-          <q-icon name="fas fa-shopping-cart" class="q-ml-md q-mr-sm"></q-icon
-          >Items
+          <q-icon name="fas fa-shopping-cart" class="q-ml-md q-mr-sm"></q-icon>Recent Orders
         </div>
       </div>
-      <div v-for="item in waa" :key="item.id" class="bg-white q-ma-sm">
-        <p>{{ item.id }}</p>
-        <p v-for="i in item.item" :key="i.purchaseid">
-          {{ i.name }}
-        </p>
-      </div>
-      <div class="col-12 bg-white q-my-sm">
-        <div
-          class="row shadow-1 q-pa-sm"
-          v-for="item in ordered"
-          :key="item.id"
-        >
-          <div class="col-md-3 col-4">
-            <q-img
-              :src="item.photo"
-              spinner-color="white"
-              style="height: 100px; max-width: 100px"
-            />
-          </div>
-          <div class="col">
-            <div class="q-mt-lg">
-              <strong>{{ item.name }}</strong>
-            </div>
-            <div class="q-ma-none">₱{{ item.price }}/kg</div>
 
-            <div
-              class="fit row wrap justify-end items-start content-start q-mt-md q-mb-none"
-            >
+      <div class="col-12 bg-white q-my-sm">
+        <div class="row text-left q-pa-sm q-ml-md">
+          <div class="col-4">Order #</div>
+
+          <div class="col-4">Items</div>
+          <div class="col-4 text-right">Total</div>
+        </div>
+
+        <div class="row shadow-1 q-pa-sm" v-for="item in ordered" :key="item.id">
+          <div class="col-4">
+            {{item.id}}
+            <!-- <p>Placed on:{{item.date}}</p> -->
+          </div>
+
+          <div class="col-4">
+            <div class="row" v-for="i in item.item" :key="i.purchaseid">
               <div class="col">
-                <p>Qty: {{ item.qty }}</p>
-              </div>
-              <div class="col text-right">
-                <div>
-                  <q-btn flat round dense icon="delete" />
-                </div>
+                <q-img :src="i.photo" spinner-color="white" style="height: 30px; max-width: 30px" />
+                x {{i.qty}} {{i.name}}
               </div>
             </div>
+          </div>
+          <div class="col-4 text-right">
+            <p>{{item.total}}</p>
           </div>
         </div>
       </div>
@@ -55,7 +42,7 @@
 import { mapGetters } from "vuex";
 export default {
   computed: {
-    ...mapGetters(["checkoutCart", "totalInCart", "ordered", "waa"])
+    ...mapGetters(["checkoutCart", "totalInCart", "ordered"])
   }
 };
 </script>

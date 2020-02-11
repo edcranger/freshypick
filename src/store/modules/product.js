@@ -5,7 +5,7 @@ const state = {
   cart: [],
   checkoutCart: [],
   ordered: [],
-  waa: [],
+
   products: [
     {
       id: "wqedfgadasdas",
@@ -104,13 +104,9 @@ const getters = {
       return item.selected === true;
     });
   },
+
   ordered: state => {
     return state.ordered.filter(item => {
-      return item.stage === "ordered";
-    });
-  },
-  waa: state => {
-    return state.waa.filter(item => {
       return item;
     });
   }
@@ -120,16 +116,14 @@ const actions = {
     try {
       commit("getProduct_success");
     } catch (err) {
-      // eslint-disable-next-line no-console
-      console.log(err);
+      consola.error(err);
     }
   },
   async addToCart({ commit }, cartItem) {
     try {
       commit("addToCart_success", cartItem);
     } catch (err) {
-      // eslint-disable-next-line no-console
-      console.log(err);
+      consola.error(err);
     }
   },
   async cartToCheckout({ commit }, data) {
@@ -137,16 +131,14 @@ const actions = {
       commit("setCartToAllSelectedItem", data);
       commit("checkout");
     } catch (err) {
-      // eslint-disable-next-line no-console
-      console.log(err);
+      consola.error(err);
     }
   },
   async order({ commit }) {
     try {
       commit("addingToOrderedCollection");
     } catch (err) {
-      // eslint-disable-next-line no-console
-      console.log(err);
+      consola.error(err);
     }
   }
 };
@@ -166,8 +158,6 @@ const mutations = {
     item.stage = "cart";
 
     state.cart.push({ ...item });
-
-    consola.info("cartItems", state.cart);
   },
   setCartToAllSelectedItem(state, item) {
     state.cart = item;
@@ -181,30 +171,29 @@ const mutations = {
     state.checkoutCart = checking;
   },
   addingToOrderedCollection(state) {
-    const purchaseId = `fp${Date.now()}`;
+    const purchaseId = `FP${Date.now()}`;
+    const finalCart = [];
+    let totalCost = 0;
 
     state.cart.forEach(item => {
       if (item.selected) {
+        totalCost += item.qty * item.price;
         item.purchaseId = purchaseId;
         item.stage = "ordered";
         item.selected = false;
-        state.ordered.push(item);
+        finalCart.push(item);
       }
     });
 
-    consola.info("checkoutcart", state.checkoutCart);
-    consola.info("orderstats", state.ordered);
-    consola.info("cartStatus", state.cart);
+    state.ordered.push({
+      id: purchaseId,
+      item: { ...finalCart },
+      total: parseInt(totalCost),
+      date: Date.now()
+    });
 
-    const filt = () => {
-      return state.ordered.filter(item => {
-        return item.purchaseId === purchaseId;
-      });
-    };
-
-    state.waa.push({ id: purchaseId, item: filt() });
-
-    consola.success("wew", state.waa);
+    state.finalCart = [];
+    consola.info("ordered", state.ordered);
   }
 };
 
