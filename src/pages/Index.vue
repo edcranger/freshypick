@@ -1,4 +1,3 @@
-
 <template>
   <q-page padding>
     <q-parallax :height="300" :speed="0.5" class="q-mb-sm">
@@ -19,17 +18,21 @@
 
           <q-card-section>
             <div class="row no-wrap items-center">
-              <div class="col text-h6 ellipsis">{{product.name}}</div>
-              <div class="col-auto text-grey text-caption q-pt-md row no-wrap items-center"></div>
+              <div class="col text-h6 ellipsis">{{ product.name }}</div>
+              <div
+                class="col-auto text-grey text-caption q-pt-md row no-wrap items-center"
+              ></div>
             </div>
 
-            <p>₱{{product.price}}</p>
+            <p>₱{{ product.price }}</p>
           </q-card-section>
 
           <q-separator />
 
           <q-card-actions>
-            <div class="full-width row wrap justify-center items-start content-center">
+            <div
+              class="full-width row wrap justify-center items-start content-center"
+            >
               <q-input
                 outlined
                 bottom-slots
@@ -39,11 +42,21 @@
                 dense
               >
                 <template v-slot:before>
-                  <q-btn flat @click="product.qty--" round icon="fas fa-minus-square" />
+                  <q-btn
+                    flat
+                    @click="product.qty--"
+                    round
+                    icon="fas fa-minus-square"
+                  />
                 </template>
 
                 <template v-slot:after>
-                  <q-btn flat round icon="fas fa-plus-square" @click="product.qty++" />
+                  <q-btn
+                    flat
+                    round
+                    icon="fas fa-plus-square"
+                    @click="product.qty++"
+                  />
                 </template>
               </q-input>
             </div>

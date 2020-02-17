@@ -161,7 +161,13 @@
         </div>
       </div>
       <div class="row justify-center">
-        <q-btn color="purple" @click="ordering()" label="Order now" size="md" />
+        <q-btn
+          color="purple"
+          @click="ordering()"
+          to="/orders"
+          label="Order now"
+          size="md"
+        />
       </div>
     </div>
 
@@ -178,7 +184,9 @@
 
         <div class="col-4">
           <div class="row justify-end">
-            <q-btn color="purple" @click="ordering()" dense>Order now</q-btn>
+            <q-btn color="purple" @click="ordering()" to="/orders" dense
+              >Order now</q-btn
+            >
           </div>
         </div>
       </div>

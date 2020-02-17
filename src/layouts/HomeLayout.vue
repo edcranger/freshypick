@@ -6,7 +6,14 @@
           <img height="50" :src="require('../assets/fp.png')" />
         </q-toolbar-title>
 
-        <q-btn dense color="purple" round to="/message" icon="message" class="q-ml-md q-mx-sm"></q-btn>
+        <q-btn
+          dense
+          color="purple"
+          round
+          to="/message"
+          icon="message"
+          class="q-ml-md q-mx-sm"
+        ></q-btn>
 
         <q-btn dense round flat>
           <q-avatar>
@@ -36,11 +43,28 @@
       <q-toolbar>
         <q-toolbar-title>
           <q-tabs dense indicator-color="yellow" :breakpoint="100">
-            <q-route-tab name="alarms" icon="dashboard" label="Dashboard" to="/"></q-route-tab>
-            <q-route-tab name="cart" icon="fas fa-shopping-cart" label="Cart" to="/Cart">
-              <q-badge color="red" v-if="cart.length > 0" floating>{{cart.length}}</q-badge>
+            <q-route-tab
+              name="alarms"
+              icon="dashboard"
+              label="Dashboard"
+              to="/"
+            ></q-route-tab>
+            <q-route-tab
+              name="cart"
+              icon="fas fa-shopping-cart"
+              label="Cart"
+              to="/Cart"
+            >
+              <q-badge color="red" v-if="cart.length > 0" floating>{{
+                cart.length
+              }}</q-badge>
             </q-route-tab>
-            <q-route-tab name="account" icon="fas fa-user-circle" label="Account" to="/account"></q-route-tab>
+            <q-route-tab
+              name="account"
+              icon="fas fa-user-circle"
+              label="Account"
+              to="/account"
+            ></q-route-tab>
           </q-tabs>
         </q-toolbar-title>
       </q-toolbar>

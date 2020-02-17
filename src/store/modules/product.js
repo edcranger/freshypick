@@ -82,6 +82,7 @@ const state = {
   ]
 };
 
+// GETTERS-------------------------------------------------------------------------
 const getters = {
   products: state => state.products,
   cart: state => {
@@ -109,8 +110,15 @@ const getters = {
     return state.ordered.filter(item => {
       return item;
     });
+  },
+  orderedTotal: state => {
+    return state.ordered.map(item => {
+      return item.item;
+    });
   }
 };
+
+// Actions-------------------------------------------------------------------------
 const actions = {
   async getItems({ commit }) {
     try {
@@ -140,9 +148,17 @@ const actions = {
     } catch (err) {
       consola.error(err);
     }
+  },
+  async editOrder({ commit }, payload) {
+    try {
+      commit("editOrder_request", payload);
+    } catch (err) {
+      consola.error(err);
+    }
   }
 };
 
+// Mutations-------------------------------------------------------------------------
 const mutations = {
   getProduct_success(state) {
     state.products = state.products.map(item => {
@@ -177,10 +193,11 @@ const mutations = {
 
     state.cart.forEach(item => {
       if (item.selected) {
-        totalCost += item.qty * item.price;
+        // totalCost += item.qty * item.price;
         item.purchaseId = purchaseId;
         item.stage = "ordered";
         item.selected = false;
+        item.cancelled = false;
         finalCart.push(item);
       }
     });
@@ -193,7 +210,10 @@ const mutations = {
     });
 
     state.finalCart = [];
-    consola.info("ordered", state.ordered);
+    consola.trace("ordered", state.ordered);
+  },
+  editOrder_request(state, payload) {
+    state.ordered = payload;
   }
 };
 

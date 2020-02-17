@@ -12,10 +12,12 @@ const routes = [
         children: [
           {
             path: "",
+            props: true,
             component: () => import("pages/account/Orders.vue")
           },
           {
             path: "/orders",
+            props: true,
             component: () => import("pages/account/Orders.vue")
           },
           {
@@ -37,6 +39,12 @@ const routes = [
           {
             path: "/help",
             component: () => import("pages/account/Help.vue")
+          },
+          {
+            path: "/view-orders/:itemId",
+            name: "view-orders",
+            props: true,
+            component: () => import("pages/account/ViewOrder.vue")
           }
         ]
       }
