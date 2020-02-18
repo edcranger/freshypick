@@ -22,38 +22,36 @@
           :key="item.id"
           to="/"
         >
-          <div class="col">
-            <div class="col-12 text-blue-7">
-              {{ item.id }}
-              <!-- <p>Placed on:{{item.date}}</p> -->
-            </div>
+          <div class="col-4 text-blue-7">
+            {{ item.id }}
+            <!-- <p>Placed on:{{item.date}}</p> -->
+          </div>
 
-            <div class="col-4">
-              <div class="row" v-for="i in item.item" :key="i.purchaseid">
-                <div class="col" v-if="!i.cancelled">
-                  <q-img
-                    :src="i.photo"
-                    spinner-color="white"
-                    style="height: 30px; max-width: 30px"
-                  />
-                  x {{ i.qty }} {{ i.name }}
-                </div>
+          <div class="col-4">
+            <div class="row" v-for="i in item.item" :key="i.purchaseid">
+              <div class="col" v-if="!i.cancelled">
+                <q-img
+                  :src="i.photo"
+                  spinner-color="white"
+                  style="height: 30px; max-width: 30px"
+                />
+                x {{ i.qty }} {{ i.name }}
               </div>
             </div>
-            <div class="col-4 text-right">
-              <p class="text-green">
-                <strong>₱{{ calCulateItem(item.id) }}</strong>
-              </p>
-            </div>
-            <div class="col-12 text-right">
-              <q-btn
-                color="deep-orange"
-                route
-                :to="{ name: 'view-orders', params: { itemId: item.id } }"
-                glossy
-                label="View order"
-              />
-            </div>
+          </div>
+          <div class="col-4 text-right">
+            <p class="text-green">
+              <strong>₱{{ calCulateItem(item.id) }}</strong>
+            </p>
+          </div>
+          <div class="col-12 text-right">
+            <q-btn
+              color="deep-orange"
+              route
+              :to="{ name: 'view-orders', params: { itemId: item.id } }"
+              glossy
+              label="View order"
+            />
           </div>
         </div>
       </div>
@@ -64,14 +62,7 @@
 <script>
 import { mapGetters } from "vuex";
 export default {
-  created() {
-    const wew = this.ordered.find(item => {
-      return item.price === 0;
-    });
-
-    // eslint-disable-next-line no-console
-    console.log(wew);
-  },
+  created() {},
   computed: {
     ...mapGetters(["checkoutCart", "totalInCart", "ordered"])
   },
@@ -79,7 +70,6 @@ export default {
     calCulateItem(id) {
       let totalPrice = 0;
       const pow = this.ordered.filter(item => {
-        // eslint-disable-next-line no-console
         return item.id === id;
       });
 
@@ -92,11 +82,10 @@ export default {
             price += iterate.item[i].qty * iterate.item[i].price;
           }
         }
-        // eslint-disable-next-line no-console
+
         totalPrice = price;
       }
 
-      // eslint-disable-next-line no-console
       pow.map(item => {
         item.total = totalPrice;
       });

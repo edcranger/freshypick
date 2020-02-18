@@ -51,20 +51,20 @@
           v-for="i in item.item"
           :key="i.purchaseid"
         >
-          <div class="col">
+          <div :class="i.cancelled ? 'col text-strike' : 'col'">
             <q-img
+              :class="i.cancelled ? 'grayscale' : ''"
               :src="i.photo"
               spinner-color="white"
               style="height: 100px; max-width: 100px"
             />
             x {{ i.qty }}
             <strong>{{ i.name }}</strong>
-            <strong>{{ calCulateItem }}</strong>
           </div>
 
           <div class="col-4 text-right">
             <q-btn
-              color="red"
+              :color="!i.cancelled ? `red` : `grey`"
               route
               :disable="i.cancelled"
               @click="
@@ -72,7 +72,7 @@
               "
               :to="{ name: 'view-orders', params: { itemId: i.id } }"
               glossy
-              label="Cancel item"
+              :label="!i.cancelled ? 'Cancel Item' : 'Cancelled'"
             />
           </div>
         </div>
@@ -98,6 +98,7 @@ export default {
   },
   computed: {
     ...mapGetters(["checkoutCart", "totalInCart", "ordered", "orderedTotal"]),
+
     orderedItems() {
       return this.ordered.filter(item => {
         return item.id === this.routeParams;
@@ -105,45 +106,40 @@ export default {
     },
     calCulateItem() {
       let totalPrice = 0;
+      let cancelled = [];
       const pow = this.ordered.filter(item => {
-        // eslint-disable-next-line no-console
         return item.id === this.routeParams;
       });
 
       for (const item in pow) {
         let price = 0;
         let size = 0;
-        let cancelledSize = 0;
 
         const iterate = pow[item];
-        // eslint-disable-next-line no-console
-        this.$consola.info("iterate", iterate.id);
 
         for (const i in iterate.item) {
-          // eslint-disable-next-line no-console
-
           size += 1;
           if (iterate.item[i].cancelled !== true) {
             price += iterate.item[i].qty * iterate.item[i].price;
           } else {
-            cancelledSize += 1;
+            size -= 1;
+            cancelled.push(iterate.item[i]);
+            this.$consola.info("cancelled", cancelled);
           }
         }
-        // eslint-disable-next-line no-console
+
         totalPrice = price;
-        // eslint-disable-next-line no-console
-        console.log(size);
-        // eslint-disable-next-line no-console
-        console.log(cancelledSize);
+
+        if (size === 0) {
+          this.transferToCancel(iterate.id);
+        }
       }
 
-      // eslint-disable-next-line no-console
       pow.map(item => {
         item.total = totalPrice;
       });
 
       // eslint-disable-next-line no-console
-      this.$consola.success("ordered", this.ordered);
 
       return totalPrice;
     }
@@ -153,9 +149,24 @@ export default {
     cancelItem() {
       // eslint-disable-next-line no-console
       this.editOrder(this.ordered);
+    },
+    transferToCancel(id) {
+      const toCancel = this.ordered.find(i => {
+        return i.id === id;
+      });
+
+      this.$consola.success("deleted", toCancel);
+
+      this.ordered.splice(toCancel, 1);
+      this.editOrder(this.ordered);
+      this.$consola.success("ordered", this.ordered);
     }
   }
 };
 </script>
 
-<style></style>
+<style>
+.grayscale {
+  filter: grayscale(100%);
+}
+</style>
