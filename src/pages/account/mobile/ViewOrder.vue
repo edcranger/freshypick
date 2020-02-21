@@ -1,16 +1,16 @@
 <template>
-  <q-page>
-    <Cancelled />
+  <q-page padding>
+    <viewOrder />
   </q-page>
 </template>
 
 <script>
-import Cancelled from "../../components/account-page/cancelviews/Cancelled";
+import viewOrder from "../../../components/account-page/orderviews/ViewOrder";
 import { mapGetters } from "vuex";
 export default {
   props: ["itemId"],
   components: {
-    Cancelled
+    viewOrder
   },
   computed: {
     ...mapGetters(["checkoutCart", "totalInCart", "ordered"])

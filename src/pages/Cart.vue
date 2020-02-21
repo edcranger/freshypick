@@ -1,7 +1,12 @@
 <template>
   <q-page padding class="fit row wrap justify-start items-start content-start">
     <!-- This is the cart items with the toolbar select all -->
-    <div class="col-12 col-sm-8 col-md-8 q-mb-xl">
+    <div class=" absolute-center" v-if="cart.length === 0">
+      <p class="text-center text-subtitle1">No Items in the cart</p>
+      <q-btn outline style="color: green;" label="Continue Shopping" to="/" />
+    </div>
+
+    <div class="col-12 col-sm-8 col-md-8 q-mb-xl" v-if="cart.length !== 0">
       <div class="row">
         <div class="col-12 shadow-1 q-my-md">
           <q-toolbar class="bg-white">
@@ -79,13 +84,16 @@
     </div>
 
     <!-- This is for the side checkout pane -->
-    <div class="orderSummaryCol col bg-white shadow-1 q-ma-md q-pa-md">
+    <div
+      class="orderSummaryCol col bg-white shadow-1 q-ma-md q-pa-md"
+      v-if="cart.length !== 0"
+    >
       <h6 class="q-my-sm">Order Summary</h6>
       <div class="row q-mt-none">
         <div class="col-8">
           <p class="q-mt-none">Subtotal ({{ cart.length }} items)</p>
         </div>
-        <div class="col-4 text-right">₱180.00</div>
+        <div class="col-4 text-right">₱{{ totalInCart }}</div>
         <div class="col-8">
           <p>Shipping cost</p>
         </div>
@@ -113,7 +121,10 @@
     </div>
 
     <!-- Order summary buttom -->
-    <q-banner class="orderSummaryButtomCol bg-white fixed-bottom">
+    <q-banner
+      class="orderSummaryButtomCol bg-white fixed-bottom"
+      v-if="cart.length !== 0"
+    >
       <div class="fit row wrap">
         <div class="col-8">
           <div class="row">
@@ -198,6 +209,6 @@ export default {
 }
 
 .q-banner {
-  margin-bottom: 72.5px;
+  margin-bottom: 55.5px;
 }
 </style>

@@ -47,6 +47,35 @@ const routes = [
             component: () => import("pages/account/ViewOrder.vue")
           }
         ]
+      },
+      {
+        path: "/morder",
+        component: () => import("pages/account/mobile/Order.vue")
+      },
+      {
+        path: "/mview-orders/:itemId",
+        name: "mview-orders",
+        component: () => import("pages/account/mobile/ViewOrder.vue")
+      },
+      {
+        path: "/mreceived",
+        component: () => import("pages/account/mobile/Order.vue")
+      },
+      {
+        path: "/mcancelled",
+        component: () => import("components/account-page/cancelviews/Cancelled")
+      },
+      {
+        path: "/mprofile",
+        component: () => import("pages/account/mobile/Order.vue")
+      },
+      {
+        path: "/msettings",
+        component: () => import("pages/account/mobile/Order.vue")
+      },
+      {
+        path: "/mhelp",
+        component: () => import("pages/account/mobile/Order.vue")
       }
     ]
   }

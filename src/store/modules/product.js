@@ -5,7 +5,7 @@ const state = {
   cart: [],
   checkoutCart: [],
   ordered: [],
-
+  cancelled: [],
   products: [
     {
       id: "wqedfgadasdas",
@@ -115,7 +115,8 @@ const getters = {
     return state.ordered.map(item => {
       return item.item;
     });
-  }
+  },
+  cancelledItems: state => state.cancelled
 };
 
 // Actions-------------------------------------------------------------------------
@@ -152,6 +153,14 @@ const actions = {
   async editOrder({ commit }, payload) {
     try {
       commit("editOrder_request", payload);
+    } catch (err) {
+      consola.error(err);
+    }
+  },
+  async cancelPurchasedItem({ commit }, payload) {
+    try {
+      consola.success("cancelitem ", payload);
+      commit("cancelRequest", payload);
     } catch (err) {
       consola.error(err);
     }
@@ -198,13 +207,14 @@ const mutations = {
         item.stage = "ordered";
         item.selected = false;
         item.cancelled = false;
+        item.datePurchased = Date.now();
         finalCart.push(item);
       }
     });
 
     state.ordered.push({
       id: purchaseId,
-      item: { ...finalCart },
+      item: [...finalCart],
       total: parseInt(totalCost),
       date: Date.now()
     });
@@ -214,6 +224,12 @@ const mutations = {
   },
   editOrder_request(state, payload) {
     state.ordered = payload;
+  },
+  cancelRequest(state, payload) {
+    const data = { ...payload, datecancelled: Date.now() };
+    // eslint-disable-next-line no-console
+    console.log(data);
+    state.cancelled.push(data);
   }
 };
 

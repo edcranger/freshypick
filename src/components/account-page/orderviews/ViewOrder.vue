@@ -6,13 +6,14 @@
         <q-stepper
           v-model="step"
           ref="stepper"
-          alternative-labels
           color="primary"
           animated
+          class="gt-xs"
         >
           <q-step :name="1" title="Processing" icon="settings" :done="step > 1">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta
-            exercitationem accusantium atque
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iste
+            quaerat quia quis, nobis corporis illo excepturi corrupti voluptatem
+            veniam atque a necessitatibus.
           </q-step>
 
           <q-step
@@ -21,14 +22,41 @@
             icon="create_new_folder"
             :done="step > 2"
           >
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum, vero?
-            Beatae.
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iste
+            quaerat quia quis, nobis corporis illo excepturi corrupti voluptatem
+            veniam atque a necessitatibus.
           </q-step>
 
           <q-step :name="3" title="Delivering" icon="add_comment">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum
-            quaerat dolor voluptatum.
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iste
+            quaerat quia quis, nobis corporis illo excepturi corrupti voluptatem
+            veniam atque a necessitatibus.
           </q-step>
+        </q-stepper>
+
+        <q-stepper
+          v-model="step"
+          ref="stepper"
+          color="primary"
+          animated
+          vertical
+          class="lt-sm"
+        >
+          <q-step :name="1" title="Processing" icon="settings" :done="step > 1"
+            >Total cost {{ calCulateItem }}</q-step
+          >
+
+          <q-step
+            :name="2"
+            title="Packing"
+            icon="create_new_folder"
+            :done="step > 2"
+            >Total cost {{ calCulateItem }}</q-step
+          >
+
+          <q-step :name="3" title="Delivering" icon="add_comment"
+            >Total cost {{ calCulateItem }}</q-step
+          >
         </q-stepper>
       </div>
     </div>
@@ -68,9 +96,10 @@
               route
               :disable="i.cancelled"
               @click="
-                (i.cancelled = !i.cancelled), (i.stage = 'cancel'), cancelItem()
+                (i.cancelled = !i.cancelled),
+                  (i.stage = 'cancel'),
+                  cancelItem(i)
               "
-              :to="{ name: 'view-orders', params: { itemId: i.id } }"
               glossy
               :label="!i.cancelled ? 'Cancel Item' : 'Cancelled'"
             />
@@ -97,7 +126,7 @@ export default {
     // eslint-disable-next-line no-console
   },
   computed: {
-    ...mapGetters(["checkoutCart", "totalInCart", "ordered", "orderedTotal"]),
+    ...mapGetters(["ordered"]),
 
     orderedItems() {
       return this.ordered.filter(item => {
@@ -105,61 +134,51 @@ export default {
       });
     },
     calCulateItem() {
-      let totalPrice = 0;
-      let cancelled = [];
+      const pow = this.ordered.filter(item => {
+        return item.id === this.routeParams;
+      });
+
+      const notCancelled = pow.map(i => {
+        return i.item.filter(x => {
+          return !x.cancelled;
+        });
+      });
+
+      const totalPrice = notCancelled.map(i => {
+        return i.reduce((currentTotal, x) => {
+          return x.price + currentTotal;
+        }, 0);
+      });
+
+      return parseInt(totalPrice);
+    }
+  },
+  methods: {
+    ...mapActions(["editOrder", "cancelPurchasedItem"]),
+    cancelItem(itemData) {
+      let data = [];
+      this.cancelPurchasedItem(itemData);
       const pow = this.ordered.filter(item => {
         return item.id === this.routeParams;
       });
 
       for (const item in pow) {
-        let price = 0;
-        let size = 0;
-
         const iterate = pow[item];
-
         for (const i in iterate.item) {
-          size += 1;
-          if (iterate.item[i].cancelled !== true) {
-            price += iterate.item[i].qty * iterate.item[i].price;
-          } else {
-            size -= 1;
-            cancelled.push(iterate.item[i]);
-            this.$consola.info("cancelled", cancelled);
-          }
-        }
-
-        totalPrice = price;
-
-        if (size === 0) {
-          this.transferToCancel(iterate.id);
+          data.push(iterate.item[i]);
         }
       }
 
-      pow.map(item => {
-        item.total = totalPrice;
+      const cancelItem = data.filter(i => {
+        return i.cancelled;
       });
 
-      // eslint-disable-next-line no-console
-
-      return totalPrice;
-    }
-  },
-  methods: {
-    ...mapActions(["editOrder"]),
-    cancelItem() {
-      // eslint-disable-next-line no-console
+      if (data.length === cancelItem.length) {
+        this.$consola.success("cancelled");
+        this.ordered.splice(itemData.purchaseId, 1);
+        this.$router.replace("/account");
+      }
       this.editOrder(this.ordered);
-    },
-    transferToCancel(id) {
-      const toCancel = this.ordered.find(i => {
-        return i.id === id;
-      });
-
-      this.$consola.success("deleted", toCancel);
-
-      this.ordered.splice(toCancel, 1);
-      this.editOrder(this.ordered);
-      this.$consola.success("ordered", this.ordered);
     }
   }
 };

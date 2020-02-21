@@ -242,6 +242,6 @@ export default {
 }
 
 .orderSummaryButtomCol {
-  margin-bottom: 72.5px;
+  margin-bottom: 55.5px;
 }
 </style>
