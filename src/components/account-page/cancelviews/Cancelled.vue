@@ -1,9 +1,10 @@
 <template>
-  <q-page padding>
-    <div class=" absolute-center" v-if="cancelledItems.length === 0">
-      <p class="text-center text-subtitle1">No Cancelled Orders</p>
-      <q-btn outline style="color: green;" label="Continue Shopping" to="/" />
-    </div>
+  <q-page>
+    <NoItems
+      :mobile="mobile"
+      :desc="desc"
+      :itemLength="cancelledItems.length"
+    />
     <div class="col-12 bg-white q-my-sm" v-if="cancelledItems.length !== 0">
       <div
         class="row shadow-1 q-pa-sm"
@@ -50,10 +51,19 @@
 
 <script>
 import moment from "moment";
+import NoItems from "../../utils/NoItems";
 import { mapGetters, mapActions } from "vuex";
 export default {
+  data() {
+    return {
+      mobile: false,
+      desc: "No Canceled Orders"
+    };
+  },
   created() {
-    this.$consola.info("cancelledArray", this.cancelledItems);
+    this.$route.path.startsWith("/m")
+      ? (this.mobile = true)
+      : (this.mobile = false);
   },
   computed: {
     ...mapGetters(["cart", "cancelledItems"])
@@ -63,6 +73,9 @@ export default {
     showDate(date) {
       return moment(date).format("L");
     }
+  },
+  components: {
+    NoItems
   }
 };
 </script>

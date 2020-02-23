@@ -1,5 +1,5 @@
 <template>
-  <q-page>
+  <q-page padding>
     <div class="row">
       <div class="col-12">
         <p class="text-subtitle2">My Order</p>
@@ -95,14 +95,13 @@
               :color="!i.cancelled ? `red` : `grey`"
               route
               :disable="i.cancelled"
-              @click="
-                (i.cancelled = !i.cancelled),
-                  (i.stage = 'cancel'),
-                  cancelItem(i)
-              "
+              @click="i.confirm = !i.confirm"
               glossy
               :label="!i.cancelled ? 'Cancel Item' : 'Cancelled'"
             />
+            <q-dialog v-model="i.confirm" persistent>
+              <CancelItem :i="i" />
+            </q-dialog>
           </div>
         </div>
       </div>
@@ -112,6 +111,7 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import CancelItem from "../../modals/CancelItem";
 export default {
   data() {
     return {
@@ -154,32 +154,38 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["editOrder", "cancelPurchasedItem"]),
-    cancelItem(itemData) {
-      let data = [];
-      this.cancelPurchasedItem(itemData);
-      const pow = this.ordered.filter(item => {
-        return item.id === this.routeParams;
-      });
+    ...mapActions(["editOrder", "cancelPurchasedItem"])
+    // cancelItem(itemData) {
+    //   let data = [];
+    //   this.cancelPurchasedItem(itemData);
+    //   const pow = this.ordered.filter(item => {
+    //     return item.id === this.routeParams;
+    //   });
 
-      for (const item in pow) {
-        const iterate = pow[item];
-        for (const i in iterate.item) {
-          data.push(iterate.item[i]);
-        }
-      }
+    //   for (const item in pow) {
+    //     const iterate = pow[item];
+    //     for (const i in iterate.item) {
+    //       data.push(iterate.item[i]);
+    //     }
+    //   }
 
-      const cancelItem = data.filter(i => {
-        return i.cancelled;
-      });
+    //   const cancelItem = data.filter(i => {
+    //     return i.cancelled;
+    //   });
 
-      if (data.length === cancelItem.length) {
-        this.$consola.success("cancelled");
-        this.ordered.splice(itemData.purchaseId, 1);
-        this.$router.replace("/account");
-      }
-      this.editOrder(this.ordered);
-    }
+    //   const itemIndex = this.ordered.findIndex(i => {
+    //     return i.id === itemData.purchaseId;
+    //   });
+
+    //   if (data.length === cancelItem.length) {
+    //     this.ordered.splice(itemIndex, 1);
+    //     this.$router.replace("/account");
+    //   }
+    //   this.editOrder(this.ordered);
+    // }
+  },
+  components: {
+    CancelItem
   }
 };
 </script>

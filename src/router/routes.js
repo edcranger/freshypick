@@ -13,53 +13,57 @@ const routes = [
           {
             path: "",
             props: true,
-            component: () => import("pages/account/Orders.vue")
+            component: () => import("components/account-page/orderviews/Order")
           },
           {
             path: "/orders",
             props: true,
-            component: () => import("pages/account/Orders.vue")
-          },
-          {
-            path: "/received",
-            component: () => import("pages/account/Received.vue")
-          },
-          {
-            path: "/cancelled",
-            component: () => import("pages/account/Cancelled.vue")
-          },
-          {
-            path: "/profile",
-            component: () => import("pages/account/Profile.vue")
-          },
-          {
-            path: "/settings",
-            component: () => import("pages/account/Settings.vue")
-          },
-          {
-            path: "/help",
-            component: () => import("pages/account/Help.vue")
+            component: () => import("components/account-page/orderviews/Order")
           },
           {
             path: "/view-orders/:itemId",
             name: "view-orders",
             props: true,
-            component: () => import("pages/account/ViewOrder.vue")
+            component: () =>
+              import("components/account-page/orderviews/ViewOrder")
+          },
+          {
+            path: "/received",
+            component: () =>
+              import("components/account-page/receivedviews/Received")
+          },
+          {
+            path: "/cancelled",
+            component: () =>
+              import("components/account-page/cancelviews/Cancelled")
+          },
+          {
+            path: "/profile",
+            component: () => import("pages/profile")
+          },
+          {
+            path: "/settings",
+            component: () => import("components/account-page/orderviews/Order")
+          },
+          {
+            path: "/help",
+            component: () => import("components/account-page/orderviews/Order")
           }
         ]
       },
       {
         path: "/morder",
-        component: () => import("pages/account/mobile/Order.vue")
+        component: () => import("components/account-page/orderviews/Order")
       },
       {
         path: "/mview-orders/:itemId",
         name: "mview-orders",
-        component: () => import("pages/account/mobile/ViewOrder.vue")
+        component: () => import("components/account-page/orderviews/ViewOrder")
       },
       {
         path: "/mreceived",
-        component: () => import("pages/account/mobile/Order.vue")
+        component: () =>
+          import("components/account-page/receivedviews/Received")
       },
       {
         path: "/mcancelled",
@@ -67,15 +71,15 @@ const routes = [
       },
       {
         path: "/mprofile",
-        component: () => import("pages/account/mobile/Order.vue")
+        component: () => import("pages/profile")
       },
       {
         path: "/msettings",
-        component: () => import("pages/account/mobile/Order.vue")
+        component: () => import("components/account-page/cancelviews/Cancelled")
       },
       {
         path: "/mhelp",
-        component: () => import("pages/account/mobile/Order.vue")
+        component: () => import("components/account-page/cancelviews/Cancelled")
       }
     ]
   }

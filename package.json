@@ -16,7 +16,8 @@
     "axios": "^0.18.1",
     "consola": "^2.11.3",
     "moment": "^2.24.0",
-    "quasar": "^1.0.0"
+    "quasar": "^1.0.0",
+    "vue-mq": "^1.0.1"
   },
   "devDependencies": {
     "@quasar/app": "^1.0.0",

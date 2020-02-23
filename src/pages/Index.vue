@@ -1,5 +1,5 @@
 <template>
-  <q-page padding>
+  <q-page :class="$mq !== 'sm' ? ' q-px-xl q-pa-md' : 'q-pa-sm'">
     <q-parallax :height="300" :speed="0.5" class="q-mb-sm">
       <template v-slot:media>
         <img :src="require('../assets/vegies.jpg')" />
@@ -9,7 +9,7 @@
     </q-parallax>
     <div class="row wrap">
       <div
-        class="col-6 col-sm-3 col-md-3 q-pa-sm"
+        class="col-6 col-sm-3 col-md-2 q-pa-sm"
         v-for="(product, index) in products"
         :key="index"
       >

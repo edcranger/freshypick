@@ -196,7 +196,7 @@ const mutations = {
     state.checkoutCart = checking;
   },
   addingToOrderedCollection(state) {
-    const purchaseId = `FP${Date.now()}`;
+    const purchaseId = `${Date.now()}`;
     const finalCart = [];
     let totalCost = 0;
 
@@ -207,6 +207,7 @@ const mutations = {
         item.stage = "ordered";
         item.selected = false;
         item.cancelled = false;
+        item.confirm = false;
         item.datePurchased = Date.now();
         finalCart.push(item);
       }

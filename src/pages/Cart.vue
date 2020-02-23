@@ -1,7 +1,7 @@
 <template>
   <q-page padding class="fit row wrap justify-start items-start content-start">
     <!-- This is the cart items with the toolbar select all -->
-    <div class=" absolute-center" v-if="cart.length === 0">
+    <div class="absolute-center" v-if="cart.length === 0">
       <p class="text-center text-subtitle1">No Items in the cart</p>
       <q-btn outline style="color: green;" label="Continue Shopping" to="/" />
     </div>

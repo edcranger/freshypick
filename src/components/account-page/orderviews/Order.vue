@@ -1,9 +1,7 @@
 <template>
-  <q-page class="row">
-    <div class=" absolute-center" v-if="ordered.length === 0">
-      <p class="text-center text-subtitle1">No Pending Orders</p>
-      <q-btn outline style="color: green;" label="Continue Shopping" to="/" />
-    </div>
+  <q-page class="row ">
+    <NoItems :mobile="mobile" :desc="desc" :itemLength="ordered.length" />
+
     <div class="col" v-if="ordered.length !== 0">
       <div class="bg-white q-py-sm">
         <div class="text-subtitle2">
@@ -77,11 +75,21 @@
 
 <script>
 import { mapGetters } from "vuex";
+import NoItems from "../../utils/NoItems";
 export default {
   data() {
-    return {};
+    return {
+      mobile: false,
+      desc: "No Pending Orders"
+    };
   },
-  created() {},
+  created() {
+    this.$route.path.startsWith("/m")
+      ? (this.mobile = true)
+      : (this.mobile = false);
+
+    // eslint-disable-next-line no-console
+  },
   computed: {
     ...mapGetters(["checkoutCart", "totalInCart", "ordered"])
   },
@@ -105,6 +113,9 @@ export default {
 
       return parseInt(totalPrice);
     }
+  },
+  components: {
+    NoItems
   }
 };
 </script>
