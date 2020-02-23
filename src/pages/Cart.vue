@@ -45,7 +45,6 @@
               <div class="q-ma-none">
                 Sample text: Bili na mga suki masarap to hahha
               </div>
-
               <div
                 class="fit row wrap justify-end items-start content-start q-mt-md"
               >

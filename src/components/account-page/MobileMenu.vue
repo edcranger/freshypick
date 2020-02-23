@@ -1,5 +1,5 @@
 <template>
-  <q-page>
+  <q-page class="">
     <q-banner rounded class="bg-white q-pa-md">
       <div class="row">
         <div class="col-xs-3 col-sm-1 col-md-1 text-center">

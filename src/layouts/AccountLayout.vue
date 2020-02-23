@@ -72,6 +72,13 @@ export default {
       ],
       maccountMenu1: [
         {
+          id: 4,
+          btnName: "Notification",
+          color: "teal",
+          icon: "notifications",
+          route: "/notification"
+        },
+        {
           id: 1,
           btnName: "Orders",
           color: "teal",
@@ -95,13 +102,6 @@ export default {
           icon: "fas fa-times-circle",
           route: "/mcancelled",
           label: true
-        },
-        {
-          id: 4,
-          btnName: "Notification",
-          color: "teal",
-          icon: "fas fa-times-circle",
-          route: "/notification"
         }
       ],
       maccountMenu2: [

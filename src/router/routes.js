@@ -43,7 +43,8 @@ const routes = [
           },
           {
             path: "/settings",
-            component: () => import("components/account-page/orderviews/Order")
+            component: () =>
+              import("components/account-page/settingsview/Settings")
           },
           {
             path: "/help",
@@ -75,7 +76,7 @@ const routes = [
       },
       {
         path: "/msettings",
-        component: () => import("components/account-page/cancelviews/Cancelled")
+        component: () => import("components/account-page/settingsview/Settings")
       },
       {
         path: "/mhelp",
