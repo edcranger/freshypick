@@ -7,7 +7,7 @@
     <q-card-section class="row items-center">
       <span class="q-ml-sm">
         Are you sure you want to add
-        <span class="text-green">{{productInfo.name}}</span> to your cart?
+        <span class="text-green">{{ productInfo.name }}</span> to your cart?
       </span>
     </q-card-section>
 

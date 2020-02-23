@@ -5,7 +5,11 @@
       <div class="row">
         <div class="col-12 shadow-1 q-my-md">
           <q-toolbar class="bg-white">
-            <q-checkbox v-model="selectAllItem" @click.native="allSelected" label="All" />
+            <q-checkbox
+              v-model="selectAllItem"
+              @click.native="allSelected"
+              label="All"
+            />
 
             <q-space />
 
@@ -16,7 +20,10 @@
         <div class="col-12 bg-white" v-for="item in copyOfCart" :key="item.id">
           <div class="row shadow-1 q-pa-sm">
             <div class="col-1 col-md-1 q-mr-md">
-              <q-checkbox v-model="item.selected" @click.native="selectOneCheckbox(item.id)" />
+              <q-checkbox
+                v-model="item.selected"
+                @click.native="selectOneCheckbox(item.id)"
+              />
             </div>
             <div class="col-md-3 col-4">
               <q-img
@@ -27,11 +34,15 @@
             </div>
             <div class="col">
               <div class="q-ma-none">
-                <strong>{{item.name}}</strong>
+                <strong>{{ item.name }}</strong>
               </div>
-              <div class="q-ma-none">₱{{item.price}}/kg</div>
-              <div class="q-ma-none">Sample text: Bili na mga suki masarap to hahha</div>
-              <div class="fit row wrap justify-end items-start content-start q-mt-md">
+              <div class="q-ma-none">₱{{ item.price }}/kg</div>
+              <div class="q-ma-none">
+                Sample text: Bili na mga suki masarap to hahha
+              </div>
+              <div
+                class="fit row wrap justify-end items-start content-start q-mt-md"
+              >
                 <div id="pow">
                   <q-input
                     outlined
@@ -42,11 +53,21 @@
                     v-model="item.qty"
                   >
                     <template v-slot:before>
-                      <q-btn flat round icon="fas fa-minus-square" @click="item.qty--" />
+                      <q-btn
+                        flat
+                        round
+                        icon="fas fa-minus-square"
+                        @click="item.qty--"
+                      />
                     </template>
 
                     <template v-slot:after>
-                      <q-btn flat round icon="fas fa-plus-square" @click="item.qty++" />
+                      <q-btn
+                        flat
+                        round
+                        icon="fas fa-plus-square"
+                        @click="item.qty++"
+                      />
                     </template>
                   </q-input>
                 </div>
@@ -62,7 +83,7 @@
       <h6 class="q-my-sm">Order Summary</h6>
       <div class="row q-mt-none">
         <div class="col-8">
-          <p class="q-mt-none">Subtotal ({{cart.length}} items)</p>
+          <p class="q-mt-none">Subtotal ({{ cart.length }} items)</p>
         </div>
         <div class="col-4 text-right">₱180.00</div>
         <div class="col-8">
@@ -77,7 +98,7 @@
           <p class="text-subtitle2">Total</p>
         </div>
         <div class="col-4 q-mt-lg">
-          <p class="text-right text-green text-subtitle2">₱{{totalInCart}}</p>
+          <p class="text-right text-green text-subtitle2">₱{{ totalInCart }}</p>
         </div>
       </div>
       <div class="row justify-center">
@@ -96,14 +117,16 @@
       <div class="fit row wrap">
         <div class="col-8">
           <div class="row">
-            <div class="col-12 text-right">SubTotal: ₱{{totalInCart}}</div>
+            <div class="col-12 text-right">SubTotal: ₱{{ totalInCart }}</div>
             <div class="col-12 text-right">Points:0</div>
           </div>
         </div>
 
         <div class="col-4">
           <div class="row justify-end">
-            <q-btn color="purple" to="/checkout" @click="checkOut()" dense>Check out</q-btn>
+            <q-btn color="purple" to="/checkout" @click="checkOut()" dense
+              >Check out</q-btn
+            >
           </div>
         </div>
       </div>
