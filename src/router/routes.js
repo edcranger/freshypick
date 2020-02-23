@@ -12,33 +12,74 @@ const routes = [
         children: [
           {
             path: "",
-            component: () => import("pages/account/Orders.vue")
+            props: true,
+            component: () => import("components/account-page/orderviews/Order")
           },
           {
             path: "/orders",
-            component: () => import("pages/account/Orders.vue")
+            props: true,
+            component: () => import("components/account-page/orderviews/Order")
+          },
+          {
+            path: "/view-orders/:itemId",
+            name: "view-orders",
+            props: true,
+            component: () =>
+              import("components/account-page/orderviews/ViewOrder")
           },
           {
             path: "/received",
-            component: () => import("pages/account/Received.vue")
+            component: () =>
+              import("components/account-page/receivedviews/Received")
           },
           {
             path: "/cancelled",
-            component: () => import("pages/account/Cancelled.vue")
+            component: () =>
+              import("components/account-page/cancelviews/Cancelled")
           },
           {
             path: "/profile",
-            component: () => import("pages/account/Profile.vue")
+            component: () => import("pages/profile")
           },
           {
             path: "/settings",
-            component: () => import("pages/account/Settings.vue")
+            component: () => import("components/account-page/orderviews/Order")
           },
           {
             path: "/help",
-            component: () => import("pages/account/Help.vue")
+            component: () => import("components/account-page/orderviews/Order")
           }
         ]
+      },
+      {
+        path: "/morder",
+        component: () => import("components/account-page/orderviews/Order")
+      },
+      {
+        path: "/mview-orders/:itemId",
+        name: "mview-orders",
+        component: () => import("components/account-page/orderviews/ViewOrder")
+      },
+      {
+        path: "/mreceived",
+        component: () =>
+          import("components/account-page/receivedviews/Received")
+      },
+      {
+        path: "/mcancelled",
+        component: () => import("components/account-page/cancelviews/Cancelled")
+      },
+      {
+        path: "/mprofile",
+        component: () => import("pages/profile")
+      },
+      {
+        path: "/msettings",
+        component: () => import("components/account-page/cancelviews/Cancelled")
+      },
+      {
+        path: "/mhelp",
+        component: () => import("components/account-page/cancelviews/Cancelled")
       }
     ]
   }

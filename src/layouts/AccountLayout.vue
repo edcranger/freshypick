@@ -1,5 +1,5 @@
 <template>
-  <q-layout>
+  <q-layout view="lHh lpr lFf">
     <q-page class="webMenuView row q-pa-sm justify-center">
       <WebMenu class="col-3" :menu1="accountMenu1" :menu2="accountMenu2" />
 
@@ -9,8 +9,8 @@
     </q-page>
 
     <MobileMenu
-      :menu1="accountMenu1"
-      :menu2="accountMenu2"
+      :menu1="maccountMenu1"
+      :menu2="maccountMenu2"
       class="mobileMenuView"
     />
   </q-layout>
@@ -28,7 +28,9 @@ export default {
           btnName: "Orders",
           color: "teal",
           icon: "fas fa-shipping-fast",
-          route: "/orders"
+          route: "/orders",
+          label: true,
+          labelValue: "ordered"
         },
         {
           id: 2,
@@ -66,6 +68,63 @@ export default {
           color: "teal",
           icon: "fas fa-question-circle",
           route: "/help"
+        }
+      ],
+      maccountMenu1: [
+        {
+          id: 1,
+          btnName: "Orders",
+          color: "teal",
+          icon: "fas fa-shipping-fast",
+          route: "/morder",
+          label: true,
+          labelValue: "ordered.length"
+        },
+        {
+          id: 2,
+          btnName: "Received",
+          color: "teal",
+          icon: "fas fa-people-carry",
+          route: "/mreceived",
+          label: true
+        },
+        {
+          id: 3,
+          btnName: "Cancelled",
+          color: "teal",
+          icon: "fas fa-times-circle",
+          route: "/mcancelled",
+          label: true
+        },
+        {
+          id: 4,
+          btnName: "Notification",
+          color: "teal",
+          icon: "fas fa-times-circle",
+          route: "/notification"
+        }
+      ],
+      maccountMenu2: [
+        {
+          id: 5,
+          btnName: "Profile",
+          color: "teal",
+          icon: "fas fa-user-circle",
+          route: "/mprofile"
+        },
+        {
+          id: 6,
+          btnName: "Settings",
+          color: "teal",
+          icon: "fas fa-user-cog",
+          route: "/msettings"
+        },
+        {
+          id: 7,
+          btnName: "Help",
+          color: "teal",
+          icon: "fas fa-question-circle",
+          route: "/mhelp"
         }
       ]
     };

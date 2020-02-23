@@ -161,7 +161,13 @@
         </div>
       </div>
       <div class="row justify-center">
-        <q-btn color="purple" @click="ordering()" label="Order now" size="md" />
+        <q-btn
+          color="purple"
+          @click="ordering()"
+          to="/orders"
+          label="Order now"
+          size="md"
+        />
       </div>
     </div>
 
@@ -178,7 +184,9 @@
 
         <div class="col-4">
           <div class="row justify-end">
-            <q-btn color="purple" @click="ordering()" dense>Order now</q-btn>
+            <q-btn color="purple" @click="ordering()" to="/orders" dense
+              >Order now</q-btn
+            >
           </div>
         </div>
       </div>
@@ -187,7 +195,6 @@
 </template>
 
 <script>
-import consola from "consola";
 import { mapGetters, mapActions } from "vuex";
 export default {
   name: "PageIndex",
@@ -205,7 +212,7 @@ export default {
   methods: {
     ...mapActions(["order"]),
     ordering() {
-      this.order().then(consola.success("orderRequest", this.ordered));
+      this.order();
     }
   }
 };
@@ -235,6 +242,6 @@ export default {
 }
 
 .orderSummaryButtomCol {
-  margin-bottom: 72.5px;
+  margin-bottom: 55.5px;
 }
 </style>

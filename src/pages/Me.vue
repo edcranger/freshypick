@@ -1,7 +1,11 @@
 <template>
   <q-page>
     <WebMenu class="webMenuView" />
-    <MobileMenu :menu1="accountMenu1" :menu2="accountMenu2" class="mobileMenuView" />
+    <MobileMenu
+      :menu1="accountMenu1"
+      :menu2="accountMenu2"
+      class="mobileMenuView"
+    />
   </q-page>
 </template>
 

@@ -1,7 +1,12 @@
 <template>
   <q-page padding class="fit row wrap justify-start items-start content-start">
     <!-- This is the cart items with the toolbar select all -->
-    <div class="col-12 col-sm-8 col-md-8 q-mb-xl">
+    <div class="absolute-center" v-if="cart.length === 0">
+      <p class="text-center text-subtitle1">No Items in the cart</p>
+      <q-btn outline style="color: green;" label="Continue Shopping" to="/" />
+    </div>
+
+    <div class="col-12 col-sm-8 col-md-8 q-mb-xl" v-if="cart.length !== 0">
       <div class="row">
         <div class="col-12 shadow-1 q-my-md">
           <q-toolbar class="bg-white">
@@ -17,7 +22,7 @@
           </q-toolbar>
         </div>
 
-        <div class="col-12 bg-white" v-for="item in copyOfCart" :key="item.id">
+        <div class="col-12 bg-white" v-for="item in cart" :key="item.id">
           <div class="row shadow-1 q-pa-sm">
             <div class="col-1 col-md-1 q-mr-md">
               <q-checkbox
@@ -40,6 +45,7 @@
               <div class="q-ma-none">
                 Sample text: Bili na mga suki masarap to hahha
               </div>
+
               <div
                 class="fit row wrap justify-end items-start content-start q-mt-md"
               >
@@ -79,13 +85,16 @@
     </div>
 
     <!-- This is for the side checkout pane -->
-    <div class="orderSummaryCol col bg-white shadow-1 q-ma-md q-pa-md">
+    <div
+      class="orderSummaryCol col bg-white shadow-1 q-ma-md q-pa-md"
+      v-if="cart.length !== 0"
+    >
       <h6 class="q-my-sm">Order Summary</h6>
       <div class="row q-mt-none">
         <div class="col-8">
           <p class="q-mt-none">Subtotal ({{ cart.length }} items)</p>
         </div>
-        <div class="col-4 text-right">₱180.00</div>
+        <div class="col-4 text-right">₱{{ totalInCart }}</div>
         <div class="col-8">
           <p>Shipping cost</p>
         </div>
@@ -113,7 +122,10 @@
     </div>
 
     <!-- Order summary buttom -->
-    <q-banner class="orderSummaryButtomCol bg-white fixed-bottom">
+    <q-banner
+      class="orderSummaryButtomCol bg-white fixed-bottom"
+      v-if="cart.length !== 0"
+    >
       <div class="fit row wrap">
         <div class="col-8">
           <div class="row">
@@ -140,14 +152,10 @@ export default {
   name: "PageIndex",
   data() {
     return {
-      selectAllItem: false,
-      copyOfCart: null
+      selectAllItem: false
     };
   },
-  created() {
-    this.copyOfCart = this.cart;
-    // eslint-disable-next-line no-console
-  },
+  created() {},
   computed: {
     ...mapGetters(["cart", "totalInCart"])
   },
@@ -155,31 +163,31 @@ export default {
     ...mapActions(["cartToCheckout"]),
     allSelected() {
       if (this.selectAllItem) {
-        this.copyOfCart.map(item => {
+        this.cart.map(item => {
           item.selected = true;
         });
       } else if (!this.selectAllItem) {
-        this.copyOfCart.map(item => {
+        this.cart.map(item => {
           item.selected = false;
         });
       }
       // eslint-disable-next-line no-console
-      console.log(this.copyOfCart);
+      console.log(this.cart);
     },
     selectOneCheckbox() {
       this.selectAllItem = false;
       // eslint-disable-next-line no-console
     },
     deleteFromCart(id) {
-      const result = this.copyOfCart.findIndex(cartItem => {
+      const result = this.cart.findIndex(cartItem => {
         return cartItem.id === id;
       });
 
       // eslint-disable-next-line no-console
-      this.copyOfCart.splice(result, 1);
+      this.cart.splice(result, 1);
     },
     checkOut() {
-      this.cartToCheckout(this.copyOfCart);
+      this.cartToCheckout(this.cart);
     }
   }
 };
@@ -202,6 +210,6 @@ export default {
 }
 
 .q-banner {
-  margin-bottom: 72.5px;
+  margin-bottom: 55.5px;
 }
 </style>

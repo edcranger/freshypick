@@ -1,9 +1,11 @@
 import consola from "consola";
+import uuid from "uuid/v4";
 
 const state = {
   cart: [],
   checkoutCart: [],
   ordered: [],
+  cancelled: [],
   products: [
     {
       id: "wqedfgadasdas",
@@ -80,9 +82,14 @@ const state = {
   ]
 };
 
+// GETTERS-------------------------------------------------------------------------
 const getters = {
   products: state => state.products,
-  cart: state => state.cart,
+  cart: state => {
+    return state.cart.filter(item => {
+      return item.stage === "cart";
+    });
+  },
   totalInCart: state => {
     let total = 0;
     state.cart.map(item => {
@@ -93,24 +100,39 @@ const getters = {
 
     return total;
   },
-  checkoutCart: state => state.checkoutCart,
-  ordered: state => state.ordered
+  checkoutCart: state => {
+    return state.cart.filter(item => {
+      return item.selected === true;
+    });
+  },
+
+  ordered: state => {
+    return state.ordered.filter(item => {
+      return item;
+    });
+  },
+  orderedTotal: state => {
+    return state.ordered.map(item => {
+      return item.item;
+    });
+  },
+  cancelledItems: state => state.cancelled
 };
+
+// Actions-------------------------------------------------------------------------
 const actions = {
   async getItems({ commit }) {
     try {
       commit("getProduct_success");
     } catch (err) {
-      // eslint-disable-next-line no-console
-      console.log(err);
+      consola.error(err);
     }
   },
   async addToCart({ commit }, cartItem) {
     try {
       commit("addToCart_success", cartItem);
     } catch (err) {
-      // eslint-disable-next-line no-console
-      console.log(err);
+      consola.error(err);
     }
   },
   async cartToCheckout({ commit }, data) {
@@ -118,20 +140,34 @@ const actions = {
       commit("setCartToAllSelectedItem", data);
       commit("checkout");
     } catch (err) {
-      // eslint-disable-next-line no-console
-      console.log(err);
+      consola.error(err);
     }
   },
   async order({ commit }) {
     try {
-      commit("orderNow");
+      commit("addingToOrderedCollection");
     } catch (err) {
-      // eslint-disable-next-line no-console
-      console.log(err);
+      consola.error(err);
+    }
+  },
+  async editOrder({ commit }, payload) {
+    try {
+      commit("editOrder_request", payload);
+    } catch (err) {
+      consola.error(err);
+    }
+  },
+  async cancelPurchasedItem({ commit }, payload) {
+    try {
+      consola.success("cancelitem ", payload);
+      commit("cancelRequest", payload);
+    } catch (err) {
+      consola.error(err);
     }
   }
 };
 
+// Mutations-------------------------------------------------------------------------
 const mutations = {
   getProduct_success(state) {
     state.products = state.products.map(item => {
@@ -143,9 +179,10 @@ const mutations = {
       item.qty = 1;
     }
     item.selected = true;
+    item.id = uuid();
+    item.stage = "cart";
 
     state.cart.push({ ...item });
-    // eslint-disable-next-line no-console
   },
   setCartToAllSelectedItem(state, item) {
     state.cart = item;
@@ -157,19 +194,43 @@ const mutations = {
       return item.selected === true;
     });
     state.checkoutCart = checking;
-
-    consola.success("checkoutCart", state.checkoutCart);
   },
-  orderNow(state) {
-    consola.success("inCart", state.checkoutCart);
-    state.ordered.push({
-      id: Date.now(),
-      date: Date.now(),
-      items: { ...state.checkoutCart },
-      status: "processing"
+  addingToOrderedCollection(state) {
+    const purchaseId = `${Date.now()}`;
+    const finalCart = [];
+    let totalCost = 0;
+
+    state.cart.forEach(item => {
+      if (item.selected) {
+        // totalCost += item.qty * item.price;
+        item.purchaseId = purchaseId;
+        item.stage = "ordered";
+        item.selected = false;
+        item.cancelled = false;
+        item.confirm = false;
+        item.datePurchased = Date.now();
+        finalCart.push(item);
+      }
     });
 
-    consola.success("Orders:", state.ordered);
+    state.ordered.push({
+      id: purchaseId,
+      item: [...finalCart],
+      total: parseInt(totalCost),
+      date: Date.now()
+    });
+
+    state.finalCart = [];
+    consola.trace("ordered", state.ordered);
+  },
+  editOrder_request(state, payload) {
+    state.ordered = payload;
+  },
+  cancelRequest(state, payload) {
+    const data = { ...payload, datecancelled: Date.now() };
+    // eslint-disable-next-line no-console
+    console.log(data);
+    state.cancelled.push(data);
   }
 };
 

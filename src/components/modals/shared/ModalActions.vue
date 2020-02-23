@@ -1,7 +1,7 @@
 <template>
-  <q-page padding>
-    <h1>Cancelled</h1>
-  </q-page>
+  <q-card-actions align="right">
+    <slot></slot>
+  </q-card-actions>
 </template>
 
 <script>
