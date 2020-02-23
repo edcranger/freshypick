@@ -3,8 +3,8 @@ const routes = [
     path: "/",
     component: () => import("layouts/HomeLayout.vue"),
     children: [
-      { path: "", component: () => import("pages/Index.vue") },
-      { path: "/cart", component: () => import("pages/Cart.vue") },
+      { path: "", component: () => import("../pages/Index.vue") },
+      { path: "/cart", component: () => import("../pages/Cart.vue") },
       { path: "/checkout", component: () => import("pages/Checkout.vue") },
       {
         path: "/account",
@@ -39,7 +39,7 @@ const routes = [
           },
           {
             path: "/profile",
-            component: () => import("pages/profile")
+            component: () => import("../pages/Profile")
           },
           {
             path: "/settings",
@@ -72,7 +72,7 @@ const routes = [
       },
       {
         path: "/mprofile",
-        component: () => import("pages/profile")
+        component: () => import("../pages/Profile")
       },
       {
         path: "/msettings",
