@@ -18,7 +18,7 @@
     </q-banner>
     <q-list bordered class="bg-white">
       <q-item
-        class="q-my-xl"
+        class="q-my-md"
         clickable
         v-ripple
         v-for="item in menu1"
@@ -38,7 +38,7 @@
       </q-item>
 
       <q-item
-        class="q-my-xl"
+        class="q-my-md"
         clickable
         v-ripple
         v-for="item in menu2"
