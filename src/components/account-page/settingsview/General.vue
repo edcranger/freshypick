@@ -1,6 +1,10 @@
 <template>
   <q-list class="rounded-borders">
-    <q-expansion-item expand-separator icon="fas fa-bell" label="Notification">
+    <q-expansion-item
+      group="generalGroup"
+      icon="fas fa-bell"
+      label="Notification"
+    >
       <q-card>
         <q-card-section>
           <q-toggle
@@ -29,7 +33,7 @@
     </q-expansion-item>
 
     <q-expansion-item
-      expand-separator
+      group="generalGroup"
       icon="fab fa-rocketchat"
       label="Chat Settings"
     >
@@ -53,7 +57,11 @@
       </q-card>
     </q-expansion-item>
 
-    <q-expansion-item expand-separator icon="fas fa-cog" label="App Settings">
+    <q-expansion-item
+      group="generalGroup"
+      icon="fas fa-cog"
+      label="App Settings"
+    >
       <q-card>
         <q-card-section>
           <q-select
@@ -72,7 +80,7 @@
             label="Language"
           />
           <div class="text-center">
-            <q-btn class="q-mt-lg q-mb-md ">Deactive Account</q-btn>
+            <q-btn class="q-mt-lg q-mb-md">Deactive Account</q-btn>
           </div>
           <div class="text-center">
             <q-btn class="q-my-md">Request Account Deletion</q-btn>

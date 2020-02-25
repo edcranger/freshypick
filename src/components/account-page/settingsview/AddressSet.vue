@@ -2,7 +2,7 @@
   <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
     <q-input
       filled
-      v-model="userAddress.name"
+      v-model="userAdd.name"
       label="Address name"
       lazy-rules
       :rules="[val => (val && val.length > 0) || 'Please type something']"
@@ -10,47 +10,57 @@
 
     <q-input
       filled
-      v-model="userAddress.detailedAdd"
+      v-model="userAdd.detailedAdd"
       label="Detailed Address"
       hint="House/Unit/Flr #, Bldg Name, Blk or Lot #"
       lazy-rules
       :rules="[val => (val && val.length > 0) || 'Please type something']"
     />
 
-    <q-input
-      filled
-      v-model="userAddress.detailedAdd"
-      label="Detailed Address"
-      hint="House/Unit/Flr #, Bldg Name, Blk or Lot #"
-      lazy-rules
-      :rules="[val => (val && val.length > 0) || 'Please type something']"
-    />
+    <div class="row">
+      <div class="col-6 q-px-sm">
+        <q-input
+          filled
+          v-model="userAdd.brgy"
+          label="Brgy"
+          lazy-rules
+          :rules="[val => (val && val.length > 0) || 'Please type something']"
+        />
+      </div>
+      <div class="col-6 q-px-sm">
+        <q-select
+          filled
+          v-model="userAdd.city"
+          :options="userAddress.cityOption"
+          label="City/Municipality"
+        />
+      </div>
+    </div>
 
-    <q-select
-      filled
-      v-model="userAddress.city"
-      :options="userAddress.cityOption"
-      label="City/Municipality"
-    />
-
-    <q-input
-      filled
-      v-model="userAddress.brgy"
-      label="Brgy"
-      lazy-rules
-      :rules="[val => (val && val.length > 0) || 'Please type something']"
-    />
-
-    <q-input
-      filled
-      v-model="userAddress.zipcode"
-      label="Zipcode"
-      lazy-rules
-      :rules="[val => (val && val.length > 0) || 'Please type something']"
-    />
+    <div class="row">
+      <div class="col-6 q-px-sm">
+        <q-input
+          filled
+          v-model="userAdd.region"
+          label="Region"
+          hint="House/Unit/Flr #, Bldg Name, Blk or Lot #"
+          lazy-rules
+          :rules="[val => (val && val.length > 0) || 'Please type something']"
+        />
+      </div>
+      <div class="col-6 q-px-sm">
+        <q-input
+          filled
+          v-model="userAdd.zipcode"
+          label="Zipcode"
+          lazy-rules
+          :rules="[val => (val && val.length > 0) || 'Please type something']"
+        />
+      </div>
+    </div>
 
     <q-toggle
-      v-model="userAddress.default"
+      v-model="userAdd.default"
       color="green"
       label="Set as default address"
     />
@@ -62,6 +72,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import { cities } from "philippines";
 export default {
   data() {
@@ -89,6 +100,9 @@ export default {
     mmCities.map(i => {
       this.userAddress.cityOption.push(i.name);
     });
+  },
+  computed: {
+    ...mapGetters(["userAdd"])
   },
   methods: {
     onSubmit() {

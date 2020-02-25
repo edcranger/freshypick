@@ -164,7 +164,7 @@
         <q-btn
           color="purple"
           @click="ordering()"
-          to="/orders"
+          to="/account/orders"
           label="Order now"
           size="md"
         />
@@ -184,7 +184,7 @@
 
         <div class="col-4">
           <div class="row justify-end">
-            <q-btn color="purple" @click="ordering()" to="/orders" dense
+            <q-btn color="purple" @click="ordering()" to="/account/orders" dense
               >Order now</q-btn
             >
           </div>

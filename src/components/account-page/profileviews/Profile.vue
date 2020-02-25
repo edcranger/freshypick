@@ -3,7 +3,7 @@
     <div class="row wrap content-center bg-white q-px-md shadow-1">
       <div class="col-xs-12 col-sm-6 q-mt-lg">
         <div class="row">
-          <div class=" pNotGrow col-3 ">
+          <div class="pNotGrow col-3">
             <q-avatar
               size="80px"
               font-size="52px"
@@ -12,17 +12,16 @@
               icon="fas fa-user-circle"
             />
           </div>
-          <div class="col q-mt-sm ">
+          <div class="col q-mt-sm">
             <span
               :class="
-                mediaQuery === 'sm'
+                $mq === 'sm'
                   ? 'ml-sm text-subtitle1 text-weight-medium'
                   : 'ml-md text-subtitle2  text-weight-medium'
               "
+              >Edison Ocampo</span
             >
-              Edison Ocampo</span
-            >
-            <div class="">
+            <div class>
               <p>My Cart: {{ cart.length }} | My Order: {{ ordered.length }}</p>
             </div>
           </div>
@@ -50,10 +49,7 @@ export default {
     this.$consola.success("mq", this.$mq);
   },
   computed: {
-    ...mapGetters(["cart", "ordered"]),
-    mediaQuery() {
-      return this.$mq;
-    }
+    ...mapGetters(["cart", "ordered"])
   }
 };
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div class="col " v-if="react.items === 0">
+  <div class="col" v-if="react.items === 0">
     <!-- desktop view if no orders -->
     <div
       class="fit row wrap justify-center items-start content-start q-mt-xl"
@@ -23,10 +23,7 @@
 <script>
 export default {
   props: ["mobile", "itemLength", "desc"],
-  created() {
-    // eslint-disable-next-line no-console
-    console.log(this.react.items);
-  },
+  created() {},
   computed: {
     react() {
       const data = {

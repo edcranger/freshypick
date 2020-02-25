@@ -1,7 +1,7 @@
 <template>
   <q-list class="rounded-borders">
     <q-expansion-item
-      expand-separator
+      group="billingGroup"
       icon="fas fa-hand-holding-usd"
       label="Cash on delivery"
       caption="Edison Ocampo"
@@ -14,7 +14,7 @@
     </q-expansion-item>
 
     <q-expansion-item
-      expand-separator
+      group="billingGroup"
       icon="fab fa-cc-mastercard"
       label="Credit/Debit Card"
       caption="Unionbank"
@@ -40,7 +40,7 @@
     </q-expansion-item>
 
     <q-expansion-item
-      expand-separator
+      group="billingGroup"
       icon="fab fa-cc-amazon-pay"
       label="Payment Gateway"
     >
@@ -61,7 +61,8 @@ import Cod from "./Cod";
 export default {
   data() {
     return {
-      cardForm: false
+      cardForm: false,
+      tab: "mails"
     };
   },
   methods: {

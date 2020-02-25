@@ -1,5 +1,5 @@
 <template>
-  <q-page>
+  <div>
     <q-list bordered padding class="rounded-borders bg-white">
       <q-item-label header>Transactions</q-item-label>
 
@@ -45,7 +45,7 @@
         </q-item-section>
       </q-item>
     </q-list>
-  </q-page>
+  </div>
 </template>
 
 <script>

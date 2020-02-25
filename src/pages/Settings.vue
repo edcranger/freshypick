@@ -49,7 +49,9 @@
         expand-icon-class="text-white"
       >
         <q-card class="bg-white">
-          <q-card-section> <BillingSet /> </q-card-section>
+          <q-card-section>
+            <BillingSet />
+          </q-card-section>
         </q-card>
       </q-expansion-item>
 
@@ -68,16 +70,16 @@
       </q-expansion-item>
     </q-list>
 
-    <div class="row wrap items-center  q-pa-sm"></div>
+    <div class="row wrap items-center q-pa-sm"></div>
   </q-page>
 </template>
 
 <script>
-import ProfileSet from "../settingsview/ProfileSet";
-import AddressSet from "../settingsview/AddressSet";
-import AddressList from "../settingsview/AddressList";
-import BillingSet from "../settingsview/BillingSet";
-import General from "../settingsview/General";
+import ProfileSet from "../components/account-page/settingsview/ProfileSet";
+import AddressSet from "../components/account-page/settingsview/AddressSet";
+import AddressList from "../components/account-page/settingsview/AddressList";
+import BillingSet from "../components/account-page/settingsview/BillingSet";
+import General from "../components/account-page/settingsview/General";
 export default {
   data() {
     return {

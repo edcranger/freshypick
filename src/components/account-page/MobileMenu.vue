@@ -1,5 +1,5 @@
 <template>
-  <q-page class="">
+  <div>
     <q-banner rounded class="bg-white q-pa-md">
       <div class="row">
         <div class="col-xs-3 col-sm-1 col-md-1 text-center">
@@ -57,7 +57,7 @@
         <q-item-section>{{ item.btnName }}</q-item-section>
       </q-item>
     </q-list>
-  </q-page>
+  </div>
 </template>
 
 <script>

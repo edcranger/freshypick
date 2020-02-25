@@ -1,15 +1,29 @@
 <template>
   <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
+    <div class="row">
+      <div class="col-6 q-px-sm">
+        <q-input
+          filled
+          v-model="userProfile.username"
+          label="Username*"
+          lazy-rules
+          :rules="[val => (val && val.length > 0) || 'Please type something']"
+        />
+      </div>
+      <div class="col-6 q-px-sm">
+        <q-input
+          filled
+          v-model="userProfile.phone"
+          label="Phone"
+          mask="(####) ### - ####"
+          hint="Ex: (09##) ### - ####"
+        />
+      </div>
+    </div>
+
     <q-input
       filled
-      v-model="username"
-      label="Username*"
-      lazy-rules
-      :rules="[val => (val && val.length > 0) || 'Please type something']"
-    />
-    <q-input
-      filled
-      v-model="name"
+      v-model="userProfile.name"
       label="Your name *"
       hint="Name and surname"
       lazy-rules
@@ -17,38 +31,28 @@
     />
 
     <q-input
-      filled
-      v-model="phone"
-      label="Phone"
-      mask="(####) ### - ####"
-      hint="Use: (09##) ### - ####"
-    />
-
-    <q-input
-      v-model="email"
+      v-model="userProfile.email"
       filled
       type="email"
       hint="Example: edison@gmail.com"
       label="Email"
     />
 
-    <div>
+    <div class="text-right">
       <q-btn label="Save" type="submit" color="primary" />
     </div>
   </q-form>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   data() {
-    return {
-      username: null,
-      name: null,
-      email: null,
-      phone: null
-    };
+    return {};
   },
-
+  computed: {
+    ...mapGetters(["userProfile"])
+  },
   methods: {
     onSubmit() {
       if (this.accept !== true) {

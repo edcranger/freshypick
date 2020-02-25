@@ -146,7 +146,7 @@ export default {
 
       const totalPrice = notCancelled.map(i => {
         return i.reduce((currentTotal, x) => {
-          return x.price + currentTotal;
+          return x.price * x.qty + currentTotal;
         }, 0);
       });
 

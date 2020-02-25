@@ -1,18 +1,17 @@
 <template>
   <q-layout view="lHh lpr lFf">
-    <q-page class="webMenuView row q-pa-sm justify-center">
+    <MobileMenu
+      v-if="$mq === 'sm'"
+      :menu1="maccountMenu1"
+      :menu2="maccountMenu2"
+    />
+    <div class="row q-pa-sm justify-center" v-if="$mq !== 'sm'">
       <WebMenu class="col-3" :menu1="accountMenu1" :menu2="accountMenu2" />
 
       <q-page-container class="col q-mx-sm">
         <router-view />
       </q-page-container>
-    </q-page>
-
-    <MobileMenu
-      :menu1="maccountMenu1"
-      :menu2="maccountMenu2"
-      class="mobileMenuView"
-    />
+    </div>
   </q-layout>
 </template>
 
@@ -28,7 +27,7 @@ export default {
           btnName: "Orders",
           color: "teal",
           icon: "fas fa-shipping-fast",
-          route: "/orders",
+          route: "/account/orders",
           label: true,
           labelValue: "ordered"
         },
@@ -37,14 +36,14 @@ export default {
           btnName: "Received",
           color: "teal",
           icon: "fas fa-people-carry",
-          route: "/received"
+          route: "/account/received"
         },
         {
           id: 3,
           btnName: "Cancelled",
           color: "teal",
           icon: "fas fa-times-circle",
-          route: "/cancelled"
+          route: "/account/cancelled"
         }
       ],
       accountMenu2: [
@@ -53,37 +52,30 @@ export default {
           btnName: "Profile",
           color: "teal",
           icon: "fas fa-user-circle",
-          route: "/profile"
+          route: "/account/profile"
         },
         {
           id: 5,
           btnName: "Settings",
           color: "teal",
           icon: "fas fa-user-cog",
-          route: "/settings"
+          route: "/account/settings"
         },
         {
           id: 6,
           btnName: "Help",
           color: "teal",
           icon: "fas fa-question-circle",
-          route: "/help"
+          route: "/account/help"
         }
       ],
       maccountMenu1: [
-        {
-          id: 4,
-          btnName: "Notification",
-          color: "teal",
-          icon: "notifications",
-          route: "/notification"
-        },
         {
           id: 1,
           btnName: "Orders",
           color: "teal",
           icon: "fas fa-shipping-fast",
-          route: "/morder",
+          route: "/account/morder",
           label: true,
           labelValue: "ordered.length"
         },
@@ -92,7 +84,7 @@ export default {
           btnName: "Received",
           color: "teal",
           icon: "fas fa-people-carry",
-          route: "/mreceived",
+          route: "/account/mreceived",
           label: true
         },
         {
@@ -100,7 +92,7 @@ export default {
           btnName: "Cancelled",
           color: "teal",
           icon: "fas fa-times-circle",
-          route: "/mcancelled",
+          route: "/account/mcancelled",
           label: true
         }
       ],
@@ -110,21 +102,21 @@ export default {
           btnName: "Profile",
           color: "teal",
           icon: "fas fa-user-circle",
-          route: "/mprofile"
+          route: "/account/mprofile"
         },
         {
           id: 6,
           btnName: "Settings",
           color: "teal",
           icon: "fas fa-user-cog",
-          route: "/msettings"
+          route: "/account/msettings"
         },
         {
           id: 7,
           btnName: "Help",
           color: "teal",
           icon: "fas fa-question-circle",
-          route: "/mhelp"
+          route: "/account/mhelp"
         }
       ]
     };

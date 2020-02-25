@@ -1,5 +1,5 @@
 <template>
-  <q-page class="row ">
+  <q-page class="row">
     <NoItems :mobile="mobile" :desc="desc" :itemLength="ordered.length" />
 
     <div class="col" v-if="ordered.length !== 0">
@@ -107,7 +107,7 @@ export default {
 
       const totalPrice = notCancelled.map(i => {
         return i.reduce((currentTotal, x) => {
-          return x.price + currentTotal;
+          return x.price * x.qty + currentTotal;
         }, 0);
       });
 
