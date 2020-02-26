@@ -6,7 +6,7 @@
       <div class="q-py-sm">
         <div class="text-subtitle2">
           <q-icon name="fas fa-shopping-cart" class="q-ml-md q-mr-sm"></q-icon
-          >Recent Orders
+          >Notification
         </div>
       </div>
 
@@ -51,20 +51,20 @@
           </div>
           <div class="col-12 text-right">
             <q-btn
-              class="gt-xs"
+              v-if="$mq !== 'sm'"
               color="deep-orange"
               route
-              :to="{ name: 'view-orders', params: { itemId: item.id } }"
               glossy
-              label="View order"
+              label="Order Received"
+              @click="receive(item.id)"
             />
             <q-btn
-              class="lt-sm"
+              v-if="$mq === 'sm'"
               color="deep-orange"
               route
-              :to="{ name: 'mview-orders', params: { itemId: item.id } }"
               glossy
-              label="View order"
+              label="Order Received"
+              @click="receive(item.id)"
             />
           </div>
         </div>
@@ -74,13 +74,13 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import NoItems from "../../utils/NoItems";
 export default {
   data() {
     return {
       mobile: false,
-      desc: "No Pending Orders"
+      desc: "No New Notifications"
     };
   },
   created() {
@@ -94,6 +94,7 @@ export default {
     ...mapGetters(["checkoutCart", "totalInCart", "ordered"])
   },
   methods: {
+    ...mapActions(["receivedOrder"]),
     calCulateItem(id) {
       const pow = this.ordered.filter(item => {
         return item.id === id;
@@ -112,6 +113,9 @@ export default {
       });
 
       return parseInt(totalPrice);
+    },
+    receive(id) {
+      this.receivedOrder(id);
     }
   },
   components: {

@@ -1,5 +1,5 @@
 <template>
-  <q-page>
+  <div>
     <NoItems
       :mobile="mobile"
       :desc="desc"
@@ -46,7 +46,7 @@
         </div>
       </div>
     </div>
-  </q-page>
+  </div>
 </template>
 
 <script>

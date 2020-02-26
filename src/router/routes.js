@@ -52,6 +52,11 @@ const routes = [
         ]
       },
       {
+        path: "/account/notification",
+        component: () =>
+          import("../components/account-page/notificationviews/Notification")
+      },
+      {
         path: "/account/morder",
         component: () => import("components/account-page/orderviews/Order")
       },

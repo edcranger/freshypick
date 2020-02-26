@@ -3,7 +3,7 @@
     <!-- desktop view if no orders -->
     <div
       class="fit row wrap justify-center items-start content-start q-mt-xl"
-      v-if="!react.mobile"
+      v-if="$mq !== 'sm'"
     >
       <div class="col-12">
         <p class="text-center text-subtitle1">{{ react.desc }}</p>
@@ -13,7 +13,7 @@
       </div>
     </div>
     <!-- mobile view if no orders -->
-    <div class="absolute-center" v-if="react.mobile">
+    <div class="absolute-center" v-if="$mq === 'sm'">
       <p class="text-center text-subtitle1">{{ react.desc }}</p>
       <q-btn outline style="color: green;" label="Continue Shopping" to="/" />
     </div>
@@ -27,7 +27,6 @@ export default {
   computed: {
     react() {
       const data = {
-        mobile: this.mobile,
         items: this.itemLength,
         desc: this.desc
       };

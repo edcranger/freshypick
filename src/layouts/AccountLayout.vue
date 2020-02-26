@@ -71,6 +71,15 @@ export default {
       ],
       maccountMenu1: [
         {
+          id: 0,
+          btnName: "Notification",
+          color: "teal",
+          icon: "fas fa-shipping-fast",
+          route: "/account/notification",
+          label: true,
+          labelValue: "ordered.length"
+        },
+        {
           id: 1,
           btnName: "Orders",
           color: "teal",

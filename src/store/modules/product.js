@@ -5,6 +5,7 @@ const state = {
   cart: [],
   checkoutCart: [],
   ordered: [],
+  received: [],
   cancelled: [],
   products: [
     {
@@ -116,6 +117,7 @@ const getters = {
       return item.item;
     });
   },
+  receivedItems: state => state.received,
   cancelledItems: state => state.cancelled
 };
 
@@ -153,6 +155,13 @@ const actions = {
   async editOrder({ commit }, payload) {
     try {
       commit("editOrder_request", payload);
+    } catch (err) {
+      consola.error(err);
+    }
+  },
+  async receivedOrder({ commit }, payload) {
+    try {
+      commit("orderReceived", payload);
     } catch (err) {
       consola.error(err);
     }
@@ -221,10 +230,34 @@ const mutations = {
     });
 
     state.finalCart = [];
-    consola.trace("ordered", state.ordered);
   },
   editOrder_request(state, payload) {
     state.ordered = payload;
+  },
+  orderReceived(state, payload) {
+    const updateOrdered = state.ordered.filter(i => {
+      return i.id !== payload;
+    });
+
+    const getTheReceived = state.ordered.filter(i => {
+      return i.id === payload;
+    });
+
+    getTheReceived.map(i => {
+      i.item.map(x => {
+        x.dateReceived = Date.now();
+
+        x.stage = "received";
+      });
+    });
+
+    const item = getTheReceived.map(i => {
+      return i;
+    });
+
+    state.received.push(...item);
+
+    state.ordered = updateOrdered;
   },
   cancelRequest(state, payload) {
     const data = { ...payload, datecancelled: Date.now() };
