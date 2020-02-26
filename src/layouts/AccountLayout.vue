@@ -73,50 +73,45 @@ export default {
         {
           id: 0,
           btnName: "Notification",
-          color: "teal",
+          color: "green",
           icon: "fas fa-shipping-fast",
           route: "/account/notification",
-          label: true,
-          labelValue: "ordered.length"
+          label: true
         },
         {
           id: 1,
           btnName: "Orders",
-          color: "teal",
+          color: "pink",
           icon: "fas fa-shipping-fast",
-          route: "/account/morder",
-          label: true,
-          labelValue: "ordered.length"
+          route: "/account/morder"
         },
         {
           id: 2,
           btnName: "Received",
-          color: "teal",
+          color: "light-blue-8",
           icon: "fas fa-people-carry",
-          route: "/account/mreceived",
-          label: true
+          route: "/account/mreceived"
         },
         {
           id: 3,
           btnName: "Cancelled",
-          color: "teal",
+          color: "grey-10",
           icon: "fas fa-times-circle",
-          route: "/account/mcancelled",
-          label: true
+          route: "/account/mcancelled"
         }
       ],
       maccountMenu2: [
         {
           id: 5,
           btnName: "Profile",
-          color: "teal",
+          color: "orange-13",
           icon: "fas fa-user-circle",
           route: "/account/mprofile"
         },
         {
           id: 6,
           btnName: "Settings",
-          color: "teal",
+          color: "blue-grey-12",
           icon: "fas fa-user-cog",
           route: "/account/msettings"
         },

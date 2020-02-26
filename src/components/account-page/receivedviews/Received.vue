@@ -49,13 +49,11 @@
               </strong>
             </p>
           </div>
-          <div
-            class="col-12 text-left"
-            v-for="i in item.item"
-            :key="i.purchaseid"
-          >
+
+          <div class="col-12 text-left">
             <p class="text-caption text-blue q-ma-none">
-              Received on {{ datefxn(i.dateReceived) }}
+              <q-badge color="blue">Delivered</q-badge>
+              on {{ datefxn(item.receivedDate) }}
             </p>
           </div>
         </div>

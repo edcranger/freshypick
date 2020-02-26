@@ -31,7 +31,14 @@
             text-color="white"
             size="60px"
             :icon="item.icon"
-          />
+          >
+            <q-badge
+              v-if="ordered.length !== 0 ? item.label : (item.label = false)"
+              color="red"
+              floating
+              >{{ ordered.length }}</q-badge
+            >
+          </q-avatar>
         </q-item-section>
 
         <q-item-section>{{ item.btnName }}</q-item-section>
@@ -61,11 +68,15 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {};
   },
-  props: ["menu1", "menu2"]
+  props: ["menu1", "menu2"],
+  computed: {
+    ...mapGetters(["ordered", "receivedItems"])
+  }
 };
 </script>
 

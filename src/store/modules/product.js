@@ -244,6 +244,7 @@ const mutations = {
     });
 
     getTheReceived.map(i => {
+      i.receivedDate = Date.now();
       i.item.map(x => {
         x.dateReceived = Date.now();
 
