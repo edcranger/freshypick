@@ -4,66 +4,85 @@
     <div class="col-12 col-sm-8 col-md-8 q-mb-xl">
       <div class="row">
         <!-- Address bar -->
-        <div class="shippingBilling col-12 shadow-1 q-mt-md">
-          <q-banner class="bg-white">
-            <div class="fit row wrap">
-              <div class="col">
-                <div class="row">
-                  <q-toolbar class="bg-white q-px-none">
-                    <div class="text-subtitle2">
-                      <q-icon
-                        name="fas fa-shipping-fast"
-                        class="q-mr-sm q-ml-none"
-                      ></q-icon
-                      >Shipping & Billing
-                    </div>
+        <div class="col-12 shadow-1 q-mt-md bg-white" v-if="$mq === 'sm'">
+          <q-list class="rounded-borders">
+            <q-expansion-item
+              default-opened
+              group="generalGroup"
+              icon="fas fa-shipping-fast"
+              label="Shipping Info"
+            >
+              <q-card>
+                <q-card-section>
+                  <ShippingAdd />
+                </q-card-section>
+              </q-card>
+            </q-expansion-item>
 
-                    <q-space />
+            <q-expansion-item
+              group="generalGroup"
+              icon="fas fa-credit-card"
+              label="Payment Method"
+              :caption="paymentMethod"
+            >
+              <q-card>
+                <q-card-section>
+                  <q-list class="rounded-borders">
+                    <q-item
+                      clickable
+                      @click="
+                        (paymentMethod = 'COD'), $refs.expandableItem1.hide();
+                        $refs.expandableItem2.hide();
+                      "
+                    >
+                      <q-item-section avatar>
+                        <q-icon name="fas fa-hand-holding-usd" />
+                      </q-item-section>
+                      <q-item-section>Cash On Delivery</q-item-section>
+                    </q-item>
 
-                    <q-btn flat round dense icon="fas fa-edit" />
-                  </q-toolbar>
-                </div>
-                <div class="row">
-                  <!-- Home Address -->
-                  <p>
-                    <q-icon name="home" class="q-mr-sm"></q-icon>Blk 22 Lot 12
-                    hibiscus street castle spring heights camarin caloocan city.
-                  </p>
-                </div>
-                <div class="row">
-                  <!-- Number -->
-                  <p>
-                    <q-icon name="local_phone" class="q-mr-sm"></q-icon
-                    >09156870548
-                  </p>
-                </div>
+                    <q-expansion-item
+                      ref="expandableItem1"
+                      group="billingGroup"
+                      icon="fab fa-cc-mastercard"
+                      label="Credit/Debit Card"
+                    >
+                      <q-card>
+                        <q-card-section>
+                          <CardList @clicked="onClickChild" />
+                        </q-card-section>
+                      </q-card>
+                    </q-expansion-item>
 
-                <div class="row">
-                  <!-- Email -->
-                  <p>
-                    <q-icon name="email" class="q-mr-sm"></q-icon
-                    >edisonocampo.eo@gmail.com
-                  </p>
-                </div>
-              </div>
-            </div>
-          </q-banner>
+                    <q-expansion-item
+                      ref="expandableItem2"
+                      group="billingGroup"
+                      icon="fab fa-cc-amazon-pay"
+                      label="Payment Gateway"
+                    >
+                      <q-card>
+                        <q-card-section>
+                          <PaymentGa @clicked="onClickChild" />
+                        </q-card-section>
+                      </q-card>
+                    </q-expansion-item>
+                  </q-list>
+                </q-card-section>
+              </q-card>
+            </q-expansion-item>
+          </q-list>
         </div>
 
         <!-- Items list -->
-        <div class="col-12 q-mt-lg shadow-1 bg-white q-py-sm">
-          <div class="text-subtitle2">
+
+        <div class="col-12 bg-white q-my-sm shadow-1">
+          <div class="text-subtitle2 q-pa-sm">
             <q-icon name="fas fa-shopping-cart" class="q-ml-md q-mr-sm"></q-icon
             >Items
           </div>
-        </div>
+          <q-separator />
 
-        <div class="col-12 bg-white q-my-sm">
-          <div
-            class="row shadow-1 q-pa-sm"
-            v-for="item in checkoutCart"
-            :key="item.id"
-          >
+          <div class="row q-pa-sm" v-for="item in checkoutCart" :key="item.id">
             <div class="col-md-3 col-4">
               <q-img
                 :src="item.photo"
@@ -95,49 +114,13 @@
       </div>
     </div>
 
-    <!-- This is for the side checkout pane -->
-    <div class="orderSummaryCol col bg-white shadow-1 q-my-lg q-mx-sm q-pa-md">
+    <!-- This is for the side checkout pane md and greater view -->
+    <div
+      class="col bg-white shadow-1 q-my-lg q-mx-sm q-pa-md"
+      v-if="$mq !== 'sm'"
+    >
       <q-banner class="bg-white q-pa-none">
-        <div class="fit row wrap">
-          <div class="col">
-            <div class="row">
-              <q-toolbar class="bg-white q-px-none">
-                <div class="text-subtitle2">
-                  <q-icon
-                    name="fas fa-shipping-fast"
-                    class="q-mr-sm q-ml-none"
-                  ></q-icon
-                  >Shipping & Billing
-                </div>
-
-                <q-space />
-
-                <q-btn flat round dense icon="fas fa-edit" />
-              </q-toolbar>
-            </div>
-            <div class="row">
-              <!-- Home Address -->
-              <p>
-                <q-icon name="home" class="q-mr-sm"></q-icon>Blk 22 Lot 12
-                hibiscus street castle spring heights camarin caloocan city.
-              </p>
-            </div>
-            <div class="row">
-              <!-- Number -->
-              <p>
-                <q-icon name="local_phone" class="q-mr-sm"></q-icon>09156870548
-              </p>
-            </div>
-
-            <div class="row">
-              <!-- Email -->
-              <p>
-                <q-icon name="email" class="q-mr-sm"></q-icon
-                >edisonocampo.eo@gmail.com
-              </p>
-            </div>
-          </div>
-        </div>
+        <ShippingAdd />
       </q-banner>
       <h6 class="q-my-sm">Order Summary</h6>
       <div class="row q-mt-none">
@@ -171,36 +154,53 @@
       </div>
     </div>
 
-    <!-- Order summary buttom -->
-    <q-banner class="orderSummaryButtomCol bg-white fixed-bottom">
-      <div class="fit row wrap">
-        <div class="col-8">
-          <div class="row">
-            <h6 class="col-12 text-right q-ma-none">
-              Total: ₱{{ totalInCart }}
-            </h6>
+    <div class="bg-white orderSummaryButtomCol fixed-bottom">
+      <!-- Order summary buttom -->
+      <q-banner>
+        <div class="fit row wrap">
+          <div class="col-8">
+            <div class="row">
+              <h6 class="col-12 text-right q-ma-none">
+                Total: ₱{{ totalInCart }}
+              </h6>
+            </div>
           </div>
-        </div>
 
-        <div class="col-4">
-          <div class="row justify-end">
-            <q-btn color="purple" @click="ordering()" to="/account/orders" dense
-              >Order now</q-btn
-            >
+          <div class="col-4">
+            <div class="row justify-end">
+              <q-btn
+                color="purple"
+                @click="ordering()"
+                to="/account/orders"
+                dense
+                >Order now</q-btn
+              >
+            </div>
           </div>
         </div>
-      </div>
-    </q-banner>
+      </q-banner>
+    </div>
   </q-page>
 </template>
 
 <script>
+import ShippingAdd from "../components/utils/Shipping";
+import CardList from "../components/account-page/settingsview/CardList";
+import PaymentGa from "../components/account-page/settingsview/PaymentGa";
 import { mapGetters, mapActions } from "vuex";
 export default {
   name: "PageIndex",
   data() {
     return {
-      val: false
+      val: false,
+      paymentMethod: "COD",
+      DailyInApp: true,
+      cardForm: false,
+      emailMarketing: true,
+      smsMarketing: false,
+      chatActivated: true,
+      chatMarketing: false,
+      language: "English"
     };
   },
   created() {
@@ -213,7 +213,17 @@ export default {
     ...mapActions(["order"]),
     ordering() {
       this.order();
+    },
+    onClickChild(value) {
+      this.paymentMethod = value;
+      this.$refs.expandableItem1.hide();
+      this.$refs.expandableItem2.hide();
     }
+  },
+  components: {
+    ShippingAdd,
+    CardList,
+    PaymentGa
   }
 };
 </script>
@@ -222,21 +232,8 @@ export default {
   flex: 0 0 155px;
 }
 
-@media screen and (max-width: 599px) {
-  .orderSummaryCol {
-    display: none;
-  }
-}
-
-@media screen and (max-width: 599px) {
-}
-
 @media screen and (min-width: 599px) {
   .orderSummaryButtomCol {
-    display: none;
-  }
-
-  .shippingBilling {
     display: none;
   }
 }

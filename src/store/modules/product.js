@@ -199,19 +199,15 @@ const mutations = {
     // console.log(state.cart);
   },
   checkout(state) {
-    const checking = state.cart.filter(item => {
-      return item.selected === true;
-    });
+    const checking = state.cart.filter(item => item.selected === true);
     state.checkoutCart = checking;
   },
   addingToOrderedCollection(state) {
     const purchaseId = `${Date.now()}`;
     const finalCart = [];
-    let totalCost = 0;
 
     state.cart.forEach(item => {
       if (item.selected) {
-        // totalCost += item.qty * item.price;
         item.purchaseId = purchaseId;
         item.stage = "ordered";
         item.selected = false;
@@ -225,9 +221,12 @@ const mutations = {
     state.ordered.push({
       id: purchaseId,
       item: [...finalCart],
-      total: parseInt(totalCost),
-      date: Date.now()
+      receivedDate: null,
+      date: Date.now(),
+      stage: "Delivering"
     });
+
+    consola.success("total?", state.ordered);
 
     state.finalCart = [];
   },
@@ -235,15 +234,13 @@ const mutations = {
     state.ordered = payload;
   },
   orderReceived(state, payload) {
-    const updateOrdered = state.ordered.filter(i => {
-      return i.id !== payload;
-    });
+    // const updateOrdered = state.ordered.filter(i => i.id !== payload);
 
-    const getTheReceived = state.ordered.filter(i => {
-      return i.id === payload;
-    });
+    const getTheReceived = state.ordered.filter(i => i.id === payload);
 
     getTheReceived.map(i => {
+      i.stage = "Delivered";
+      i.received = true;
       i.receivedDate = Date.now();
       i.item.map(x => {
         x.dateReceived = Date.now();
@@ -252,13 +249,11 @@ const mutations = {
       });
     });
 
-    const item = getTheReceived.map(i => {
-      return i;
-    });
+    const item = getTheReceived.map(i => i);
 
     state.received.push(...item);
 
-    state.ordered = updateOrdered;
+    // state.ordered = updateOrdered;
   },
   cancelRequest(state, payload) {
     const data = { ...payload, datecancelled: Date.now() };

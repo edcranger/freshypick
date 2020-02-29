@@ -5,8 +5,8 @@
     <div class="col" v-if="ordered.length !== 0">
       <div class="q-py-sm">
         <div class="text-subtitle2">
-          <q-icon name="fas fa-shopping-cart" class="q-ml-md q-mr-sm"></q-icon
-          >Notification
+          <q-icon name="notifications_active" class="q-ml-md q-mr-sm"></q-icon
+          >Notifications
         </div>
       </div>
 
@@ -24,9 +24,21 @@
           :key="item.id"
           to="/"
         >
-          <div class="col-xs-12 col-sm-4 text-blue-7 q-mb-sm">
-            {{ item.id }}
-            <!-- <p>Placed on:{{item.date}}</p> -->
+          <!-- Orderlist -->
+          <div class="col-xs-12 col-sm-4 text-grey-7 q-mb-sm">
+            <div class="row">
+              <div class="col-6">
+                <q-icon
+                  name="fas fa-check-double"
+                  color="green"
+                  v-if="item.receivedDate"
+                />
+                {{ item.id }}
+              </div>
+              <div class="col-6 text-right text-green" v-if="item.receivedDate">
+                Completed
+              </div>
+            </div>
           </div>
 
           <div class="col-xs-12 col-sm-4">
@@ -41,17 +53,25 @@
               </div>
             </div>
           </div>
-          <div class="col-xs-12 col-sm-4 text-right">
-            <p class="text-green">
-              <strong>
-                <span class="q-mr-xs lt-sm">Total:</span>
-                ₱{{ calCulateItem(item.id) }}
-              </strong>
-            </p>
+          <div class="col-xs-12 col-sm-4">
+            <div class="row q-mt-sm">
+              <div class="col-6">
+                <p class="q-ml-sm" v-if="!item.received">Status: Delivering</p>
+              </div>
+              <div class="col-6 text-right">
+                <p class="text-green">
+                  <strong>
+                    <span class="q-mr-xs lt-sm">Total:</span>
+                    ₱{{ calCulateItem(item.id) }}
+                  </strong>
+                </p>
+              </div>
+            </div>
           </div>
+          <!-- Orderlist -->
           <div class="col-12 text-right">
             <q-btn
-              v-if="$mq !== 'sm'"
+              v-if="$mq !== 'sm' && !item.received"
               color="deep-orange"
               route
               glossy
@@ -59,13 +79,22 @@
               @click="receive(item.id)"
             />
             <q-btn
-              v-if="$mq === 'sm'"
+              v-if="$mq === 'sm' && !item.received"
               color="deep-orange"
               route
               glossy
               label="Order Received"
               @click="receive(item.id)"
             />
+          </div>
+          <div
+            class="col-12 text-left q-mt-sm"
+            v-if="item.receivedDate !== null"
+          >
+            <p class="text-caption text-grey-6 q-ma-none">
+              <q-badge color="blue">Delivered</q-badge>
+              on {{ datefxn(item.receivedDate) }}
+            </p>
           </div>
         </div>
       </div>
@@ -74,6 +103,7 @@
 </template>
 
 <script>
+import { date } from "quasar";
 import { mapGetters, mapActions } from "vuex";
 import NoItems from "../../utils/NoItems";
 export default {
@@ -87,35 +117,29 @@ export default {
     this.$route.path.startsWith("/m")
       ? (this.mobile = true)
       : (this.mobile = false);
-
-    // eslint-disable-next-line no-console
   },
   computed: {
-    ...mapGetters(["checkoutCart", "totalInCart", "ordered"])
+    ...mapGetters(["ordered", "receivedItems"])
   },
   methods: {
-    ...mapActions(["receivedOrder"]),
+    ...mapActions(["receivedOrder", "editOrder"]),
+    datefxn(timestamp) {
+      return date.formatDate(timestamp, "MMM-DD-YYYY");
+    },
     calCulateItem(id) {
-      const pow = this.ordered.filter(item => {
-        return item.id === id;
-      });
+      const pow = this.ordered.filter(item => item.id === id);
 
-      const notCancelled = pow.map(i => {
-        return i.item.filter(x => {
-          return !x.cancelled;
-        });
-      });
+      const notCancelled = pow.map(i => i.item.filter(x => !x.cancelled));
 
-      const totalPrice = notCancelled.map(i => {
-        return i.reduce((currentTotal, x) => {
-          return x.price * x.qty + currentTotal;
-        }, 0);
-      });
+      const totalPrice = notCancelled.map(i =>
+        i.reduce((currentTotal, x) => x.price * x.qty + currentTotal, 0)
+      );
 
       return parseInt(totalPrice);
     },
     receive(id) {
       this.receivedOrder(id);
+      this.editOrder(this.ordered);
     }
   },
   components: {

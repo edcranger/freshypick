@@ -16,7 +16,7 @@
         </div>
       </div>
     </q-banner>
-    <q-list bordered class="bg-white">
+    <q-list bordered separator class="bg-white">
       <q-item
         class="q-my-md"
         clickable
@@ -33,10 +33,12 @@
             :icon="item.icon"
           >
             <q-badge
-              v-if="ordered.length !== 0 ? item.label : (item.label = false)"
+              v-if="
+                filterBadge.length !== 0 ? item.label : (item.label = false)
+              "
               color="red"
               floating
-              >{{ ordered.length }}</q-badge
+              >{{ filterBadge.length }}</q-badge
             >
           </q-avatar>
         </q-item-section>
@@ -75,7 +77,10 @@ export default {
   },
   props: ["menu1", "menu2"],
   computed: {
-    ...mapGetters(["ordered", "receivedItems"])
+    ...mapGetters(["ordered", "receivedItems"]),
+    filterBadge() {
+      return this.ordered.filter(i => !i.received);
+    }
   }
 };
 </script>

@@ -1,21 +1,25 @@
 <template>
-  <div>
+  <div class="q-pa-sm">
     <NoItems
       :mobile="mobile"
       :desc="desc"
       :itemLength="cancelledItems.length"
     />
-    <div class="col-12 bg-white q-my-sm" v-if="cancelledItems.length !== 0">
+    <div class="col-12" v-if="cancelledItems.length !== 0">
+      <div class="q-py-sm">
+        <div class="text-subtitle2">
+          <q-icon name="remove_shopping_cart" class="q-ml-md q-mr-sm"></q-icon
+          >Canceled
+        </div>
+      </div>
+
       <div
-        class="row shadow-1 q-pa-sm"
+        class="row shadow-1 q-pa-sm q-my-sm bg-white"
         v-for="item in cancelledItems"
         :key="item.id"
       >
         <div class="col-12">
-          <strong>{{ showDate(item.datecancelled) }}</strong>
-        </div>
-        <div class="col-12">
-          <strong class="text-blue">Order #{{ item.purchaseId }}</strong>
+          <strong class="text-grey-6">Order #{{ item.purchaseId }}</strong>
         </div>
         <div class="col-md-3 col-4">
           <q-img
@@ -35,7 +39,6 @@
           >
             <div class="col">
               <p>Qty: {{ item.qty }}</p>
-              <q-btn color="red" disable label="Cancelled" />
             </div>
             <div class="col text-right">
               <div>
@@ -44,13 +47,19 @@
             </div>
           </div>
         </div>
+        <div class="col-12 text-left q-mt-sm">
+          <p class="text-caption text-grey-6 q-ma-none">
+            <q-badge color="red">Canceled</q-badge>
+            on {{ datefxn(item.datecancelled) }}
+          </p>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import moment from "moment";
+import { date } from "quasar";
 import NoItems from "../../utils/NoItems";
 import { mapGetters, mapActions } from "vuex";
 export default {
@@ -70,8 +79,8 @@ export default {
   },
   methods: {
     ...mapActions([""]),
-    showDate(date) {
-      return moment(date).format("L");
+    datefxn(timestamp) {
+      return date.formatDate(timestamp, "MMM-DD-YYYY");
     }
   },
   components: {

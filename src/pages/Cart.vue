@@ -1,5 +1,5 @@
 <template>
-  <q-page padding class="fit row wrap justify-start items-start content-start">
+  <q-page padding class="row wrap justify-start items-start content-start">
     <!-- This is the cart items with the toolbar select all -->
     <div class="absolute-center" v-if="cart.length === 0">
       <p class="text-center text-subtitle1">No Items in the cart</p>
@@ -8,7 +8,7 @@
 
     <div class="col-12 col-sm-8 col-md-8 q-mb-xl" v-if="cart.length !== 0">
       <div class="row">
-        <div class="col-12 shadow-1 q-my-md">
+        <div class="col-12 shadow-1 q-my-xs">
           <q-toolbar class="bg-white">
             <q-checkbox
               v-model="selectAllItem"
@@ -42,9 +42,7 @@
                 <strong>{{ item.name }}</strong>
               </div>
               <div class="q-ma-none">₱{{ item.price }}/kg</div>
-              <div class="q-ma-none">
-                Sample text: Bili na mga suki masarap to hahha
-              </div>
+
               <div
                 class="fit row wrap justify-end items-start content-start q-mt-md"
               >

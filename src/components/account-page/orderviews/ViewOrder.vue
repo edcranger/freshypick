@@ -3,58 +3,27 @@
     <div class="row">
       <div class="col-12">
         <p class="text-subtitle2">My Order</p>
-        <q-stepper
-          v-model="step"
-          ref="stepper"
-          color="primary"
-          animated
-          class="gt-xs"
-        >
-          <q-step :name="1" title="Processing" icon="settings" :done="step > 1">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iste
-            quaerat quia quis, nobis corporis illo excepturi corrupti voluptatem
-            veniam atque a necessitatibus.
-          </q-step>
-
-          <q-step
-            :name="2"
-            title="Packing"
-            icon="create_new_folder"
-            :done="step > 2"
-          >
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iste
-            quaerat quia quis, nobis corporis illo excepturi corrupti voluptatem
-            veniam atque a necessitatibus.
-          </q-step>
-
-          <q-step :name="3" title="Delivering" icon="add_comment">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iste
-            quaerat quia quis, nobis corporis illo excepturi corrupti voluptatem
-            veniam atque a necessitatibus.
-          </q-step>
-        </q-stepper>
 
         <q-stepper
           v-model="step"
           ref="stepper"
           color="primary"
           animated
-          vertical
-          class="lt-sm"
+          :vertical="$mq === 'sm'"
         >
-          <q-step :name="1" title="Processing" icon="settings" :done="step > 1"
-            >Total cost {{ calCulateItem }}</q-step
-          >
-
           <q-step
-            :name="2"
-            title="Packing"
-            icon="create_new_folder"
-            :done="step > 2"
+            :name="1"
+            title="Processing"
+            icon="assignment_late"
+            :done="step > 1"
             >Total cost {{ calCulateItem }}</q-step
           >
 
-          <q-step :name="3" title="Delivering" icon="add_comment"
+          <q-step :name="2" title="Packing" icon="fas fa-box" :done="step > 2"
+            >Total cost {{ calCulateItem }}</q-step
+          >
+
+          <q-step :name="3" title="Delivering" icon="fas fa-truck"
             >Total cost {{ calCulateItem }}</q-step
           >
         </q-stepper>
@@ -84,7 +53,7 @@
               :class="i.cancelled ? 'grayscale' : ''"
               :src="i.photo"
               spinner-color="white"
-              style="height: 100px; max-width: 100px"
+              :width="$mq === 'sm' ? '50px' : '100px'"
             />
             x {{ i.qty }}
             <strong>{{ i.name }}</strong>
@@ -94,10 +63,11 @@
             <q-btn
               :color="!i.cancelled ? `red` : `grey`"
               route
+              :dense="$mq === 'sm'"
               :disable="i.cancelled"
               @click="i.confirm = !i.confirm"
               glossy
-              :label="!i.cancelled ? 'Cancel Item' : 'Cancelled'"
+              :label="!i.cancelled ? 'Cancel' : 'Cancelled'"
             />
             <q-dialog v-model="i.confirm" persistent>
               <CancelItem :i="i" />
@@ -127,6 +97,9 @@ export default {
   },
   computed: {
     ...mapGetters(["ordered"]),
+    stepperOrientation() {
+      return this.$mq === "sm" ? true : false;
+    },
 
     orderedItems() {
       return this.ordered.filter(item => {
