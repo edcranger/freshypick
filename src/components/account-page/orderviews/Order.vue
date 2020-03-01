@@ -1,107 +1,118 @@
 <template>
-  <q-page padding class="row">
-    <NoItems :mobile="mobile" :desc="desc" :itemLength="filteredOrder.length" />
+  <transition
+    appear
+    :enter-active-class="
+      $mq === 'sm' ? 'animated slideInRight' : 'animated fadeIn'
+    "
+  >
+    <q-page padding class="row">
+      <NoItems
+        :mobile="mobile"
+        :desc="desc"
+        :itemLength="filteredOrder.length"
+      />
 
-    <div class="col" v-if="filteredOrder.length !== 0">
-      <div class="q-py-sm">
-        <div class="text-subtitle2">
-          <q-icon name="fas fa-shopping-cart" class="q-ml-md q-mr-sm"></q-icon
-          >Recent Orders
+      <div class="col" v-if="filteredOrder.length !== 0">
+        <div class="q-py-sm">
+          <div class="text-subtitle2">
+            <q-icon name="fas fa-shopping-cart" class="q-ml-md q-mr-sm"></q-icon
+            >Recent Orders
+          </div>
         </div>
-      </div>
 
-      <div class="col-12 bg-white q-my-sm">
-        <div class="gt-xs row text-left q-pa-sm">
-          <div class="col-4">Order #</div>
+        <div class="col-12 bg-white q-my-sm">
+          <div class="gt-xs row text-left q-pa-sm">
+            <div class="col-4">Order #</div>
 
-          <div class="col-4 text-left">Items</div>
-          <div class="col-4 text-right">Total</div>
-        </div>
+            <div class="col-4 text-left">Items</div>
+            <div class="col-4 text-right">Total</div>
+          </div>
 
-        <!-- OrderList -->
-        <div
-          class="row shadow-1 q-pa-sm"
-          v-for="item in filteredOrder"
-          :key="item.id"
-          to="/"
-        >
-          <div class="col-xs-12 col-sm-4 text-grey-7 q-mb-sm">
-            <div class="row">
-              <div class="col-6">{{ item.id }}</div>
-              <div class="col-6 text-right">
-                <p v-if="item.stage === 'Delivered'" class="text-green">
-                  Completed
-                  <q-icon
-                    name="fas fa-check-double"
-                    color="green"
-                    class="q-ml-xs"
+          <!-- OrderList -->
+          <div
+            class="row shadow-1 q-pa-sm"
+            v-for="item in filteredOrder"
+            :key="item.id"
+            to="/"
+          >
+            <div class="col-xs-12 col-sm-4 text-grey-7 q-mb-sm">
+              <div class="row">
+                <div class="col-6">{{ item.id }}</div>
+                <div class="col-6 text-right">
+                  <p v-if="item.stage === 'Delivered'" class="text-green">
+                    Completed
+                    <q-icon
+                      name="fas fa-check-double"
+                      color="green"
+                      class="q-ml-xs"
+                    />
+                  </p>
+                  <p v-else-if="item.stage === 'Delivering'" class="text-grey">
+                    Delivering
+                    <q-icon name="fas fa-truck" color="grey" class="q-ml-xs" />
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-4">
+              <div class="row" v-for="i in item.item" :key="i.purchaseid">
+                <div class="col" v-if="!i.cancelled">
+                  <q-img
+                    :src="i.photo"
+                    spinner-color="white"
+                    style="height: 30px; max-width: 30px"
                   />
-                </p>
-                <p v-else-if="item.stage === 'Delivering'" class="text-grey">
-                  Delivering
-                  <q-icon name="fas fa-truck" color="grey" class="q-ml-xs" />
-                </p>
+                  x {{ i.qty }} {{ i.name }}
+                </div>
               </div>
             </div>
-          </div>
+            <div class="col-xs-12 col-sm-4">
+              <div class="row q-mt-sm">
+                <div class="col text-right">
+                  <p class="text-green">
+                    <strong>
+                      <span class="q-mr-xs lt-sm">Total:</span>
+                      ₱{{ calCulateItem(item.id) }}
+                    </strong>
+                  </p>
+                </div>
+              </div>
+            </div>
 
-          <div class="col-xs-12 col-sm-4">
-            <div class="row" v-for="i in item.item" :key="i.purchaseid">
-              <div class="col" v-if="!i.cancelled">
-                <q-img
-                  :src="i.photo"
-                  spinner-color="white"
-                  style="height: 30px; max-width: 30px"
-                />
-                x {{ i.qty }} {{ i.name }}
-              </div>
+            <div class="col-12 text-right">
+              <q-btn
+                v-if="!item.received"
+                color="deep-orange"
+                dense
+                glossy
+                label="Received"
+                @click="receive(item.id)"
+                class="q-mr-sm"
+              />
+              <q-btn
+                class="gt-xs"
+                color="deep-orange"
+                dense
+                :to="{ name: 'view-orders', params: { itemId: item.id } }"
+                glossy
+                label="View order"
+              />
+              <q-btn
+                class="lt-sm"
+                color="deep-orange"
+                dense
+                :to="{ name: 'mview-orders', params: { itemId: item.id } }"
+                glossy
+                label="View order"
+              />
             </div>
-          </div>
-          <div class="col-xs-12 col-sm-4">
-            <div class="row q-mt-sm">
-              <div class="col text-right">
-                <p class="text-green">
-                  <strong>
-                    <span class="q-mr-xs lt-sm">Total:</span>
-                    ₱{{ calCulateItem(item.id) }}
-                  </strong>
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-12 text-right">
-            <q-btn
-              v-if="!item.received"
-              color="deep-orange"
-              dense
-              glossy
-              label="Received"
-              @click="receive(item.id)"
-              class="q-mr-sm"
-            />
-            <q-btn
-              class="gt-xs"
-              color="deep-orange"
-              dense
-              :to="{ name: 'view-orders', params: { itemId: item.id } }"
-              glossy
-              label="View order"
-            />
-            <q-btn
-              class="lt-sm"
-              color="deep-orange"
-              dense
-              :to="{ name: 'mview-orders', params: { itemId: item.id } }"
-              glossy
-              label="View order"
-            />
           </div>
         </div>
+        <!-- OrderList -->
       </div>
-      <!-- OrderList -->
-    </div>
-  </q-page>
+    </q-page>
+  </transition>
 </template>
 
 <script>

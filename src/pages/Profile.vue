@@ -1,10 +1,17 @@
 <template>
-  <q-page class="bg-white">
-    <div class="row">
-      <Profile />
-      <Address />
-    </div>
-  </q-page>
+  <transition
+    appear
+    :enter-active-class="
+      $mq === 'sm' ? 'animated slideInRight' : 'animated fadeIn'
+    "
+  >
+    <q-page class="bg-white">
+      <div class="row">
+        <Profile />
+        <Address />
+      </div>
+    </q-page>
+  </transition>
 </template>
 
 <script>

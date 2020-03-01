@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lHh lpr lFf">
+  <q-layout view="lHh lpr lFf" class="bg-white">
     <MobileMenu
       v-if="$mq === 'sm'"
       :menu1="maccountMenu1"
@@ -12,6 +12,7 @@
         <router-view />
       </q-page-container>
     </div>
+    <p class="text-center text-grey-5 q-mt-md">Version 1.0</p>
   </q-layout>
 </template>
 
