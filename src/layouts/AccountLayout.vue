@@ -75,7 +75,7 @@ export default {
           id: 0,
           btnName: "Notifications",
           color: "green",
-          icon: "fas fa-shipping-fast",
+          icon: "fas fa-bell",
           route: "/account/notification",
           label: true
         },

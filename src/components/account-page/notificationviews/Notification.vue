@@ -8,32 +8,70 @@
       $mq === 'sm' ? 'animated slideOutRight' : 'animated fadeOut'
     "
   >
-    <q-page padding class="row">
-      <NoItems :mobile="mobile" :desc="desc" :itemLength="ordered.length" />
+    <q-page class="row">
+      <NoItems :desc="desc" :itemLength="ordered.length" />
 
       <div class="col" v-if="ordered.length !== 0">
-        <div class="q-py-sm">
-          <div class="text-subtitle2">
-            <q-icon name="notifications_active" class="q-ml-md q-mr-sm"></q-icon
-            >Notifications
-          </div>
-        </div>
+        <div class="col-12 bg-white">
+          <q-list bordered separator>
+            <q-item>
+              <q-item-section>
+                <q-item-label overline>
+                  <q-icon name="notifications_active" class="q-mr-sm"></q-icon
+                  >Notifications
+                </q-item-label>
+              </q-item-section>
+            </q-item>
 
-        <div class="col-12 bg-white q-my-sm">
-          <div class="gt-xs row text-left q-pa-sm">
-            <div class="col-4">Order #</div>
+            <q-item-label header>Items</q-item-label>
 
-            <div class="col-4 text-left">Items</div>
-            <div class="col-4 text-right">Total</div>
-          </div>
+            <q-item
+              v-for="item in ordered"
+              :key="item.id"
+              clickable
+              @click="$consola.success('id', item.id)"
+            >
+              <q-item-section
+                top
+                avatar
+                v-for="i in item.item.slice(0, 1)"
+                :key="i.id"
+              >
+                <q-avatar>
+                  <img :src="i.photo" />
+                </q-avatar>
+              </q-item-section>
 
-          <div
+              <q-item-section>
+                <q-item-label class="text-grey-6"
+                  >Did you receive the order?</q-item-label
+                >
+                <q-item-label caption>
+                  Our courier reported that the order
+                  <span class="text-blue">{{ item.id }}</span> has been
+                  delivered to you. If you did not receive it please do contact
+                  us.
+                </q-item-label>
+              </q-item-section>
+
+              <q-item-section side center v-if="!item.received">
+                <q-btn
+                  color="deep-orange"
+                  dense
+                  glossy
+                  label="Yes"
+                  @click="receive(item.id)"
+                />
+              </q-item-section>
+            </q-item>
+          </q-list>
+          <!-- Orderlist -->
+          <!-- <div
             class="row shadow-1 q-pa-sm"
             v-for="item in ordered"
             :key="item.id"
             to="/"
           >
-            <!-- Orderlist -->
             <div class="col-xs-12 col-sm-4 text-grey-7 q-mb-sm">
               <div class="row">
                 <div class="col-6">{{ item.id }}</div>
@@ -78,7 +116,7 @@
                 </div>
               </div>
             </div>
-            <!-- Orderlist -->
+
             <div class="col-12 text-right">
               <q-btn
                 v-if="!item.received"
@@ -98,7 +136,8 @@
                 on {{ datefxn(item.receivedDate) }}
               </p>
             </div>
-          </div>
+          </div>-->
+          <!-- Orderlist -->
         </div>
       </div>
     </q-page>
@@ -112,15 +151,10 @@ import NoItems from "../../utils/NoItems";
 export default {
   data() {
     return {
-      mobile: false,
       desc: "No New Notifications"
     };
   },
-  created() {
-    this.$route.path.startsWith("/m")
-      ? (this.mobile = true)
-      : (this.mobile = false);
-  },
+  created() {},
   computed: {
     ...mapGetters(["ordered", "receivedItems"])
   },
