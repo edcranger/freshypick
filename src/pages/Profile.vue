@@ -1,6 +1,6 @@
 <template>
-  <q-page>
-    <div class="row wrap items-center q-pa-sm">
+  <q-page class="bg-white">
+    <div class="row">
       <Profile />
       <Address />
     </div>

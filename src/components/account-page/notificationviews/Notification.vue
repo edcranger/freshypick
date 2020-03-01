@@ -27,16 +27,20 @@
           <!-- Orderlist -->
           <div class="col-xs-12 col-sm-4 text-grey-7 q-mb-sm">
             <div class="row">
-              <div class="col-6">
-                <q-icon
-                  name="fas fa-check-double"
-                  color="green"
-                  v-if="item.receivedDate"
-                />
-                {{ item.id }}
-              </div>
-              <div class="col-6 text-right text-green" v-if="item.receivedDate">
-                Completed
+              <div class="col-6">{{ item.id }}</div>
+              <div class="col-6 text-right">
+                <p v-if="item.stage === 'Delivered'" class="text-green">
+                  Completed
+                  <q-icon
+                    name="fas fa-check-double"
+                    color="green"
+                    class="q-ml-xs"
+                  />
+                </p>
+                <p v-else-if="item.stage === 'Delivering'" class="text-grey">
+                  Delivering
+                  <q-icon name="fas fa-truck" color="grey" class="q-ml-xs" />
+                </p>
               </div>
             </div>
           </div>
@@ -55,10 +59,7 @@
           </div>
           <div class="col-xs-12 col-sm-4">
             <div class="row q-mt-sm">
-              <div class="col-6">
-                <p class="q-ml-sm" v-if="!item.received">Status: Delivering</p>
-              </div>
-              <div class="col-6 text-right">
+              <div class="col text-right">
                 <p class="text-green">
                   <strong>
                     <span class="q-mr-xs lt-sm">Total:</span>

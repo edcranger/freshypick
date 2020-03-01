@@ -1,13 +1,13 @@
 <template>
-  <q-page padding>
+  <q-page>
     <q-list bordered>
       <q-expansion-item
         group="somegroup"
         icon="account_circle"
         label="Profile"
         default-opened
-        header-class="bg-green text-white"
-        expand-icon-class="text-white"
+        header-class="bg-white "
+        expand-icon-class="text-grey"
       >
         <q-card class="bg-white">
           <q-card-section>
@@ -16,12 +16,14 @@
         </q-card>
       </q-expansion-item>
 
+      <q-separator />
+
       <q-expansion-item
         group="somegroup"
         icon="fas fa-map-marked-alt"
         label="Address"
-        header-class="bg-green text-white"
-        expand-icon-class="text-white"
+        header-class="bg-white "
+        expand-icon-class="text-grey"
       >
         <q-card class="bg-white">
           <q-card-section>
@@ -41,12 +43,14 @@
         </q-card>
       </q-expansion-item>
 
+      <q-separator />
+
       <q-expansion-item
         group="somegroup"
         icon="fas fa-money-check-alt"
         label="Billing"
-        header-class="bg-green text-white"
-        expand-icon-class="text-white"
+        header-class="bg-white "
+        expand-icon-class="text-grey"
       >
         <q-card class="bg-white">
           <q-card-section>
@@ -55,12 +59,14 @@
         </q-card>
       </q-expansion-item>
 
+      <q-separator />
+
       <q-expansion-item
         group="somegroup"
         icon="fas fa-cogs"
         label="General"
-        header-class="bg-green text-white"
-        expand-icon-class="text-white"
+        header-class="bg-white "
+        expand-icon-class="text-grey"
       >
         <q-card class="bg-white">
           <q-card-section>
@@ -68,6 +74,7 @@
           </q-card-section>
         </q-card>
       </q-expansion-item>
+      <q-separator />
     </q-list>
 
     <div class="row wrap items-center q-pa-sm"></div>

@@ -17,7 +17,7 @@
           <div class="col-4 text-left">Items</div>
           <div class="col-4 text-right">Total</div>
         </div>
-
+        <!-- OrderList -->
         <div
           class="row shadow-1 q-pa-sm"
           v-for="item in receivedItems"
@@ -67,25 +67,7 @@
               </div>
             </div>
           </div>
-          <!-- Orderlist -->
-          <!-- <div class="col-12 text-right">
-            <q-btn
-              v-if="$mq !== 'sm' && !item.received"
-              color="deep-orange"
-              route
-              glossy
-              label="Order Received"
-              @click="receive(item.id)"
-            />
-            <q-btn
-              v-if="$mq === 'sm' && !item.received"
-              color="deep-orange"
-              route
-              glossy
-              label="Order Received"
-              @click="receive(item.id)"
-            />
-          </div>-->
+
           <div
             class="col-12 text-left q-mt-sm"
             v-if="item.receivedDate !== null"
@@ -96,6 +78,8 @@
             </p>
           </div>
         </div>
+
+        <!-- OrderList -->
       </div>
     </div>
   </q-page>
@@ -115,7 +99,6 @@ export default {
   },
   created() {
     // eslint-disable-next-line no-console
-    console.log(this.receivedItems);
   },
   computed: {
     ...mapGetters(["checkoutCart", "totalInCart", "ordered", "receivedItems"])

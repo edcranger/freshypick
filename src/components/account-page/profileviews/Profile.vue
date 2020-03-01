@@ -1,7 +1,7 @@
 <template>
   <div class="col-xs-12 q-px-sm">
-    <div class="row wrap content-center bg-white q-px-md shadow-1">
-      <div class="col-xs-12 col-sm-6 q-mt-lg">
+    <div class="row wrap q-px-md">
+      <div class="col-xs-12 col-sm-7 q-mt-lg">
         <div class="row">
           <div class="pNotGrow col-3">
             <q-avatar
@@ -27,7 +27,7 @@
           </div>
         </div>
       </div>
-      <div class="col-xs-12 col-sm-6 q-mt-lg">
+      <div class="col-xs-12 col-sm-5 q-mt-lg">
         <p class="text-subtitle2 q-mb-sm q-mt-sm">Personal Profile</p>
         <p>
           <q-icon name="mail_outline" size="xs" class="text-green" />:
