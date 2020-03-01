@@ -39,7 +39,7 @@
       <router-view />
     </q-page-container>
 
-    <q-footer elevated class="bg-green">
+    <q-footer class="bg-green">
       <q-toolbar>
         <q-toolbar-title>
           <q-tabs dense indicator-color="yellow" :breakpoint="100">

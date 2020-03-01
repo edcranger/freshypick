@@ -39,7 +39,12 @@
           :to="item.route"
         >
           <q-item-section avatar>
-            <q-avatar :color="item.color" text-color="white" :icon="item.icon">
+            <q-avatar
+              :color="item.color"
+              size="50px"
+              text-color="white"
+              :icon="item.icon"
+            >
               <q-badge
                 v-if="
                   filterBadge.length !== 0 ? item.label : (item.label = false)
