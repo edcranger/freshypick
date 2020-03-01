@@ -94,6 +94,7 @@ export default {
 
   created() {
     // eslint-disable-next-line no-console
+    console.log(this.orderedItems);
   },
   computed: {
     ...mapGetters(["ordered"]),
@@ -102,14 +103,10 @@ export default {
     },
 
     orderedItems() {
-      return this.ordered.filter(item => {
-        return item.id === this.routeParams;
-      });
+      return this.ordered.filter(item => item.id === this.routeParams);
     },
     calCulateItem() {
-      const pow = this.ordered.filter(item => {
-        return item.id === this.routeParams;
-      });
+      const pow = this.ordered.filter(item => item.id === this.routeParams);
 
       const notCancelled = pow.map(i => {
         return i.item.filter(x => {

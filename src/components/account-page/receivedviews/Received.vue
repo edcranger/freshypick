@@ -24,9 +24,20 @@
           :key="item.id"
           to="/"
         >
-          <div class="col-xs-12 col-sm-4 text-blue-7 q-mb-sm">
-            {{ item.id }}
-            <!-- <p>Placed on:{{item.date}}</p> -->
+          <div class="col-xs-12 col-sm-4 text-grey-7 q-mb-sm">
+            <div class="row">
+              <div class="col-6">
+                <q-icon
+                  name="fas fa-check-double"
+                  color="green"
+                  v-if="item.receivedDate"
+                />
+                {{ item.id }}
+              </div>
+              <div class="col-6 text-right text-green" v-if="item.receivedDate">
+                Completed
+              </div>
+            </div>
           </div>
 
           <div class="col-xs-12 col-sm-4">
@@ -41,17 +52,45 @@
               </div>
             </div>
           </div>
-          <div class="col-xs-12 col-sm-4 text-right">
-            <p class="text-green">
-              <strong>
-                <span class="q-mr-xs lt-sm">Total:</span>
-                ₱{{ calCulateItem(item.id) }}
-              </strong>
-            </p>
+          <div class="col-xs-12 col-sm-4">
+            <div class="row q-mt-sm">
+              <div class="col-6">
+                <p class="q-ml-sm" v-if="!item.received">Status: Delivering</p>
+              </div>
+              <div class="col-6 text-right">
+                <p class="text-green">
+                  <strong>
+                    <span class="q-mr-xs lt-sm">Total:</span>
+                    ₱{{ calCulateItem(item.id) }}
+                  </strong>
+                </p>
+              </div>
+            </div>
           </div>
-
-          <div class="col-12 text-left">
-            <p class="text-caption text-blue q-ma-none">
+          <!-- Orderlist -->
+          <!-- <div class="col-12 text-right">
+            <q-btn
+              v-if="$mq !== 'sm' && !item.received"
+              color="deep-orange"
+              route
+              glossy
+              label="Order Received"
+              @click="receive(item.id)"
+            />
+            <q-btn
+              v-if="$mq === 'sm' && !item.received"
+              color="deep-orange"
+              route
+              glossy
+              label="Order Received"
+              @click="receive(item.id)"
+            />
+          </div>-->
+          <div
+            class="col-12 text-left q-mt-sm"
+            v-if="item.receivedDate !== null"
+          >
+            <p class="text-caption text-grey-6 q-ma-none">
               <q-badge color="blue">Delivered</q-badge>
               on {{ datefxn(item.receivedDate) }}
             </p>

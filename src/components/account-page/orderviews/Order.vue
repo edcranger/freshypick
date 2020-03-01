@@ -72,6 +72,15 @@
 
           <div class="col-12 text-right">
             <q-btn
+              v-if="!item.received"
+              color="deep-orange"
+              dense
+              glossy
+              label="Received"
+              @click="receive(item.id)"
+              class="q-mr-sm"
+            />
+            <q-btn
               class="gt-xs"
               color="deep-orange"
               route
@@ -82,7 +91,7 @@
             <q-btn
               class="lt-sm"
               color="deep-orange"
-              route
+              dense
               :to="{ name: 'mview-orders', params: { itemId: item.id } }"
               glossy
               label="View order"
@@ -95,7 +104,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import NoItems from "../../utils/NoItems";
 export default {
   data() {
@@ -110,6 +119,7 @@ export default {
       : (this.mobile = false);
 
     // eslint-disable-next-line no-console
+    console.log(this.filteredOrder);
   },
   computed: {
     ...mapGetters(["checkoutCart", "totalInCart", "ordered"]),
@@ -119,24 +129,21 @@ export default {
     }
   },
   methods: {
+    ...mapActions(["receivedOrder", "editOrder"]),
     calCulateItem(id) {
-      const pow = this.ordered.filter(item => {
-        return item.id === id;
-      });
+      const pow = this.ordered.filter(item => item.id === id);
 
-      const notCancelled = pow.map(i => {
-        return i.item.filter(x => {
-          return !x.cancelled;
-        });
-      });
+      const notCancelled = pow.map(i => i.item.filter(x => !x.cancelled));
 
-      const totalPrice = notCancelled.map(i => {
-        return i.reduce((currentTotal, x) => {
-          return x.price * x.qty + currentTotal;
-        }, 0);
-      });
+      const totalPrice = notCancelled.map(i =>
+        i.reduce((currentTotal, x) => x.price * x.qty + currentTotal, 0)
+      );
 
       return parseInt(totalPrice);
+    },
+    receive(id) {
+      this.receivedOrder(id);
+      this.editOrder(this.ordered);
     }
   },
   components: {

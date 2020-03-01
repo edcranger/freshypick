@@ -71,19 +71,11 @@
           <!-- Orderlist -->
           <div class="col-12 text-right">
             <q-btn
-              v-if="$mq !== 'sm' && !item.received"
+              v-if="!item.received"
               color="deep-orange"
               route
               glossy
-              label="Order Received"
-              @click="receive(item.id)"
-            />
-            <q-btn
-              v-if="$mq === 'sm' && !item.received"
-              color="deep-orange"
-              route
-              glossy
-              label="Order Received"
+              label="Received"
               @click="receive(item.id)"
             />
           </div>

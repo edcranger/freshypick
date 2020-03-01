@@ -221,12 +221,11 @@ const mutations = {
     state.ordered.push({
       id: purchaseId,
       item: [...finalCart],
+      received: false,
       receivedDate: null,
       date: Date.now(),
       stage: "Delivering"
     });
-
-    consola.success("total?", state.ordered);
 
     state.finalCart = [];
   },
