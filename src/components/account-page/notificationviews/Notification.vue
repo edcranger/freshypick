@@ -26,7 +26,7 @@
             <q-item-label header>Items</q-item-label>
 
             <q-item
-              v-for="item in ordered"
+              v-for="item in mixed"
               :key="item.id"
               clickable
               @click="$consola.success('id', item.id)"
@@ -156,7 +156,12 @@ export default {
   },
   created() {},
   computed: {
-    ...mapGetters(["ordered", "receivedItems"])
+    ...mapGetters(["ordered", "receivedItems"]),
+    mixed: function() {
+      const arr = [...this.ordered, ...this.receivedItems];
+      const newArray = new Set(arr);
+      return [...newArray];
+    }
   },
   methods: {
     ...mapActions(["receivedOrder", "editOrder"]),

@@ -1,6 +1,10 @@
 <template>
-  <q-layout view="hHh lpR fFf">
-    <q-header elevated class="bg-green">
+  <q-layout
+    view="hHh lpR fFf"
+    :class="$mq === 'lg' ? 'web ' : ''"
+    style="min-height: auto;"
+  >
+    <q-header elevated :class="$mq === 'lg' ? 'web bg-green' : 'bg-green'">
       <q-toolbar>
         <q-toolbar-title class="q-mt-sm q-ml-md">
           <img height="50" :src="require('../assets/fp.png')" />
@@ -55,9 +59,9 @@
               label="Cart"
               to="/Cart"
             >
-              <q-badge color="red" v-if="cart.length > 0" floating>{{
-                cart.length
-              }}</q-badge>
+              <q-badge color="red" v-if="cart.length > 0" floating>
+                {{ cart.length }}
+              </q-badge>
             </q-route-tab>
             <q-route-tab
               name="account"
@@ -85,3 +89,9 @@ export default {
   }
 };
 </script>
+<style lang="stylus">
+.web {
+  padding-left: 300px;
+  padding-right: 300px;
+}
+</style>

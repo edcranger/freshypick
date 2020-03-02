@@ -1,6 +1,6 @@
 <template>
-  <q-page :class="$mq !== 'sm' ? ' q-px-xl q-pa-md' : 'q-pa-sm'">
-    <q-parallax :height="300" :speed="0.5" class="q-mb-sm">
+  <q-page padding class="bg-white">
+    <q-parallax :height="250" :speed="0.5" class="q-mb-sm">
       <template v-slot:media>
         <img :src="require('../assets/vegies.jpg')" />
       </template>
@@ -9,27 +9,23 @@
     </q-parallax>
     <div class="row wrap">
       <div
-        class="col-6 col-sm-3 col-md-2 q-pa-sm"
+        class="col-xs-6 col-sm-3 col-md-3 col-xl-2 q-pa-xs"
         v-for="(product, index) in products"
         :key="index"
       >
-        <q-card clickable class="my-card">
+        <q-card clickable class="my-card q-mt-xl" flat>
           <q-img :src="product.photo" />
 
-          <q-card-section>
-            <div class="row no-wrap items-center">
+          <q-card-section class="q-pa-none">
+            <div class="row no-wrap items-center text-center">
               <div class="col text-h6 ellipsis">{{ product.name }}</div>
               <div
                 class="col-auto text-grey text-caption q-pt-md row no-wrap items-center"
               ></div>
             </div>
 
-            <p>₱{{ product.price }}</p>
-          </q-card-section>
+            <p class="text-center">₱{{ product.price }}</p>
 
-          <q-separator />
-
-          <q-card-actions>
             <div
               class="full-width row wrap justify-center items-start content-center"
             >
@@ -62,6 +58,7 @@
             </div>
             <div class="fit row wrap justify-center items-start content-center">
               <q-btn
+                dense
                 label="Add to cart"
                 color="primary"
                 @click="product.confirm = !product.confirm"
@@ -70,7 +67,9 @@
                 <AddtoCart :productInfo="product" />
               </q-dialog>
             </div>
-          </q-card-actions>
+          </q-card-section>
+
+          <!-- <q-separator /> -->
         </q-card>
       </div>
     </div>

@@ -1,27 +1,35 @@
 <template>
-  <q-layout view="lHh lpr lFf" class="bg-white">
-    <MobileMenu
+  <q-layout style="min-height: auto;">
+    <component
+      :is="comp"
+      :web1="accountMenu1"
+      :web2="accountMenu2"
+      :mobile1="maccountMenu1"
+      :mobile2="maccountMenu2"
+    ></component>
+    <!-- <MobileMenu
       v-if="$mq === 'sm'"
       :menu1="maccountMenu1"
       :menu2="maccountMenu2"
-    />
-    <div class="row q-pa-sm justify-center" v-if="$mq !== 'sm'">
+    />-->
+    <!-- <div class="row q-pa-sm justify-center" v-if="$mq !== 'sm'">
       <WebMenu class="col-3" :menu1="accountMenu1" :menu2="accountMenu2" />
 
       <q-page-container class="col q-mx-sm">
         <router-view />
       </q-page-container>
-    </div>
+    </div>-->
     <p class="text-center text-grey-5 q-mt-md">Version 1.0</p>
   </q-layout>
 </template>
 
 <script>
-import WebMenu from "../components/account-page/WebMenu";
-import MobileMenu from "../components/account-page/MobileMenu";
+import MobileDyna from "../components/account-page/MobileMenu";
+import WebDyna from "../components/account-page/Webdyna.vue";
 export default {
   data() {
     return {
+      compt: null,
       accountMenu1: [
         {
           id: 1,
@@ -126,9 +134,14 @@ export default {
       ]
     };
   },
+  computed: {
+    comp() {
+      return this.$mq === "sm" ? "MobileDyna" : "WebDyna";
+    }
+  },
   components: {
-    MobileMenu,
-    WebMenu
+    WebDyna,
+    MobileDyna
   }
 };
 </script>

@@ -90,6 +90,19 @@
             <q-item-label caption>{{ datefxn(i.date) }}</q-item-label>
           </q-item-section>
         </q-item>
+
+        <q-item v-if="i.received">
+          <q-item-section>
+            <q-item-label caption>Receive Date</q-item-label>
+            <q-item-label caption>{{ datefxn(i.receivedDate) }}</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item>
+          <q-item-section>
+            <q-item-label caption>Payment method</q-item-label>
+            <q-item-label caption>COD</q-item-label>
+          </q-item-section>
+        </q-item>
       </div>
 
       <!-- <q-separator spaced />

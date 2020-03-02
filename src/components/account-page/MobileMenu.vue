@@ -40,7 +40,7 @@
           <q-item
             clickable
             v-ripple
-            v-for="item in menu1"
+            v-for="item in mobile1"
             :key="item.id"
             :to="item.route"
           >
@@ -72,12 +72,13 @@
           <q-item
             clickable
             v-ripple
-            v-for="item in menu2"
+            v-for="item in mobile2"
             :key="item.id"
             :to="item.route"
           >
             <q-item-section avatar>
               <q-avatar
+                size="50px"
                 :color="item.color"
                 text-color="white"
                 :icon="item.icon"
@@ -102,7 +103,7 @@ export default {
   data() {
     return {};
   },
-  props: ["menu1", "menu2"],
+  props: ["mobile1", "mobile2"],
   computed: {
     ...mapGetters(["cart", "ordered", "receivedItems"]),
     filterBadge() {

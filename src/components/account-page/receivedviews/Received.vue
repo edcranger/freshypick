@@ -105,7 +105,6 @@ import NoItems from "../../utils/NoItems";
 export default {
   data() {
     return {
-      mobile: false,
       desc: "No Received Orders"
     };
   },
@@ -113,7 +112,7 @@ export default {
     // eslint-disable-next-line no-console
   },
   computed: {
-    ...mapGetters(["checkoutCart", "totalInCart", "ordered", "receivedItems"])
+    ...mapGetters(["receivedItems"])
   },
   methods: {
     calCulateItem(id) {
