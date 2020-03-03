@@ -5,7 +5,7 @@
       $mq === 'sm' ? 'animated slideInRight' : 'animated fadeIn'
     "
   >
-    <q-page padding class="row">
+    <q-page class="row">
       <NoItems
         :mobile="mobile"
         :desc="desc"
@@ -13,14 +13,14 @@
       />
 
       <div class="col" v-if="filteredOrder.length !== 0">
-        <div class="q-py-sm">
+        <!-- <div class="q-py-sm">
           <div class="text-subtitle2">
             <q-icon name="fas fa-shopping-cart" class="q-ml-md q-mr-sm"></q-icon
             >Recent Orders
           </div>
-        </div>
+        </div>-->
 
-        <div class="col-12 bg-white q-my-sm">
+        <div class="col-12 bg-white">
           <div class="gt-xs row text-left q-pa-sm">
             <div class="col-4">Order #</div>
 
@@ -28,8 +28,83 @@
             <div class="col-4 text-right">Total</div>
           </div>
 
+          <q-list bordered separator padding>
+            <q-item dense>
+              <q-item-section>
+                <q-item-label>
+                  <q-icon name="notifications_active" class="q-mr-sm"></q-icon
+                  >Orders
+                </q-item-label>
+              </q-item-section>
+            </q-item>
+
+            <q-item
+              v-ripple
+              v-for="item in filteredOrder"
+              :key="item.id"
+              clickable
+              :to="{
+                name: $mq === 'sm' ? 'mview-orders' : 'mview-orders',
+                params: { itemId: item.id }
+              }"
+            >
+              <q-item-section>
+                <q-item-label caption>
+                  <div class="row">
+                    <div class="col">{{ item.id }}</div>
+                    <div class="col text-right">
+                      <p v-if="item.stage === 'Delivered'" class="text-green">
+                        Completed
+                        <q-icon
+                          name="fas fa-check-double"
+                          color="green"
+                          class="q-ml-xs"
+                        />
+                      </p>
+                      <p
+                        v-else-if="item.stage === 'Delivering'"
+                        class="text-grey"
+                      >
+                        Delivering
+                        <q-icon
+                          name="fas fa-truck"
+                          color="grey"
+                          class="q-ml-xs"
+                        />
+                      </p>
+                    </div>
+                  </div>
+                </q-item-label>
+
+                <q-item-label overline>
+                  <div class="row" v-for="i in item.item" :key="i.purchaseid">
+                    <div class="col">
+                      <q-img
+                        :src="i.photo"
+                        spinner-color="white"
+                        style="height: 30px; max-width: 30px"
+                      />
+                      x {{ i.qty }} {{ i.name }}
+                    </div>
+                  </div>
+                </q-item-label>
+
+                <q-item-label>
+                  <div class="col text-right">
+                    <p class="text-green">
+                      <strong>
+                        <span class="q-mr-xs lt-sm">Total:</span>
+                        ₱{{ calCulateItem(item.id) }}
+                      </strong>
+                    </p>
+                  </div>
+                </q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
+
           <!-- OrderList -->
-          <div
+          <!-- <div
             class="row shadow-1 q-pa-sm"
             v-for="item in filteredOrder"
             :key="item.id"
@@ -107,7 +182,7 @@
                 label="View order"
               />
             </div>
-          </div>
+          </div>-->
         </div>
         <!-- OrderList -->
       </div>

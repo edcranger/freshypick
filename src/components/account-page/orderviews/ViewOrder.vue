@@ -32,7 +32,11 @@
                 >Total cost {{ calCulateItem }}</q-step
               >
 
-              <q-step :name="3" title="Delivering" icon="fas fa-truck"
+              <q-step
+                :name="3"
+                title="Delivering"
+                active-icon="fas fa-truck"
+                icon="fas fa-truck"
                 >Total cost {{ calCulateItem }}</q-step
               >
             </q-stepper>
@@ -44,7 +48,7 @@
       <q-item-label header>Items</q-item-label>
 
       <div v-for="item in orderedItems" :key="item.id">
-        <q-item v-for="i in item.item" :key="i.purchaseid">
+        <q-item v-for="i in item.item" :key="i.id">
           <q-item-section>
             <q-img
               :class="i.cancelled ? 'grayscale' : ''"
@@ -76,7 +80,7 @@
       <q-separator spaced />
       <q-item-label header>Order Info</q-item-label>
 
-      <div v-for="i in orderedItems" :key="i.id">
+      <div v-for="(i, index) in orderedItems" :key="index">
         <q-item>
           <q-item-section>
             <q-item-label caption>Order ID</q-item-label>
@@ -265,7 +269,7 @@ import CancelItem from "../../modals/CancelItem";
 export default {
   data() {
     return {
-      step: 1,
+      step: 3,
       routeParams: this.$route.params.itemId,
       items: this.orderedItems,
       total: []
