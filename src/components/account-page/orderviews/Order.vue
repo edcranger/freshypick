@@ -44,7 +44,7 @@
               :key="item.id"
               clickable
               :to="{
-                name: $mq === 'sm' ? 'mview-orders' : 'mview-orders',
+                name: $mq === 'sm' ? 'mview-orders' : 'view-orders',
                 params: { itemId: item.id }
               }"
             >
