@@ -21,22 +21,11 @@
         </div>-->
 
         <div class="col-12 bg-white">
-          <div class="gt-xs row text-left q-pa-sm">
-            <div class="col-4">Order #</div>
-
-            <div class="col-4 text-left">Items</div>
-            <div class="col-4 text-right">Total</div>
-          </div>
-
           <q-list bordered separator padding>
-            <q-item dense>
-              <q-item-section>
-                <q-item-label>
-                  <q-icon name="notifications_active" class="q-mr-sm"></q-icon
-                  >Orders
-                </q-item-label>
-              </q-item-section>
-            </q-item>
+            <div class="q-ml-md">
+              <q-icon name="notifications_active" class="q-mr-sm"></q-icon
+              >Orders
+            </div>
 
             <q-item
               v-ripple
@@ -78,7 +67,7 @@
 
                 <q-item-label overline>
                   <div class="row" v-for="i in item.item" :key="i.purchaseid">
-                    <div class="col">
+                    <div class="col" v-if="!i.cancelled">
                       <q-img
                         :src="i.photo"
                         spinner-color="white"

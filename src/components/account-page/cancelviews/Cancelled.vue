@@ -71,9 +71,16 @@ export default {
       desc: "No Canceled Orders"
     };
   },
-  created() {},
+  created() {
+    this.$consola.info("cancelledItems", this.filterCancelled);
+  },
   computed: {
-    ...mapGetters(["cart", "cancelledItems"])
+    ...mapGetters(["ordered", "cancelledItems"]),
+    filterCancelled() {
+      const wew = this.ordered.map(i => i.item.filter(e => e.cancelled));
+
+      return wew.filter(x => x.length !== 0);
+    }
   },
   methods: {
     ...mapActions([""]),

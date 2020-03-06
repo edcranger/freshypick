@@ -160,7 +160,7 @@ export default {
     mixed: function() {
       const arr = [...this.ordered, ...this.receivedItems];
       const newArray = new Set(arr);
-      return [...newArray];
+      return [...newArray].sort((a, b) => (a.date < b.date ? 1 : -1));
     }
   },
   methods: {
