@@ -1,6 +1,7 @@
 <template>
   <q-list class="rounded-borders">
     <q-expansion-item
+      header-class="text-grey-8"
       group="billingGroup"
       icon="fas fa-hand-holding-usd"
       label="Cash on delivery"
@@ -14,6 +15,7 @@
     </q-expansion-item>
 
     <q-expansion-item
+      header-class="text-grey-8"
       group="billingGroup"
       icon="fab fa-cc-mastercard"
       label="Credit/Debit Card"
@@ -40,6 +42,7 @@
     </q-expansion-item>
 
     <q-expansion-item
+      header-class="text-grey-8"
       group="billingGroup"
       icon="fab fa-cc-amazon-pay"
       label="Payment Gateway"

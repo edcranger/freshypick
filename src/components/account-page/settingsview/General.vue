@@ -1,6 +1,7 @@
 <template>
   <q-list class="rounded-borders">
     <q-expansion-item
+      header-class="text-grey-8"
       group="generalGroup"
       icon="fas fa-bell"
       label="Notification"
@@ -33,6 +34,7 @@
     </q-expansion-item>
 
     <q-expansion-item
+      header-class="text-grey-8"
       group="generalGroup"
       icon="fab fa-rocketchat"
       label="Chat Settings"
@@ -58,6 +60,7 @@
     </q-expansion-item>
 
     <q-expansion-item
+      header-class="text-grey-8"
       group="generalGroup"
       icon="fas fa-cog"
       label="App Settings"

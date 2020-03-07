@@ -12,7 +12,7 @@
           icon="account_circle"
           label="Profile"
           default-opened
-          header-class="bg-white "
+          header-class="bg-white text-grey-8"
           expand-icon-class="text-grey"
         >
           <q-card class="bg-white">
@@ -28,7 +28,7 @@
           group="somegroup"
           icon="fas fa-map-marked-alt"
           label="Address"
-          header-class="bg-white "
+          header-class="bg-white text-grey-8"
           expand-icon-class="text-grey"
         >
           <q-card class="bg-white">
@@ -55,7 +55,7 @@
           group="somegroup"
           icon="fas fa-money-check-alt"
           label="Billing"
-          header-class="bg-white "
+          header-class="bg-white text-grey-8"
           expand-icon-class="text-grey"
         >
           <q-card class="bg-white">
@@ -71,7 +71,7 @@
           group="somegroup"
           icon="fas fa-cogs"
           label="General"
-          header-class="bg-white "
+          header-class="bg-white text-grey-8"
           expand-icon-class="text-grey"
         >
           <q-card class="bg-white">

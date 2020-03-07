@@ -65,79 +65,6 @@
               </q-item-section>
             </q-item>
           </q-list>
-          <!-- Orderlist -->
-          <!-- <div
-            class="row shadow-1 q-pa-sm"
-            v-for="item in ordered"
-            :key="item.id"
-            to="/"
-          >
-            <div class="col-xs-12 col-sm-4 text-grey-7 q-mb-sm">
-              <div class="row">
-                <div class="col-6">{{ item.id }}</div>
-                <div class="col-6 text-right">
-                  <p v-if="item.stage === 'Delivered'" class="text-green">
-                    Completed
-                    <q-icon
-                      name="fas fa-check-double"
-                      color="green"
-                      class="q-ml-xs"
-                    />
-                  </p>
-                  <p v-else-if="item.stage === 'Delivering'" class="text-grey">
-                    Delivering
-                    <q-icon name="fas fa-truck" color="grey" class="q-ml-xs" />
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-xs-12 col-sm-4">
-              <div class="row" v-for="i in item.item" :key="i.purchaseid">
-                <div class="col" v-if="!i.cancelled">
-                  <q-img
-                    :src="i.photo"
-                    spinner-color="white"
-                    style="height: 30px; max-width: 30px"
-                  />
-                  x {{ i.qty }} {{ i.name }}
-                </div>
-              </div>
-            </div>
-            <div class="col-xs-12 col-sm-4">
-              <div class="row q-mt-sm">
-                <div class="col text-right">
-                  <p class="text-green">
-                    <strong>
-                      <span class="q-mr-xs lt-sm">Total:</span>
-                      ₱{{ calCulateItem(item.id) }}
-                    </strong>
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-12 text-right">
-              <q-btn
-                v-if="!item.received"
-                color="deep-orange"
-                route
-                glossy
-                label="Received"
-                @click="receive(item.id)"
-              />
-            </div>
-            <div
-              class="col-12 text-left q-mt-sm"
-              v-if="item.receivedDate !== null"
-            >
-              <p class="text-caption text-grey-6 q-ma-none">
-                <q-badge color="blue">Delivered</q-badge>
-                on {{ datefxn(item.receivedDate) }}
-              </p>
-            </div>
-          </div>-->
-          <!-- Orderlist -->
         </div>
       </div>
     </q-page>
@@ -160,7 +87,9 @@ export default {
     mixed: function() {
       const arr = [...this.ordered, ...this.receivedItems];
       const newArray = new Set(arr);
-      return [...newArray].sort((a, b) => (a.date < b.date ? 1 : -1));
+      return [...newArray]
+        .filter(i => i.stage !== "canceled")
+        .sort((a, b) => (a.date < b.date ? 1 : -1));
     }
   },
   methods: {

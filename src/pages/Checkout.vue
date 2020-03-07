@@ -8,6 +8,7 @@
           <q-list class="rounded-borders">
             <q-expansion-item
               default-opened
+              header-class="text-grey-8"
               group="generalGroup"
               icon="fas fa-shipping-fast"
               label="Shipping Info"
@@ -20,6 +21,7 @@
             </q-expansion-item>
 
             <q-expansion-item
+              header-class="text-grey-8"
               group="generalGroup"
               icon="fas fa-credit-card"
               label="Payment Method"
@@ -36,12 +38,16 @@
                       "
                     >
                       <q-item-section avatar>
-                        <q-icon name="fas fa-hand-holding-usd" />
+                        <q-icon
+                          class="text-grey-8"
+                          name="fas fa-hand-holding-usd"
+                        />
                       </q-item-section>
                       <q-item-section>Cash On Delivery</q-item-section>
                     </q-item>
 
                     <q-expansion-item
+                      header-class="text-grey-8"
                       ref="expandableItem1"
                       group="billingGroup"
                       icon="fab fa-cc-mastercard"
@@ -55,6 +61,7 @@
                     </q-expansion-item>
 
                     <q-expansion-item
+                      header-class="text-grey-8"
                       ref="expandableItem2"
                       group="billingGroup"
                       icon="fab fa-cc-amazon-pay"
@@ -75,9 +82,12 @@
 
         <!-- Items list -->
 
-        <div class="col-12 bg-white q-my-sm shadow-1">
+        <div class="col-12 bg-white shadow-1">
           <div class="text-subtitle2 q-pa-sm">
-            <q-icon name="fas fa-shopping-cart" class="q-ml-md q-mr-sm"></q-icon
+            <q-icon
+              name="fas fa-shopping-cart"
+              class="q-ml-md q-mr-sm text-grey-8"
+            ></q-icon
             >Items
           </div>
           <q-separator />
@@ -115,10 +125,7 @@
     </div>
 
     <!-- This is for the side checkout pane md and greater view -->
-    <div
-      class="col bg-white shadow-1 q-my-lg q-mx-sm q-pa-md"
-      v-if="$mq !== 'sm'"
-    >
+    <div class="col bg-white shadow-1  q-mx-sm q-pa-md" v-if="$mq !== 'sm'">
       <q-banner class="bg-white q-pa-none">
         <ShippingAdd />
       </q-banner>

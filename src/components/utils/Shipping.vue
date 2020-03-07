@@ -3,17 +3,17 @@
     <div class="col">
       <div class="row">
         <q-toolbar class="bg-white q-px-none" v-if="$mq !== 'sm'">
-          <div class="text-subtitle2">
+          <div class="text-subtitle2 text-grey-8">
             <q-icon
               name="fas fa-shipping-fast"
-              class="q-mr-sm q-ml-none"
+              class="q-mr-sm q-ml-none "
             ></q-icon
             >Shipping Address
           </div>
 
           <q-space />
 
-          <q-btn flat round dense icon="fas fa-edit" />
+          <q-btn flat round dense icon="fas fa-edit" class="text-grey-8" />
         </q-toolbar>
       </div>
 

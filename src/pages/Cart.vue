@@ -12,7 +12,7 @@
 
       <div class="col-12 col-sm-8 col-md-8 q-mb-xl" v-if="cart.length !== 0">
         <div class="row">
-          <div class="col-12 shadow-1 q-my-xs">
+          <div class="col-12 shadow-1 ">
             <q-toolbar class="bg-white">
               <q-checkbox
                 v-model="selectAllItem"
@@ -87,7 +87,7 @@
 
       <!-- This is for the side checkout pane -->
       <div
-        class="orderSummaryCol col bg-white shadow-1 q-ma-md q-pa-md"
+        class="orderSummaryCol col bg-white shadow-1 q-mx-md q-pa-md"
         v-if="cart.length !== 0"
       >
         <h6 class="q-my-sm">Order Summary</h6>

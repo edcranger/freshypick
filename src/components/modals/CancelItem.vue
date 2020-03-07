@@ -54,6 +54,7 @@ export default {
       for (const item in pow) {
         const iterate = pow[item];
         for (const i in iterate.item) {
+          iterate.item[i].canceledDate = Date.now();
           data.push(iterate.item[i]);
         }
       }
@@ -62,12 +63,13 @@ export default {
         return i.cancelled;
       });
 
-      const itemIndex = this.ordered.findIndex(i => {
-        return i.id === itemData.purchaseId;
-      });
+      // const itemIndex = this.ordered.findIndex(i => {
+      //   return i.id === itemData.purchaseId;
+      // });
 
       if (data.length === cancelItem.length) {
-        this.ordered.splice(itemIndex, 1);
+        pow.map(i => (i.stage = "canceled"));
+        // this.ordered.splice(itemIndex, 1);
         this.$router.replace("/account");
       }
       this.editOrder(this.ordered);

@@ -13,13 +13,6 @@
       />
 
       <div class="col" v-if="filteredOrder.length !== 0">
-        <!-- <div class="q-py-sm">
-          <div class="text-subtitle2">
-            <q-icon name="fas fa-shopping-cart" class="q-ml-md q-mr-sm"></q-icon
-            >Recent Orders
-          </div>
-        </div>-->
-
         <div class="col-12 bg-white">
           <q-list bordered separator padding>
             <div class="q-ml-md">
@@ -91,89 +84,7 @@
               </q-item-section>
             </q-item>
           </q-list>
-
-          <!-- OrderList -->
-          <!-- <div
-            class="row shadow-1 q-pa-sm"
-            v-for="item in filteredOrder"
-            :key="item.id"
-            to="/"
-          >
-            <div class="col-xs-12 col-sm-4 text-grey-7 q-mb-sm">
-              <div class="row">
-                <div class="col-6">{{ item.id }}</div>
-                <div class="col-6 text-right">
-                  <p v-if="item.stage === 'Delivered'" class="text-green">
-                    Completed
-                    <q-icon
-                      name="fas fa-check-double"
-                      color="green"
-                      class="q-ml-xs"
-                    />
-                  </p>
-                  <p v-else-if="item.stage === 'Delivering'" class="text-grey">
-                    Delivering
-                    <q-icon name="fas fa-truck" color="grey" class="q-ml-xs" />
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-xs-12 col-sm-4">
-              <div class="row" v-for="i in item.item" :key="i.purchaseid">
-                <div class="col" v-if="!i.cancelled">
-                  <q-img
-                    :src="i.photo"
-                    spinner-color="white"
-                    style="height: 30px; max-width: 30px"
-                  />
-                  x {{ i.qty }} {{ i.name }}
-                </div>
-              </div>
-            </div>
-            <div class="col-xs-12 col-sm-4">
-              <div class="row q-mt-sm">
-                <div class="col text-right">
-                  <p class="text-green">
-                    <strong>
-                      <span class="q-mr-xs lt-sm">Total:</span>
-                      ₱{{ calCulateItem(item.id) }}
-                    </strong>
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-12 text-right">
-              <q-btn
-                v-if="!item.received"
-                color="deep-orange"
-                dense
-                glossy
-                label="Received"
-                @click="receive(item.id)"
-                class="q-mr-sm"
-              />
-              <q-btn
-                class="gt-xs"
-                color="deep-orange"
-                dense
-                :to="{ name: 'view-orders', params: { itemId: item.id } }"
-                glossy
-                label="View order"
-              />
-              <q-btn
-                class="lt-sm"
-                color="deep-orange"
-                dense
-                :to="{ name: 'mview-orders', params: { itemId: item.id } }"
-                glossy
-                label="View order"
-              />
-            </div>
-          </div>-->
         </div>
-        <!-- OrderList -->
       </div>
     </q-page>
   </transition>
@@ -195,12 +106,24 @@ export default {
       : (this.mobile = false);
 
     // eslint-disable-next-line no-console
-    console.log(this.filteredOrder);
+    this.$consola.info("filt", this.filt);
   },
   computed: {
     ...mapGetters(["checkoutCart", "totalInCart", "ordered"]),
     filteredOrder() {
-      const wew = this.ordered.filter(i => !i.received);
+      const wew = this.ordered.filter(
+        i => !i.received && i.stage !== "canceled"
+      );
+      return wew;
+    },
+    filt() {
+      const filtOrder = this.ordered.map(i =>
+        i.item.map(e => {
+          return e.cancelled;
+        })
+      );
+
+      const wew = filtOrder.map(i => i);
       return wew;
     }
   },
