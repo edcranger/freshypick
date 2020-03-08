@@ -39,7 +39,7 @@
                     >
                       <q-item-section avatar>
                         <q-icon
-                          class="text-grey-8"
+                          class="text-grey-9"
                           name="fas fa-hand-holding-usd"
                         />
                       </q-item-section>
@@ -47,7 +47,7 @@
                     </q-item>
 
                     <q-expansion-item
-                      header-class="text-grey-8"
+                      header-class="text-grey-9"
                       ref="expandableItem1"
                       group="billingGroup"
                       icon="fab fa-cc-mastercard"
@@ -77,55 +77,60 @@
                 </q-card-section>
               </q-card>
             </q-expansion-item>
+
+            <q-expansion-item
+              default-opened
+              header-class="text-grey-9"
+              group="itemGroup"
+              icon="fas fa-shopping-cart"
+              label="Items"
+            >
+              <q-card>
+                <q-card-section>
+                  <div
+                    class="row q-pa-sm"
+                    v-for="item in checkoutCart"
+                    :key="item.id"
+                  >
+                    <div class="col-md-3 col-4">
+                      <q-img
+                        :src="item.photo"
+                        spinner-color="white"
+                        style="height: 100px; max-width: 100px"
+                      />
+                    </div>
+                    <div class="col">
+                      <div class="q-mt-lg">
+                        <strong>{{ item.name }}</strong>
+                      </div>
+                      <div class="q-ma-none">₱{{ item.price }}/kg</div>
+
+                      <div
+                        class="fit row wrap justify-end items-start content-start q-mt-md q-mb-none"
+                      >
+                        <div class="col">
+                          <p>Qty: {{ item.qty }}</p>
+                        </div>
+                        <div class="col text-right">
+                          <div>
+                            <q-btn flat round dense icon="delete" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </q-card-section>
+              </q-card>
+            </q-expansion-item>
           </q-list>
         </div>
 
         <!-- Items list -->
-
-        <div class="col-12 bg-white shadow-1">
-          <div class="text-subtitle2 q-pa-sm">
-            <q-icon
-              name="fas fa-shopping-cart"
-              class="q-ml-md q-mr-sm text-grey-8"
-            ></q-icon
-            >Items
-          </div>
-          <q-separator />
-
-          <div class="row q-pa-sm" v-for="item in checkoutCart" :key="item.id">
-            <div class="col-md-3 col-4">
-              <q-img
-                :src="item.photo"
-                spinner-color="white"
-                style="height: 100px; max-width: 100px"
-              />
-            </div>
-            <div class="col">
-              <div class="q-mt-lg">
-                <strong>{{ item.name }}</strong>
-              </div>
-              <div class="q-ma-none">₱{{ item.price }}/kg</div>
-
-              <div
-                class="fit row wrap justify-end items-start content-start q-mt-md q-mb-none"
-              >
-                <div class="col">
-                  <p>Qty: {{ item.qty }}</p>
-                </div>
-                <div class="col text-right">
-                  <div>
-                    <q-btn flat round dense icon="delete" />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
 
     <!-- This is for the side checkout pane md and greater view -->
-    <div class="col bg-white shadow-1  q-mx-sm q-pa-md" v-if="$mq !== 'sm'">
+    <div class="col bg-white shadow-1 q-mx-sm q-pa-md" v-if="$mq !== 'sm'">
       <q-banner class="bg-white q-pa-none">
         <ShippingAdd />
       </q-banner>

@@ -1,53 +1,81 @@
 <template>
-  <div class="col-xs-12 q-px-sm">
-    <div class="row wrap q-px-md">
-      <div class="col-xs-12 col-sm-7 q-mt-lg">
-        <div class="row">
-          <div class="pNotGrow col-3">
-            <q-avatar
-              size="80px"
-              font-size="52px"
-              color="teal"
-              text-color="white"
-              icon="fas fa-user-circle"
-            />
-          </div>
-          <div class="col q-mt-sm">
-            <span
-              :class="
-                $mq === 'sm'
-                  ? 'ml-sm text-subtitle1 text-weight-medium'
-                  : 'ml-md text-subtitle2  text-weight-medium'
-              "
-              >Edison Ocampo</span
-            >
-            <div class>
-              <p>My Cart: {{ cart.length }} | My Order: {{ ordered.length }}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-xs-12 col-sm-5 q-mt-lg">
-        <p class="text-subtitle2 q-mb-sm q-mt-sm">Personal Profile</p>
-        <p>
-          <q-icon name="mail_outline" size="xs" class="text-green" />:
-          edisonocampo.eo@gmail.com
-        </p>
-        <p>
-          <q-icon name="local_phone" size="xs" class="text-green" />:
-          +639156870548
-        </p>
-      </div>
-    </div>
+  <div>
+    <q-list
+      :separator="$mq === 'sm' ? true : false"
+      bordered
+      padding
+      class="bg-white text-grey-7"
+    >
+      <q-item-label header>User Profile</q-item-label>
+
+      <q-item clickable v-ripple>
+        <q-item-section>
+          <q-item-label caption>Username</q-item-label>
+          <q-item-label>edisonocampo.eo</q-item-label>
+        </q-item-section>
+      </q-item>
+
+      <q-item clickable v-ripple>
+        <q-item-section>
+          <q-item-label caption>Name</q-item-label>
+          <q-item-label>Edison Ocampo</q-item-label>
+        </q-item-section>
+      </q-item>
+
+      <q-item clickable v-ripple>
+        <q-item-section>
+          <q-item-label caption>Phone</q-item-label>
+          <q-item-label>09958402424</q-item-label>
+        </q-item-section>
+      </q-item>
+
+      <q-item clickable v-ripple>
+        <q-item-section>
+          <q-item-label caption>Email</q-item-label>
+          <q-item-label>edisonocampo.eo@gmail.com</q-item-label>
+        </q-item-section>
+      </q-item>
+
+      <q-item clickable v-ripple>
+        <q-item-section>
+          <q-item-label caption>Address</q-item-label>
+          <q-item-label class="text-green" caption>Default</q-item-label>
+          <q-item-label>
+            Blk 22 Lot 12 Hibiscus Street castle spring heights camarin caloocan
+            city
+          </q-item-label>
+          <q-item-label
+            >Metro Manila~Caloocan - Caloocan City - Barangay 177</q-item-label
+          >
+          <q-item-label>(+63) 958402424</q-item-label>
+        </q-item-section>
+      </q-item>
+
+      <q-item clickable v-ripple>
+        <q-item-section>
+          <q-item-label caption>Billing</q-item-label>
+          <q-item-label class="text-green">Cash on Delivery</q-item-label>
+          <q-item-label>Credit/Debit Card</q-item-label>
+          <q-item-label>Payment Gateway</q-item-label>
+        </q-item-section>
+      </q-item>
+
+      <q-item clickable v-ripple>
+        <q-item-section>
+          <q-item-label caption>Proxy</q-item-label>
+          <q-item-label>Juan Dela Cruz</q-item-label>
+          <q-item-label>Dodong Dela Cruz</q-item-label>
+          <q-item-label>Inday Dela Cruz</q-item-label>
+        </q-item-section>
+      </q-item>
+    </q-list>
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 export default {
-  created() {
-    this.$consola.success("mq", this.$mq);
-  },
+  created() {},
   computed: {
     ...mapGetters(["cart", "ordered"])
   }

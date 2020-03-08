@@ -9,9 +9,9 @@
     "
   >
     <q-page class="row">
-      <NoItems :desc="desc" :itemLength="ordered.length" />
+      <NoItems :desc="desc" :itemLength="mixed.length" />
 
-      <div class="col" v-if="ordered.length !== 0">
+      <div class="col" v-if="mixed.length !== 0">
         <div class="col-12 bg-white">
           <q-list bordered separator>
             <q-item>

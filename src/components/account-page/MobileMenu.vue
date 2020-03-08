@@ -29,7 +29,9 @@
               >Edison Ocampo</span
             >
             <div class>
-              <p>My Cart: {{ cart.length }} | My Order: {{ ordered.length }}</p>
+              <p>
+                My Cart: {{ cart.length }} | My Order: {{ filterBadge.length }}
+              </p>
             </div>
           </div>
         </div>
@@ -46,6 +48,7 @@
           >
             <q-item-section avatar>
               <q-avatar
+                rounded
                 :color="item.color"
                 size="50px"
                 text-color="white"
@@ -78,6 +81,7 @@
           >
             <q-item-section avatar>
               <q-avatar
+                rounded
                 size="50px"
                 :color="item.color"
                 text-color="white"

@@ -20,9 +20,13 @@
 
         <q-item-section
           side
-          v-if="ordered.length !== 0 ? item.label : (item.label = false)"
+          v-if="filterBadge.length !== 0 ? item.label : (item.label = false)"
         >
-          <q-badge color="orange" text-color="black" :label="ordered.length" />
+          <q-badge
+            color="orange"
+            text-color="black"
+            :label="filterBadge.length"
+          />
         </q-item-section>
       </q-item>
 
@@ -56,7 +60,10 @@ export default {
   },
   props: ["menu1", "menu2"],
   computed: {
-    ...mapGetters(["ordered"])
+    ...mapGetters(["ordered"]),
+    filterBadge() {
+      return this.ordered.filter(i => i.stage === "Delivering");
+    }
   }
 };
 </script>
