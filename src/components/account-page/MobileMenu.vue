@@ -6,7 +6,7 @@
     "
   >
     <div
-      class="fit row wrap justify-center items-center content-center bg-green-3"
+      class="fit row wrap justify-center items-center content-center bg-light-green-12"
     >
       <div class="col-12 q-mt-lg">
         <div class="row items-center content-center justify-center">
@@ -28,8 +28,8 @@
               "
               >Edison Ocampo</span
             >
-            <div class>
-              <p>
+            <div>
+              <p class="text-grey-9">
                 My Cart: {{ cart.length }} | My Order: {{ filterBadge.length }}
               </p>
             </div>
@@ -38,7 +38,7 @@
       </div>
 
       <div class="col-12">
-        <q-list bordered separator class="bg-white">
+        <q-list bordered class="bg-white">
           <q-item
             clickable
             v-ripple

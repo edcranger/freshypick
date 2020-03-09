@@ -104,7 +104,7 @@ export default {
         {
           id: 3,
           btnName: "Cancelled",
-          color: "grey-10",
+          color: "red-10",
           icon: "fas fa-times-circle",
           route: "/account/mcancelled"
         }
@@ -120,14 +120,14 @@ export default {
         {
           id: 6,
           btnName: "Settings",
-          color: "blue-grey-12",
+          color: "deep-purple-13",
           icon: "fas fa-user-cog",
           route: "/account/msettings"
         },
         {
           id: 7,
           btnName: "Help",
-          color: "teal",
+          color: "indigo-10",
           icon: "fas fa-question-circle",
           route: "/account/mhelp"
         }

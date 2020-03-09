@@ -43,7 +43,7 @@
               </q-item-section>
 
               <q-item-section>
-                <q-item-label class="text-grey-6"
+                <q-item-label class="text-grey-9"
                   >Did you receive the order?</q-item-label
                 >
                 <q-item-label caption>

@@ -8,7 +8,7 @@
           <q-list class="rounded-borders">
             <q-expansion-item
               default-opened
-              header-class="text-grey-8"
+              header-class="text-grey-9"
               group="generalGroup"
               icon="fas fa-shipping-fast"
               label="Shipping Info"
@@ -21,7 +21,7 @@
             </q-expansion-item>
 
             <q-expansion-item
-              header-class="text-grey-8"
+              header-class="text-grey-9"
               group="generalGroup"
               icon="fas fa-credit-card"
               label="Payment Method"
