@@ -6,7 +6,7 @@ const state = {
     phone: "09958402424",
     email: "edisonocampo.eo@gmail.com",
     photo:
-      "https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=3072515756104032&height=50&width=50&ext=1582661811&hash=AeRNjxLwXksmqB6G"
+      "https://lh3.googleusercontent.com/proxy/31TUZaklRIi1qlewu0DT0yt9AQhzUQhoLMdBI7ey5hQ_ErU6B1r5hYDc40PhH7pmm4F6UZkbZVZz0D9qyaB07wFrF1_77BLG7_pCOTaiFTF7umvaVu-G9Y8"
   },
   userAddress: {
     name: "Home",
@@ -22,15 +22,29 @@ const state = {
 
 // GETTERS-------------------------------------------------------------------------
 const getters = {
+  isLoggedIn: state => !!state.isLoggedIn,
   userProfile: state => state.userProfile,
   userAdd: state => state.userAddress
 };
 
 // Actions-------------------------------------------------------------------------
-const actions = {};
+const actions = {
+  async loginUser({ commit }) {
+    try {
+      commit("regularUserLogin");
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error(err);
+    }
+  }
+};
 
 // Mutations-------------------------------------------------------------------------
-const mutations = {};
+const mutations = {
+  regularUserLogin(state) {
+    state.isLoggedIn = true;
+  }
+};
 
 export default {
   state,

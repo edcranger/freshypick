@@ -1,14 +1,38 @@
+import store from "../store/modules/user";
+
+const ifAuthenticated = (to, from, next) => {
+  if (store.getters.isLoggedIn) {
+    next();
+    return;
+  }
+  next("/account");
+};
+
 const routes = [
   {
     path: "/",
     component: () => import("layouts/HomeLayout.vue"),
     children: [
       { path: "", component: () => import("../pages/Index.vue") },
-      { path: "/cart", component: () => import("../pages/Cart.vue") },
-      { path: "/checkout", component: () => import("pages/Checkout.vue") },
+      {
+        path: "/cart",
+        component: () => import("../pages/Cart.vue")
+      },
+      {
+        path: "/checkout",
+        meta: {
+          requiresAuth: true
+        },
+        beforeEnter: ifAuthenticated,
+        component: () => import("pages/Checkout.vue")
+      },
       {
         path: "/account",
         component: () => import("layouts/AccountLayout.vue"),
+        meta: {
+          requiresAuth: true
+        },
+        beforeEnter: ifAuthenticated,
         children: [
           {
             path: "",
@@ -85,6 +109,10 @@ const routes = [
       {
         path: "/account/mhelp",
         component: () => import("components/account-page/cancelviews/Cancelled")
+      },
+      {
+        path: "/account/authentication",
+        component: () => import("../pages/Authentication")
       }
     ]
   }

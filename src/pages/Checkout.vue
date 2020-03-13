@@ -126,11 +126,57 @@
         </div>
 
         <!-- Items list -->
+        <template v-if="$mq !== 'sm'">
+          <div class="col-12 shadow-1 bg-white q-py-sm">
+            <div class="text-subtitle2 text-grey-8">
+              <q-icon
+                name="fas fa-shopping-cart"
+                class="q-ml-md q-mr-sm text-grey-8"
+              ></q-icon
+              >Items
+            </div>
+          </div>
+
+          <div class="col-12 bg-white">
+            <div
+              class="row shadow-1 q-pa-sm"
+              v-for="item in checkoutCart"
+              :key="item.id"
+            >
+              <div class="col-md-3 col-4">
+                <q-img
+                  :src="item.photo"
+                  spinner-color="white"
+                  style="height: 100px; max-width: 100px"
+                />
+              </div>
+              <div class="col">
+                <div class="q-mt-lg">
+                  <strong>{{ item.name }}</strong>
+                </div>
+                <div class="q-ma-none">₱{{ item.price }}/kg</div>
+
+                <div
+                  class="fit row wrap justify-end items-start content-start q-mt-md q-mb-none"
+                >
+                  <div class="col">
+                    <p>Qty: {{ item.qty }}</p>
+                  </div>
+                  <div class="col text-right">
+                    <div>
+                      <q-btn flat round dense icon="delete" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </template>
       </div>
     </div>
 
     <!-- This is for the side checkout pane md and greater view -->
-    <div class="col bg-white shadow-1 q-mx-sm q-pa-md" v-if="$mq !== 'sm'">
+    <div class="col bg-white shadow-1 q-mx-sm q-px-md" v-if="$mq !== 'sm'">
       <q-banner class="bg-white q-pa-none">
         <ShippingAdd />
       </q-banner>
@@ -157,11 +203,11 @@
       </div>
       <div class="row justify-center">
         <q-btn
+          class="q-mb-md"
           color="purple"
           @click="ordering()"
           to="/account/orders"
           label="Order now"
-          size="md"
         />
       </div>
     </div>

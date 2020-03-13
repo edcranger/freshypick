@@ -6,7 +6,7 @@
           <div class="text-subtitle2 text-grey-8">
             <q-icon
               name="fas fa-shipping-fast"
-              class="q-mr-sm q-ml-none "
+              class="q-mr-sm q-ml-none"
             ></q-icon
             >Shipping Address
           </div>

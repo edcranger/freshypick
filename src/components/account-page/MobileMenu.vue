@@ -6,7 +6,7 @@
     "
   >
     <div
-      class="fit row wrap justify-center items-center content-center bg-light-green-12"
+      class="fit row wrap justify-center items-center content-center bg-light-green-2"
     >
       <div class="col-12 q-mt-lg">
         <div class="row items-center content-center justify-center">

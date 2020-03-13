@@ -20,11 +20,10 @@
         ></q-btn>
 
         <q-btn dense round flat>
-          <q-avatar>
-            <img
-              src="https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=3072515756104032&height=50&width=50&ext=1582661811&hash=AeRNjxLwXksmqB6G"
-            />
+          <q-avatar v-if="isLoggedIn">
+            <img :src="userProfile.photo" />
           </q-avatar>
+          <q-avatar v-else icon="fas fa-user" color="primary" />
         </q-btn>
       </q-toolbar>
 
@@ -59,9 +58,9 @@
               label="Cart"
               to="/Cart"
             >
-              <q-badge color="red" v-if="cart.length > 0" floating>
-                {{ cart.length }}
-              </q-badge>
+              <q-badge color="red" v-if="cart.length > 0" floating>{{
+                cart.length
+              }}</q-badge>
             </q-route-tab>
             <q-route-tab
               name="account"
@@ -85,7 +84,7 @@ export default {
     return {};
   },
   computed: {
-    ...mapGetters(["cart"])
+    ...mapGetters(["cart", "userProfile", "isLoggedIn"])
   }
 };
 </script>
