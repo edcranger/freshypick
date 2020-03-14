@@ -10,7 +10,7 @@
           v-model="tab"
           animated
           class="bg-white"
-          style="height: 900px"
+          style="height: 430px"
         >
           <q-tab-panel name="signup">
             <div class="text-h6">Sign Up</div>

@@ -14,7 +14,6 @@
           dense
           color="purple"
           round
-          to="/message"
           icon="message"
           class="q-ml-md q-mx-sm"
         ></q-btn>
@@ -24,6 +23,16 @@
             <img :src="userProfile.photo" />
           </q-avatar>
           <q-avatar v-else icon="fas fa-user" color="primary" />
+          <q-menu v-if="isLoggedIn">
+            <q-list style="min-width: 100px">
+              <q-item clickable v-close-popup>
+                <q-item-section>Settings</q-item-section>
+              </q-item>
+              <q-item clickable v-close-popup @click="logOut()">
+                <q-item-section>Logout</q-item-section>
+              </q-item>
+            </q-list>
+          </q-menu>
         </q-btn>
       </q-toolbar>
 
@@ -76,7 +85,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 export default {
   name: "MyLayout",
 
@@ -85,6 +94,14 @@ export default {
   },
   computed: {
     ...mapGetters(["cart", "userProfile", "isLoggedIn"])
+  },
+  methods: {
+    ...mapActions(["logoutUser"]),
+    logOut() {
+      this.logoutUser().then(() => {
+        this.$router.push("/");
+      });
+    }
   }
 };
 </script>
