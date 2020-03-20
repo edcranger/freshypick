@@ -1,5 +1,6 @@
 const state = {
-  isLoggedIn: false,
+  isLoggedIn: true,
+  role: "admin",
   userProfile: {
     name: "Edison Ocampo",
     username: "edisonocampo.eo",
@@ -24,7 +25,8 @@ const state = {
 const getters = {
   isLoggedIn: state => !!state.isLoggedIn,
   userProfile: state => state.userProfile,
-  userAdd: state => state.userAddress
+  userAdd: state => state.userAddress,
+  userRole: state => state.role
 };
 
 // Actions-------------------------------------------------------------------------

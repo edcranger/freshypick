@@ -1,7 +1,11 @@
 <template>
   <q-page class="bg-white text-center text-grey-9">
     <div class="row justify-center">
-      <div class="col-md-8 col-xs-12">
+      <div
+        :class="
+          $mq === 'sm' ? 'col-md-8 col-xs-12' : 'col-md-8 col-xs-12  q-mt-xl'
+        "
+      >
         <q-tabs v-model="tab" class="text-green bg-white">
           <q-tab name="signup" label="Sign Up" />
           <q-tab name="login" label="Login" />
@@ -9,6 +13,8 @@
         <q-tab-panels
           v-model="tab"
           animated
+          transition-next="jump-up"
+          transition-prev="jump-down"
           class="bg-white"
           style="height: 430px"
         >

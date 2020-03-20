@@ -76,6 +76,28 @@ const routes = [
         ]
       },
       {
+        path: "/admin",
+        component: () => import("layouts/AdminLayout.vue"),
+        meta: {
+          requiresAuth: true
+        },
+        beforeEnter: ifAuthenticated,
+        children: [
+          {
+            path: "",
+            props: true,
+            component: () =>
+              import("components/admin-page/admin-dashboard/AdminDashboard")
+          },
+          {
+            path: "/admin/orders",
+            props: true,
+            component: () =>
+              import("components/admin-page/admin-order-views/Orders")
+          }
+        ]
+      },
+      {
         path: "/account/notification",
         component: () =>
           import("../components/account-page/notificationviews/Notification")

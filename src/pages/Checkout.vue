@@ -4,8 +4,8 @@
     <div class="col-12 col-sm-8 col-md-8 q-mb-xl">
       <div class="row">
         <!-- Address bar -->
-        <div class="col-12 shadow-1 q-mt-md bg-white" v-if="$mq === 'sm'">
-          <q-list class="rounded-borders">
+        <div class="col-12 shadow-1 bg-white" v-if="$mq === 'sm'">
+          <q-list class="rounded-borders" separator>
             <q-expansion-item
               default-opened
               header-class="text-grey-9"

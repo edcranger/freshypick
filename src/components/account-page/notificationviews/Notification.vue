@@ -26,6 +26,7 @@
             <q-item-label header>Items</q-item-label>
 
             <q-item
+              class="q-py-md"
               v-for="item in mixed"
               :key="item.id"
               clickable

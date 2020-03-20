@@ -13,8 +13,8 @@
 </template>
 
 <script>
-import MobileDyna from "../components/account-page/MobileMenu";
-import WebDyna from "../components/account-page/Webdyna.vue";
+import AdminMobile from "../components/admin-page/AdminMobile";
+import AdminDyna from "../components/admin-page/AdminDyna";
 export default {
   data() {
     return {
@@ -125,12 +125,12 @@ export default {
   },
   computed: {
     comp() {
-      return this.$mq === "sm" ? "MobileDyna" : "WebDyna";
+      return this.$mq === "sm" ? "AdminMobile" : "AdminDyna";
     }
   },
   components: {
-    WebDyna,
-    MobileDyna
+    AdminMobile,
+    AdminDyna
   }
 };
 </script>
