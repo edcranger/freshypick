@@ -94,6 +94,36 @@ const routes = [
             props: true,
             component: () =>
               import("components/admin-page/admin-order-views/Orders")
+          },
+          {
+            path: "/admin/processing",
+            props: true,
+            component: () =>
+              import("components/admin-page/admin-processing/Processing")
+          },
+          {
+            path: "/admin/packing",
+            props: true,
+            component: () =>
+              import("components/admin-page/admin-packing/Packing")
+          },
+          {
+            path: "/admin/delivering",
+            props: true,
+            component: () =>
+              import("components/admin-page/admin-delivering/Delivering")
+          },
+          {
+            path: "/admin/completed",
+            props: true,
+            component: () =>
+              import("components/admin-page/admin-completed/Completed")
+          },
+          {
+            path: "/admin/item-management",
+            props: true,
+            component: () =>
+              import("components/admin-page/admin-item/AdminItemMngt")
           }
         ]
       },

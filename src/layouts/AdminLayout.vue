@@ -3,7 +3,6 @@
     <component
       :is="comp"
       :web1="accountMenu1"
-      :web2="accountMenu2"
       :mobile1="maccountMenu1"
       :mobile2="maccountMenu2"
     ></component>
@@ -22,51 +21,50 @@ export default {
       accountMenu1: [
         {
           id: 1,
-          btnName: "Orders",
+          btnName: "All Orders",
           color: "teal",
           icon: "fas fa-shipping-fast",
-          route: "/account/orders",
+          route: "/admin/orders",
           label: true,
           labelValue: "ordered"
         },
         {
           id: 2,
-          btnName: "Received",
+          btnName: "Processing",
           color: "teal",
           icon: "fas fa-people-carry",
-          route: "/account/received"
+          route: "/admin/processing"
         },
         {
           id: 3,
-          btnName: "Cancelled",
+          btnName: "Packing",
           color: "teal",
           icon: "fas fa-times-circle",
-          route: "/account/cancelled"
-        }
-      ],
-      accountMenu2: [
+          route: "/admin/packing"
+        },
         {
           id: 4,
-          btnName: "Profile",
+          btnName: "Delivering",
           color: "teal",
-          icon: "fas fa-user-circle",
-          route: "/account/profile"
+          icon: "fas fa-times-circle",
+          route: "/admin/delivering"
         },
         {
           id: 5,
-          btnName: "Settings",
+          btnName: "Completed",
           color: "teal",
-          icon: "fas fa-user-cog",
-          route: "/account/settings"
+          icon: "fas fa-times-circle",
+          route: "/admin/completed"
         },
         {
           id: 6,
-          btnName: "Help",
+          btnName: "Item Management",
           color: "teal",
-          icon: "fas fa-question-circle",
-          route: "/account/help"
+          icon: "fas fa-times-circle",
+          route: "/admin/item-management"
         }
       ],
+
       maccountMenu1: [
         {
           id: 0,
