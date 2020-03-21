@@ -39,7 +39,7 @@
       <div class="row justify-end items-center">
         <div class="col-xs-12 col-sm-3" v-if="$mq !== 'sm'">
           <div class="row items-center">
-            <div class="col-4 text-center" v-if="userRole === 'admin'">
+            <div class="col-4 text-center">
               <q-btn
                 stack
                 size="12px"
@@ -128,9 +128,9 @@
               label="Cart"
               to="/Cart"
             >
-              <q-badge color="red" v-if="cart.length > 0" floating>{{
-                cart.length
-              }}</q-badge>
+              <q-badge color="red" v-if="cart.length > 0" floating>
+                {{ cart.length }}
+              </q-badge>
             </q-route-tab>
             <q-route-tab
               name="account"

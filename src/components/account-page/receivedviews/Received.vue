@@ -101,16 +101,16 @@ export default {
     // eslint-disable-next-line no-console
   },
   computed: {
-    ...mapGetters(["receivedItems"]),
+    ...mapGetters(["receivedItems", "ordered"]),
     receivedOrders() {
-      return this.receivedItems
-        .filter(i => i.stage !== "canceled")
+      return this.ordered
+        .filter(i => i.stage === "Delivered")
         .sort((a, b) => (a.receivedDate < b.receivedDate ? 1 : -1));
     }
   },
   methods: {
     calCulateItem(id) {
-      const pow = this.receivedItems.filter(item => {
+      const pow = this.ordered.filter(item => {
         return item.id === id;
       });
 

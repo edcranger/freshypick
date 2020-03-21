@@ -101,12 +101,7 @@ export default {
     };
   },
   created() {
-    this.$route.path.startsWith("/m")
-      ? (this.mobile = true)
-      : (this.mobile = false);
-
     // eslint-disable-next-line no-console
-    this.$consola.info("filt", this.filt);
   },
   computed: {
     ...mapGetters(["checkoutCart", "totalInCart", "ordered"]),
@@ -115,17 +110,17 @@ export default {
         i => !i.received && i.stage !== "canceled"
       );
       return wew;
-    },
-    filt() {
-      const filtOrder = this.ordered.map(i =>
-        i.item.map(e => {
-          return e.cancelled;
-        })
-      );
-
-      const wew = filtOrder.map(i => i);
-      return wew;
     }
+    // filt() {
+    //   const filtOrder = this.ordered.map(i =>
+    //     i.item.map(e => {
+    //       return e.cancelled;
+    //     })
+    //   );
+
+    //   const wew = filtOrder.map(i => i);
+    //   return wew;
+    // }
   },
   methods: {
     ...mapActions(["receivedOrder", "editOrder"]),

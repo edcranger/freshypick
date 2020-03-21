@@ -1,6 +1,6 @@
 const state = {
   isLoggedIn: true,
-  role: "admin",
+  role: "user",
   userProfile: {
     name: "Edison Ocampo",
     username: "edisonocampo.eo",

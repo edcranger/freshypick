@@ -224,7 +224,7 @@ const mutations = {
       received: false,
       receivedDate: null,
       date: Date.now(),
-      stage: "Delivering"
+      stage: "Processing"
     });
 
     state.finalCart = [];
@@ -243,7 +243,6 @@ const mutations = {
       i.receivedDate = Date.now();
       i.item.map(x => {
         x.dateReceived = Date.now();
-
         x.stage = "received";
       });
     });
