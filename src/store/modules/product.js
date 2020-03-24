@@ -212,6 +212,7 @@ const mutations = {
         item.stage = "ordered";
         item.selected = false;
         item.cancelled = false;
+        item.prepaired = false;
         item.confirm = false;
         item.datePurchased = Date.now();
         finalCart.push(item);
@@ -224,6 +225,9 @@ const mutations = {
       received: false,
       receivedDate: null,
       date: Date.now(),
+      dateProcessingDone: null,
+      datePackingDone: null,
+      dateDelivering: null,
       stage: "Processing"
     });
 

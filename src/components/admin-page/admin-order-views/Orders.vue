@@ -16,7 +16,16 @@
         <template v-slot:body="props">
           <q-tr :props="props">
             <q-td key="name" :props="props">
-              <q-btn flat dense color="blue" :label="props.row.name" />
+              <q-btn
+                flat
+                dense
+                color="blue"
+                :to="{
+                  name: 'adminViewOrder',
+                  params: { productId: props.row.name }
+                }"
+                :label="props.row.name"
+              />
             </q-td>
 
             <q-td key="date" :props="props">{{ props.row.date }}</q-td>
@@ -103,13 +112,13 @@ export default {
         };
       });
 
-      return wew;
+      return wew.sort((a, b) => (a.date < b.date ? 1 : -1));
     }
   },
   methods: {
     ...mapActions([]),
     datefxn(timestamp) {
-      return date.formatDate(timestamp, "M-DD-YYYY");
+      return date.formatDate(timestamp, "M-DD-YYYY h:m A");
     }
   },
   components: {}

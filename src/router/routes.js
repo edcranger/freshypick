@@ -124,6 +124,13 @@ const routes = [
             props: true,
             component: () =>
               import("components/admin-page/admin-item/AdminItemMngt")
+          },
+          {
+            path: "/admin/order-view/:productId",
+            name: "adminViewOrder",
+            props: true,
+            component: () =>
+              import("components/admin-page/admin-order-views/View-order")
           }
         ]
       },
