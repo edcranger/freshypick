@@ -1,24 +1,21 @@
 /* eslint-disable no-undef */
 <template>
   <q-card>
-    <ModalHeader>Cancel</ModalHeader>
+    <ModalHeader>Confirmation</ModalHeader>
     <ModalBody>
-      <span class="q-ml-sm">
-        Are you sure that
-        <span class="text-green">{{ i.name }}</span> is prepaired?
-      </span>
+      <div class="row">
+        <div class="col-12">
+          <span v-if="error" class="text-red text-caption">{{ error }}</span>
+          <p class="text-caption">
+            To confirm the package please enter user credentials
+          </p>
+          <q-input outlined v-model="userID" label="User Password" />
+        </div>
+      </div>
     </ModalBody>
     <ModalActions>
       <q-btn flat label="No" color="primary" v-close-popup />
-      <q-btn
-        flat
-        label="Yes"
-        color="primary"
-        @click="
-          (i.prepaired = !i.prepaired), (i.stage = 'prepaired'), cancelItem(i)
-        "
-        v-close-popup
-      />
+      <q-btn flat label="Yes" color="primary" @click="confirmPacking(i)" />
     </ModalActions>
   </q-card>
 </template>
@@ -32,6 +29,8 @@ export default {
   name: "Modal",
   data() {
     return {
+      error: null,
+      userID: null,
       routeParams: this.$route.params.productId
     };
   },
@@ -44,7 +43,7 @@ export default {
   },
   methods: {
     ...mapActions(["editOrder"]),
-    cancelItem() {
+    confirmPacking() {
       let data = [];
 
       const pow = this.ordered.filter(item => item.id === this.routeParams);
@@ -57,18 +56,17 @@ export default {
         }
       }
 
-      const prepairedItems = data.filter(i => {
-        return i.prepaired;
-      });
-
-      if (data.length === prepairedItems.length) {
-        pow.map(
-          i => ((i.stage = "Packing"), (i.dateProcessingDone = new Date()))
+      if (this.userID !== null) {
+        pow.forEach(
+          i => ((i.stage = "Delivering"), (i.datePackingDone = new Date()))
         );
 
+        this.editOrder(this.ordered);
+
         this.$router.replace("/admin/orders");
+      } else {
+        this.error = "Credentials Invalid";
       }
-      this.editOrder(this.ordered);
     }
   },
   components: {

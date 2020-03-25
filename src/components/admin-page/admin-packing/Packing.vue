@@ -107,13 +107,15 @@ export default {
         return {
           name: x.id,
           date: this.datefxn(x.date),
+          processDone: x.dateProcessingDone,
+          packingDone: x.datePackingDone,
           user: "Edison Ocampo",
           numItems: itemNum.length,
           status: x.stage
         };
       });
 
-      return wew.sort((a, b) => (a.date < b.date ? 1 : -1));
+      return wew.sort((a, b) => (a.processDone > b.processDone ? 1 : -1));
     }
   },
   methods: {

@@ -22,7 +22,7 @@
                 color="blue"
                 :to="{
                   name: 'adminViewOrder',
-                  params: { productId: props.row.name }
+                  params: { productId: props.row.name, type: 'AllOrders' }
                 }"
                 :label="props.row.name"
               />

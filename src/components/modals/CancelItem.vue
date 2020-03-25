@@ -54,7 +54,7 @@ export default {
       for (const item in pow) {
         const iterate = pow[item];
         for (const i in iterate.item) {
-          iterate.item[i].canceledDate = Date.now();
+          iterate.item[i].canceledDate = new Date();
           data.push(iterate.item[i]);
         }
       }

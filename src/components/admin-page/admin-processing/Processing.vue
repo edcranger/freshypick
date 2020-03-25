@@ -22,13 +22,13 @@
                 color="blue"
                 :to="{
                   name: 'adminViewOrder',
-                  params: { productId: props.row.name }
+                  params: { productId: props.row.name, type: 'Processing' }
                 }"
                 :label="props.row.name"
               />
             </q-td>
 
-            <q-td key="date" :props="props">{{ props.row.date }}</q-td>
+            <q-td key="date" :props="props">{{ datefxn(props.row.date) }}</q-td>
             <q-td key="user" :props="props">{{ props.row.user }}</q-td>
             <q-td key="items" :props="props">{{ props.row.numItems }}</q-td>
             <q-td key="status" :props="props">
@@ -106,14 +106,14 @@ export default {
         const itemNum = x.item.filter(i => !i.cancelled);
         return {
           name: x.id,
-          date: this.datefxn(x.date),
+          date: x.date,
           user: "Edison Ocampo",
           numItems: itemNum.length,
           status: x.stage
         };
       });
 
-      return wew.sort((a, b) => (a.date < b.date ? 1 : -1));
+      return wew.sort((a, b) => (a.date > b.date ? 1 : -1));
     }
   },
   methods: {
