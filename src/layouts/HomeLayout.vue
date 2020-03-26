@@ -11,6 +11,14 @@
         </q-toolbar-title>
 
         <q-btn
+          color="red"
+          round
+          icon="fas fa-user-lock"
+          class="q-ml-md q-mx-sm"
+          to="/admin"
+        />
+
+        <q-btn
           dense
           color="purple"
           round
@@ -18,7 +26,7 @@
           class="q-ml-md q-mx-sm"
         />
 
-        <q-btn dense round flat>
+        <q-btn round flat>
           <q-avatar v-if="isLoggedIn">
             <img :src="userProfile.photo" />
           </q-avatar>
@@ -39,17 +47,6 @@
       <div class="row justify-end items-center">
         <div class="col-xs-12 col-sm-3" v-if="$mq !== 'sm'">
           <div class="row items-center">
-            <div class="col-4 text-center">
-              <q-btn
-                stack
-                size="12px"
-                label="Admin"
-                dense
-                flat
-                icon="fas fa-user-circle"
-                to="/admin"
-              />
-            </div>
             <div class="col-4 text-center">
               <q-btn
                 size="12px"

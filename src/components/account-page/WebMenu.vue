@@ -11,7 +11,7 @@
         :to="item.route"
       >
         <q-item-section avatar top>
-          <q-avatar :icon="item.icon" color="primary" text-color="white" />
+          <q-avatar :icon="item.icon" :color="item.color" text-color="white" />
         </q-item-section>
 
         <q-item-section>
@@ -41,7 +41,7 @@
         :to="item.route"
       >
         <q-item-section avatar top>
-          <q-avatar :icon="item.icon" color="grey" text-color="white" />
+          <q-avatar :icon="item.icon" :color="item.color" text-color="white" />
         </q-item-section>
 
         <q-item-section>
@@ -62,7 +62,7 @@ export default {
   computed: {
     ...mapGetters(["ordered"]),
     filterBadge() {
-      return this.ordered.filter(i => i.stage === "Delivering");
+      return this.ordered.filter(i => i.userNotification === "Yes");
     }
   }
 };

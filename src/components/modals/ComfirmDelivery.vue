@@ -32,9 +32,9 @@ export default {
       routeParams: this.$route.params.productId
     };
   },
-  props: ["i"],
+  props: ["i", "dataTitle"],
   created() {
-    this.$consola.success("cancelview", this.i);
+    this.$consola.success("cancelview", this.dataTitle);
   },
   computed: {
     ...mapGetters(["ordered"])
@@ -55,13 +55,18 @@ export default {
       }
 
       if (this.userID !== null) {
-        pow.forEach(
-          i => ((i.stage = "Delivering"), (i.dateDelivering = new Date()))
-        );
+        pow.forEach(i => {
+          (i.stage = "Delivering"),
+            (i.dateDelivering = new Date()),
+            (i.userNotification = "Yes");
+        });
 
         this.editOrder(this.ordered);
-
-        this.$router.replace("/admin/orders");
+        if (this.dataTitle === "Delivering" && this.$mq !== "sm") {
+          this.$router.replace("/admin/delivering");
+        } else if (this.dataTitle === "Delivering" && this.$mq === "sm") {
+          this.$router.replace("/admin/mdelivering");
+        }
       } else {
         this.error = "Credentials Invalid";
       }

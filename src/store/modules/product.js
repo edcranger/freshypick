@@ -228,7 +228,8 @@ const mutations = {
       dateProcessingDone: null,
       datePackingDone: null,
       dateDelivering: null,
-      stage: "Processing"
+      stage: "Processing",
+      userNotification: null
     });
 
     state.finalCart = [];
@@ -244,6 +245,7 @@ const mutations = {
     getTheReceived.map(i => {
       i.stage = "Delivered";
       i.received = true;
+      i.userNotification = "No";
       i.receivedDate = Date.now();
       i.item.map(x => {
         x.dateReceived = Date.now();

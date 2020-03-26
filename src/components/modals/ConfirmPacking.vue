@@ -34,9 +34,9 @@ export default {
       routeParams: this.$route.params.productId
     };
   },
-  props: ["i"],
+  props: ["i", "dataTitle"],
   created() {
-    this.$consola.success("cancelview", this.i);
+    this.$consola.success("cancelview", this.dataTitle);
   },
   computed: {
     ...mapGetters(["ordered"])
@@ -63,7 +63,11 @@ export default {
 
         this.editOrder(this.ordered);
 
-        this.$router.replace("/admin/orders");
+        if (this.dataTitle === "Packing" && this.$mq !== "sm") {
+          this.$router.replace("/admin/packing");
+        } else if (this.dataTitle === "Packing" && this.$mq === "sm") {
+          this.$router.replace("/admin/mpacking");
+        }
       } else {
         this.error = "Credentials Invalid";
       }

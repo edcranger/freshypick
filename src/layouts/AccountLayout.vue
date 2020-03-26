@@ -21,9 +21,18 @@ export default {
       compt: null,
       accountMenu1: [
         {
+          id: 0,
+          btnName: "Notification",
+          color: "green",
+          icon: "fas fa-bell",
+          route: "/account/notification",
+          label: true,
+          labelValue: "ordered"
+        },
+        {
           id: 1,
           btnName: "Orders",
-          color: "teal",
+          color: "pink",
           icon: "fas fa-shipping-fast",
           route: "/account/orders",
           label: true,
@@ -32,14 +41,14 @@ export default {
         {
           id: 2,
           btnName: "Received",
-          color: "teal",
+          color: "light-blue-8",
           icon: "fas fa-people-carry",
           route: "/account/received"
         },
         {
           id: 3,
           btnName: "Cancelled",
-          color: "teal",
+          color: "red-10",
           icon: "fas fa-times-circle",
           route: "/account/cancelled"
         }
@@ -48,21 +57,21 @@ export default {
         {
           id: 4,
           btnName: "Profile",
-          color: "teal",
+          color: "orange-13",
           icon: "fas fa-user-circle",
           route: "/account/profile"
         },
         {
           id: 5,
           btnName: "Settings",
-          color: "teal",
+          color: "deep-purple-13",
           icon: "fas fa-user-cog",
           route: "/account/settings"
         },
         {
           id: 6,
           btnName: "Help",
-          color: "teal",
+          color: "indigo-10",
           icon: "fas fa-question-circle",
           route: "/account/help"
         }
@@ -73,7 +82,7 @@ export default {
           btnName: "Notifications",
           color: "green",
           icon: "fas fa-bell",
-          route: "/account/notification",
+          route: "/account/mnotification",
           label: true
         },
         {

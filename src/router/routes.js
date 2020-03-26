@@ -40,6 +40,12 @@ const routes = [
             component: () => import("components/account-page/orderviews/Order")
           },
           {
+            path: "/account/notification",
+            props: true,
+            component: () =>
+              import("components/account-page/notificationviews/Notification")
+          },
+          {
             path: "/account/orders",
             props: true,
             component: () => import("components/account-page/orderviews/Order")
@@ -135,7 +141,55 @@ const routes = [
         ]
       },
       {
-        path: "/account/notification",
+        path: "",
+        props: true,
+        component: () =>
+          import("components/admin-page/admin-dashboard/AdminDashboard")
+      },
+      {
+        path: "/admin/morders",
+        props: true,
+        component: () =>
+          import("components/admin-page/admin-order-views/Orders")
+      },
+      {
+        path: "/admin/mprocessing",
+        props: true,
+        component: () =>
+          import("components/admin-page/admin-processing/Processing")
+      },
+      {
+        path: "/admin/mpacking",
+        props: true,
+        component: () => import("components/admin-page/admin-packing/Packing")
+      },
+      {
+        path: "/admin/mdelivering",
+        props: true,
+        component: () =>
+          import("components/admin-page/admin-delivering/Delivering")
+      },
+      {
+        path: "/admin/mcompleted",
+        props: true,
+        component: () =>
+          import("components/admin-page/admin-completed/Completed")
+      },
+      {
+        path: "/admin/mitem-management",
+        props: true,
+        component: () =>
+          import("components/admin-page/admin-item/AdminItemMngt")
+      },
+      {
+        path: "/admin/morder-view/:productId",
+        name: "madminViewOrder",
+        props: true,
+        component: () =>
+          import("components/admin-page/admin-order-views/View-order")
+      },
+      {
+        path: "/account/mnotification",
         component: () =>
           import("../components/account-page/notificationviews/Notification")
       },

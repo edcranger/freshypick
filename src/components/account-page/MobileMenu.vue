@@ -111,7 +111,7 @@ export default {
   computed: {
     ...mapGetters(["cart", "ordered", "receivedItems"]),
     filterBadge() {
-      return this.ordered.filter(i => i.stage === "Delivering");
+      return this.ordered.filter(i => i.userNotification === "Yes");
     }
   }
 };

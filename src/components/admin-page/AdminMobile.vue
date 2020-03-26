@@ -5,17 +5,15 @@
       $mq === 'sm' ? 'animated slideInLeft ' : 'animated fadeIn'
     "
   >
-    <div
-      class="fit row wrap justify-center items-center content-center bg-light-green-2"
-    >
+    <div class="fit row wrap justify-center">
       <div class="col-12 q-mt-lg">
         <div class="row items-center content-center justify-center">
           <q-avatar
             size="80px"
             font-size="52px"
-            color="teal"
+            color="red"
             text-color="white"
-            icon="fas fa-user-circle"
+            icon="fas fa-user-lock"
           />
         </div>
         <div class="row items-center content-center justify-center">
@@ -29,9 +27,7 @@
               >Edison Ocampo</span
             >
             <div>
-              <p class="text-grey-9">
-                My Cart: {{ cart.length }} | My Order: {{ filterBadge.length }}
-              </p>
+              <p class="text-grey-9">Administrator</p>
             </div>
           </div>
         </div>
@@ -39,6 +35,41 @@
 
       <div class="col-12">
         <q-list bordered class="bg-white">
+          <div class="row justify-center">
+            <div class="col-4 bg-red-12 text-center q-pa-sm">
+              <q-btn
+                color="red-12"
+                class="full-width"
+                stack
+                flat
+                text-color="white"
+                :label="AdminBadge[0]"
+                >New order</q-btn
+              >
+            </div>
+            <div class="col-4 bg-amber-5 text-center q-pa-sm">
+              <q-btn
+                color="red-12"
+                class="full-width"
+                stack
+                flat
+                text-color="white"
+                :label="AdminBadge[1]"
+                >for Packing</q-btn
+              >
+            </div>
+            <div class="col-4 bg-light-green-6 text-center q-pa-sm">
+              <q-btn
+                color="red-12"
+                class="full-width"
+                stack
+                flat
+                text-color="white"
+                :label="AdminBadge[2]"
+                >For Delivery</q-btn
+              >
+            </div>
+          </div>
           <q-item
             clickable
             v-ripple
@@ -53,16 +84,7 @@
                 size="50px"
                 text-color="white"
                 :icon="item.icon"
-              >
-                <q-badge
-                  v-if="
-                    filterBadge.length !== 0 ? item.label : (item.label = false)
-                  "
-                  color="red"
-                  floating
-                  >{{ filterBadge.length }}</q-badge
-                >
-              </q-avatar>
+              />
             </q-item-section>
 
             <q-item-section>{{ item.btnName }}</q-item-section>
@@ -112,6 +134,13 @@ export default {
     ...mapGetters(["cart", "ordered", "receivedItems"]),
     filterBadge() {
       return this.ordered.filter(i => i.stage === "Delivering");
+    },
+    AdminBadge() {
+      const newOrder = this.ordered.filter(i => i.stage === "Processing");
+      const forPacking = this.ordered.filter(i => i.stage === "Packing");
+      const forDelivery = this.ordered.filter(i => i.stage === "Delivering");
+
+      return [newOrder.length, forPacking.length, forDelivery.length];
     }
   }
 };

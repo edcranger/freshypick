@@ -12,6 +12,7 @@
         :columns="columns"
         row-key="name"
         :filter="filter"
+        :dense="$mq === 'sm'"
       >
         <template v-slot:body="props">
           <q-tr :props="props">
@@ -21,7 +22,7 @@
                 dense
                 color="blue"
                 :to="{
-                  name: 'adminViewOrder',
+                  name: $mq === 'sm' ? 'madminViewOrder' : 'adminViewOrder',
                   params: { productId: props.row.name, type: 'Packing' }
                 }"
                 :label="props.row.name"

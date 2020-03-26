@@ -11,7 +11,7 @@
         :to="item.route"
       >
         <q-item-section avatar top>
-          <q-avatar :icon="item.icon" color="primary" text-color="white" />
+          <q-avatar :icon="item.icon" :color="item.color" text-color="white" />
         </q-item-section>
 
         <q-item-section>
@@ -21,13 +21,7 @@
         <q-item-section
           side
           v-if="filterBadge.length !== 0 ? item.label : (item.label = false)"
-        >
-          <q-badge
-            color="orange"
-            text-color="black"
-            :label="filterBadge.length"
-          />
-        </q-item-section>
+        ></q-item-section>
       </q-item>
 
       <q-separator spaced />

@@ -2,9 +2,8 @@
   <q-layout style="min-height: auto;">
     <component
       :is="comp"
-      :web1="accountMenu1"
-      :mobile1="maccountMenu1"
-      :mobile2="maccountMenu2"
+      :web1="webAdminMenu"
+      :mobile1="mobileAdminMenu"
     ></component>
 
     <p class="text-center text-grey-5 q-mt-md">Version 1.0</p>
@@ -18,105 +17,97 @@ export default {
   data() {
     return {
       compt: null,
-      accountMenu1: [
+      webAdminMenu: [
         {
           id: 1,
           btnName: "All Orders",
           color: "teal",
-          icon: "fas fa-shipping-fast",
+          icon: "fas fa-shopping-basket",
           route: "/admin/orders",
           label: true,
           labelValue: "ordered"
         },
         {
           id: 2,
-          btnName: "Processing",
+          btnName: "For Processing",
           color: "teal",
-          icon: "fas fa-people-carry",
+          icon: "fas fa-clipboard-check",
           route: "/admin/processing"
         },
         {
           id: 3,
-          btnName: "Packing",
+          btnName: "For Packing",
           color: "teal",
-          icon: "fas fa-times-circle",
+          icon: "fas fa-box-open",
           route: "/admin/packing"
         },
         {
           id: 4,
-          btnName: "Delivering",
+          btnName: "For Delivering",
           color: "teal",
-          icon: "fas fa-times-circle",
+          icon: "fas fa-truck",
           route: "/admin/delivering"
         },
         {
           id: 5,
           btnName: "Completed",
           color: "teal",
-          icon: "fas fa-times-circle",
+          icon: "fas fa-check-square",
           route: "/admin/completed"
         },
         {
           id: 6,
           btnName: "Item Management",
           color: "teal",
-          icon: "fas fa-times-circle",
+          icon: "fas fa-store",
           route: "/admin/item-management"
         }
       ],
 
-      maccountMenu1: [
-        {
-          id: 0,
-          btnName: "Notifications",
-          color: "green",
-          icon: "fas fa-bell",
-          route: "/account/notification",
-          label: true
-        },
+      mobileAdminMenu: [
         {
           id: 1,
-          btnName: "Orders",
-          color: "pink",
-          icon: "fas fa-shipping-fast",
-          route: "/account/morder"
+          btnName: "All Orders",
+          color: "teal",
+          icon: "fas fa-shopping-basket",
+          route: "/admin/morders",
+          label: true,
+          labelValue: "ordered"
         },
         {
           id: 2,
-          btnName: "Received",
-          color: "light-blue-8",
-          icon: "fas fa-people-carry",
-          route: "/account/mreceived"
+          btnName: "For Processing",
+          color: "teal",
+          icon: "fas fa-clipboard-check",
+          route: "/admin/mprocessing"
         },
         {
           id: 3,
-          btnName: "Cancelled",
-          color: "red-10",
-          icon: "fas fa-times-circle",
-          route: "/account/mcancelled"
-        }
-      ],
-      maccountMenu2: [
+          btnName: "For Packing",
+          color: "teal",
+          icon: "fas fa-box-open",
+          route: "/admin/mpacking"
+        },
+        {
+          id: 4,
+          btnName: "For Delivering",
+          color: "teal",
+          icon: "fas fa-truck",
+          route: "/admin/mdelivering"
+        },
         {
           id: 5,
-          btnName: "Profile",
-          color: "orange-13",
-          icon: "fas fa-user-circle",
-          route: "/account/mprofile"
+          btnName: "Completed",
+          color: "teal",
+          icon: "fas fa-check-square",
+          route: "/admin/mcompleted"
         },
         {
           id: 6,
-          btnName: "Settings",
-          color: "deep-purple-13",
-          icon: "fas fa-user-cog",
-          route: "/account/msettings"
-        },
-        {
-          id: 7,
-          btnName: "Help",
-          color: "indigo-10",
-          icon: "fas fa-question-circle",
-          route: "/account/mhelp"
+          btnName: "Item Management",
+          color: "teal",
+          icon: "fas fa-store",
+          route: "/admin/mitem-management"
         }
       ]
     };

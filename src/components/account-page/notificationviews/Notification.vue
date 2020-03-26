@@ -23,14 +23,19 @@
               </q-item-section>
             </q-item>
 
-            <q-item-label header>Items</q-item-label>
+            <!-- <q-item-label header>Items</q-item-label> -->
 
             <q-item
-              class="q-py-md"
+              v-ripple
+              :class="
+                item.userNotification === 'Yes'
+                  ? 'q-py-md bg-green-1'
+                  : 'q-py-md'
+              "
+              @click="touched(item.id)"
               v-for="item in mixed"
               :key="item.id"
               clickable
-              @click="$consola.success('id', item.id)"
             >
               <q-item-section
                 top
@@ -44,9 +49,17 @@
               </q-item-section>
 
               <q-item-section>
-                <q-item-label class="text-grey-9"
-                  >Did you receive the order?</q-item-label
-                >
+                <q-item-label class="text-grey-9">
+                  <span>
+                    Did you receive the order?
+                    <q-badge
+                      align="top"
+                      color="red"
+                      v-if="item.userNotification === 'Yes'"
+                      >New</q-badge
+                    >
+                  </span>
+                </q-item-label>
                 <q-item-label caption>
                   Our courier reported that the order
                   <span class="text-blue">{{ item.id }}</span> has been
@@ -89,7 +102,11 @@ export default {
       const arr = [...this.ordered, ...this.receivedItems];
       const newArray = new Set(arr);
       return [...newArray]
-        .filter(i => i.stage !== "canceled")
+        .filter(
+          i =>
+            (i.stage !== "canceled" && i.userNotification === "Yes") ||
+            i.userNotification === "No"
+        )
         .sort((a, b) => (a.date < b.date ? 1 : -1));
     }
   },
@@ -112,6 +129,17 @@ export default {
     receive(id) {
       this.receivedOrder(id);
       this.editOrder(this.ordered);
+    },
+    touched(id) {
+      this.ordered
+        .filter(i => i.id === id)
+        .map(x => {
+          if (x.userNotification === "Yes") {
+            x.userNotification = "No";
+
+            this.editOrder(this.ordered);
+          }
+        });
     }
   },
   components: {

@@ -1,47 +1,47 @@
 <template>
   <q-page>
     <q-list bordered padding class="bg-white">
-      <q-item-label header>Order {{ routeParams }} {{ type }}</q-item-label>
+      <q-item-label header>
+        <h5 class="q-my-none">{{ type }}</h5>
+      </q-item-label>
 
-      <q-separator spaced />
-      <q-item-label header>Items</q-item-label>
+      <q-item-label header>Order #{{ routeParams }}</q-item-label>
 
       <div v-for="item in orderedItems" :key="item.id">
-        <div v-if="type === `AllOrders`">
+        <div v-if="type === `All Orders` || type === `Completed`">
           <q-item v-for="i in item.item" :key="i.id">
-            <q-item-section>
+            <q-item-section avatar>
               <q-img
                 :class="i.cancelled ? 'grayscale' : ''"
                 :src="i.photo"
                 spinner-color="white"
-                width="50px"
+                width="40px"
               />
             </q-item-section>
             <q-item-section :class="i.cancelled ? 'col text-strike' : 'col'">
-              <q-item-label>{{ i.name }} x{{ i.qty }}</q-item-label>
-            </q-item-section>
-            <q-item-section side center>
-              <q-btn
-                v-if="!item.received"
-                :color="!i.prepaired ? `blue` : `green`"
-                :dense="$mq === 'sm'"
-                :disable="i.prepaired"
-                @click="i.confirm = !i.confirm"
-                glossy
-                :label="!i.prepaired ? 'Checked' : 'Done'"
-              />
-              <q-btn
-                dense
-                disable
-                v-else-if="item.received"
-                :label="!i.prepaired ? 'Received' : 'Canceled'"
-              ></q-btn>
-              <q-dialog v-model="i.confirm" persistent>
-                <Prepaired :i="i" />
-              </q-dialog>
+              <q-item-label caption>{{ i.name }}</q-item-label>
+              <q-item-label caption>x{{ i.qty }}</q-item-label>
             </q-item-section>
           </q-item>
+
+          <div class="row text-right">
+            <div class="col-12">
+              <q-btn
+                color="green"
+                outline
+                size="lg"
+                disable
+                class="q-mx-lg"
+                :label="item.stage"
+              />
+              <q-dialog v-model="confirm" persistent v-if="type === 'Packing'">
+                <ConfirmPacking />
+              </q-dialog>
+            </div>
+          </div>
         </div>
+
+        <!-- If the display is for processing purposes -->
 
         <div v-if="type === `Processing`">
           <q-item v-for="i in item.item" :key="i.id">
@@ -66,14 +66,8 @@
                 glossy
                 :label="!i.prepaired ? 'Checked' : 'Done'"
               />
-              <q-btn
-                dense
-                disable
-                v-else-if="item.received"
-                :label="!i.prepaired ? 'Received' : 'Canceled'"
-              ></q-btn>
               <q-dialog v-model="i.confirm" persistent>
-                <Prepaired :i="i" />
+                <Prepaired :i="i" :dataTitle="'Processing'" />
               </q-dialog>
             </q-item-section>
           </q-item>
@@ -108,7 +102,7 @@
                 label="Packaging Done"
               />
               <q-dialog v-model="confirm" persistent v-if="type === 'Packing'">
-                <ConfirmPacking />
+                <ConfirmPacking :dataTitle="'Packing'" />
               </q-dialog>
             </div>
           </div>
@@ -117,7 +111,7 @@
         <!-- If the display is for delivering purposes -->
 
         <div v-if="type === `Delivering`" class="row">
-          <div class="col-3 q-ml-md q-pa-md">
+          <div class="col-4 q-ml-md q-pa-md">
             <q-item-section>
               <q-item-label caption>
                 <strong>Order ID:</strong>
@@ -125,7 +119,7 @@
               <q-item-label caption>{{ item.id }}</q-item-label>
             </q-item-section>
           </div>
-          <div class="col-3 q-ml-md q-pa-md">
+          <div class="col-4 q-ml-md q-pa-md">
             <q-item-section>
               <q-item-label caption>
                 <strong>Items:</strong>
@@ -135,7 +129,7 @@
               >
             </q-item-section>
           </div>
-          <div class="col-3 q-ml-md q-pa-md">
+          <div class="col-4 q-ml-md q-pa-md">
             <q-item-section>
               <q-item-label caption>
                 <strong>Payment Method</strong>
@@ -143,7 +137,7 @@
               <q-item-label caption>COD</q-item-label>
             </q-item-section>
           </div>
-          <div class="col-3 q-ml-md q-pa-md">
+          <div class="col-4 q-ml-md q-pa-md">
             <q-item-section>
               <q-item-label caption>
                 <strong>Date Ordered</strong>
@@ -151,7 +145,7 @@
               <q-item-label caption>{{ datefxn(item.date) }}</q-item-label>
             </q-item-section>
           </div>
-          <div class="col-3 q-ml-md q-pa-md" v-if="item.dateProcessingDone">
+          <div class="col-4 q-ml-md q-pa-md" v-if="item.dateProcessingDone">
             <q-item-section>
               <q-item-label caption>
                 <strong>Date Processed</strong>
@@ -161,7 +155,7 @@
               }}</q-item-label>
             </q-item-section>
           </div>
-          <div class="col-3 q-ml-md q-pa-md" v-if="item.datePackingDone">
+          <div class="col-4 q-ml-md q-pa-md" v-if="item.datePackingDone">
             <q-item-section>
               <q-item-label caption>
                 <strong>Date Packed</strong>
@@ -171,9 +165,11 @@
               }}</q-item-label>
             </q-item-section>
           </div>
-          <div class="col-3 q-ml-md q-pa-md" v-if="item.dateDelivering">
+          <div class="col-4 q-ml-md q-pa-md" v-if="item.dateDelivering">
             <q-item-section>
-              <q-item-label caption>Date Delivering</q-item-label>
+              <q-item-label caption>
+                <strong>Date Delivering</strong>
+              </q-item-label>
               <q-item-label caption>{{
                 datefxn(item.dateDelivering)
               }}</q-item-label>
@@ -187,10 +183,12 @@
               @click="confirm = !confirm"
               color="blue"
               class="q-mx-lg"
-              label="Start Delivering"
+              :label="
+                item.dateDelivering === null ? 'To Courier' : 'Delivering'
+              "
             />
             <q-dialog v-model="confirm" persistent v-if="type === 'Delivering'">
-              <ConfirmDelivery />
+              <ConfirmDelivery :dataTitle="'Delivering'" />
             </q-dialog>
           </div>
         </div>
@@ -258,6 +256,7 @@ import ConfirmDelivery from "../../modals/ComfirmDelivery";
 export default {
   data() {
     return {
+      eds: "eds",
       confirm: false,
       routeParams: this.$route.params.productId
     };

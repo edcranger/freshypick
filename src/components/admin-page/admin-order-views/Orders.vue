@@ -21,8 +21,8 @@
                 dense
                 color="blue"
                 :to="{
-                  name: 'adminViewOrder',
-                  params: { productId: props.row.name, type: 'AllOrders' }
+                  name: $mq === 'sm' ? 'madminViewOrder' : 'adminViewOrder',
+                  params: { productId: props.row.name, type: 'All Orders' }
                 }"
                 :label="props.row.name"
               />

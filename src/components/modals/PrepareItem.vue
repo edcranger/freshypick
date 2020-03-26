@@ -1,11 +1,12 @@
 /* eslint-disable no-undef */
 <template>
   <q-card>
-    <ModalHeader>Cancel</ModalHeader>
+    <ModalHeader>Confirm</ModalHeader>
     <ModalBody>
       <span class="q-ml-sm">
         Are you sure that
-        <span class="text-green">{{ i.name }}</span> is prepaired?
+        <span class="text-green">{{ i.name }}</span>
+        is prepaired ?
       </span>
     </ModalBody>
     <ModalActions>
@@ -35,9 +36,9 @@ export default {
       routeParams: this.$route.params.productId
     };
   },
-  props: ["i"],
+  props: ["i", "dataTitle"],
   created() {
-    this.$consola.success("cancelview", this.i);
+    this.$consola.success("cancelview", this.dataTitle);
   },
   computed: {
     ...mapGetters(["ordered"])
@@ -65,8 +66,11 @@ export default {
         pow.map(
           i => ((i.stage = "Packing"), (i.dateProcessingDone = new Date()))
         );
-
-        this.$router.replace("/admin/orders");
+        if (this.dataTitle === "Processing" && this.$mq !== "sm") {
+          this.$router.replace("/admin/processing");
+        } else if (this.dataTitle === "Processing" && this.$mq === "sm") {
+          this.$router.replace("/admin/mprocessing");
+        }
       }
       this.editOrder(this.ordered);
     }
