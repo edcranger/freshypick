@@ -1,5 +1,5 @@
 <template>
-  <q-card-section class="row items-center">
+  <q-card-section class="row items-center scroll">
     <slot></slot>
   </q-card-section>
 </template>
