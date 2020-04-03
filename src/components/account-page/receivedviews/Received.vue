@@ -10,14 +10,13 @@
 
       <div class="col" v-if="receivedOrders.length !== 0">
         <div class="col-12 bg-white">
-          <q-list bordered separator padding>
+          <q-list bordered separator>
             <div class="q-ml-md">
               <q-icon name="notifications_active" class="q-mr-sm"></q-icon
               >Received
             </div>
 
             <q-item
-              v-ripple
               v-for="item in receivedOrders"
               :key="item.id"
               clickable

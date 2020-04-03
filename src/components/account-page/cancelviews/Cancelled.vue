@@ -8,18 +8,13 @@
     <q-page>
       <NoItems :desc="desc" :itemLength="cancelledItems.length" />
       <div class="col-12" v-if="cancelledItems.length !== 0">
-        <q-list bordered separator padding class="bg-white">
+        <q-list bordered separator class="bg-white">
           <div class="q-ml-md">
             <q-icon name="remove_shopping_cart" class="q-mr-sm"></q-icon
             >Canceled
           </div>
 
-          <q-item
-            v-ripple
-            v-for="item in filterCancelled"
-            :key="item.id"
-            clickable
-          >
+          <q-item v-for="item in filterCancelled" :key="item.id" clickable>
             <q-item-section>
               <q-item-label caption>
                 <div class="row">

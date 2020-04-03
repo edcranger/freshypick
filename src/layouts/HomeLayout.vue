@@ -1,9 +1,5 @@
 <template>
-  <q-layout
-    view="hHh lpR fFf"
-    :class="$mq === 'lg' ? 'web' : ''"
-    style="min-height: auto;"
-  >
+  <q-layout view="hHh lpR fFf" :class="$mq === 'lg' ? 'web' : ''">
     <q-header elevated :class="$mq === 'lg' ? 'web bg-green' : 'bg-green'">
       <q-toolbar>
         <q-toolbar-title class="q-mt-sm q-ml-md">
@@ -111,30 +107,32 @@
     <q-footer class="bg-green">
       <div class="q-pa-lg" v-if="$mq !== 'sm'">By Vertive Interactive</div>
       <q-toolbar v-if="$mq === 'sm'">
-        <q-toolbar-title>
+        <q-toolbar-title class="q-pa-xs">
           <q-tabs dense indicator-color="yellow" :breakpoint="100">
-            <q-route-tab
-              name="produce"
-              icon="fas fa-carrot"
-              label="Produce"
-              to="/"
-            ></q-route-tab>
-            <q-route-tab
-              name="cart"
-              icon="fas fa-shopping-cart"
-              label="Cart"
-              to="/Cart"
-            >
+            <q-route-tab name="produce" to="/">
+              <q-img
+                :src="require('../assets/vegetable.png')"
+                style="height: 30px; max-width: 30px"
+              />
+              <span class="text-caption">Produce</span>
+            </q-route-tab>
+            <q-route-tab name="cart" to="/Cart">
+              <q-img
+                :src="require('../assets/basket.png')"
+                style="height: 30px; max-width: 30px"
+              />
+              <span class="text-caption">Cart</span>
               <q-badge color="red" v-if="cart.length > 0" floating>
                 {{ cart.length }}
               </q-badge>
             </q-route-tab>
-            <q-route-tab
-              name="account"
-              icon="fas fa-user-circle"
-              label="Account"
-              to="/account"
-            ></q-route-tab>
+            <q-route-tab name="account" to="/account">
+              <q-img
+                :src="require('../assets/account.png')"
+                style="height: 30px; max-width: 30px"
+              />
+              <span class="text-caption">Account</span>
+            </q-route-tab>
           </q-tabs>
         </q-toolbar-title>
       </q-toolbar>

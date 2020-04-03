@@ -65,15 +65,15 @@ export default {
       ],
 
       mobileAdminMenu: [
-        {
-          id: 1,
-          btnName: "All Orders",
-          color: "teal",
-          icon: "fas fa-shopping-basket",
-          route: "/admin/morders",
-          label: true,
-          labelValue: "ordered"
-        },
+        // {
+        //   id: 1,
+        //   btnName: "All Orders",
+        //   color: "teal",
+        //   icon: "fas fa-shopping-basket",
+        //   route: "/admin/morders",
+        //   label: true,
+        //   labelValue: "ordered"
+        // },
         {
           id: 2,
           btnName: "For Processing",

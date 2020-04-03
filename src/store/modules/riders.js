@@ -1,3 +1,5 @@
+import consola from "consola";
+
 const state = {
   riders: [
     {
@@ -5,7 +7,7 @@ const state = {
       name: "Mang Jose",
       vehicle: "Yamaha Mio",
       plateNo: "YZF320",
-      itemsInHand: 5,
+      itemsInHand: [],
       available: true,
       rating: 3
     },
@@ -14,7 +16,7 @@ const state = {
       name: "Mae Anne Tribunal",
       vehicle: "Honda Dash",
       plateNo: "BZM724",
-      itemsInHand: 3,
+      itemsInHand: [],
       available: true,
       rating: 4.5
     },
@@ -23,7 +25,7 @@ const state = {
       name: "Ian Jasper Ocampo",
       vehicle: "Suzuki Skyrush",
       plateNo: "MIG382",
-      itemsInHand: 4,
+      itemsInHand: [],
       available: true,
       rating: 1
     }
@@ -36,10 +38,29 @@ const getters = {
 };
 
 // Actions-------------------------------------------------------------------------
-const actions = {};
+const actions = {
+  async addItemsToRider({ commit }, payload) {
+    try {
+      commit("addtoRider", payload);
+    } catch (err) {
+      consola.error(err);
+    }
+  }
+};
 
 // Mutations-------------------------------------------------------------------------
-const mutations = {};
+const mutations = {
+  addtoRider(state, payload) {
+    const { id, rider } = payload;
+
+    const searchRider = state.riders.filter(i => i.id === rider.id);
+
+    // eslint-disable-next-line no-console
+    searchRider.map(i => {
+      i.itemsInHand.push(id.id);
+    });
+  }
+};
 
 export default {
   state,

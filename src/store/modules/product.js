@@ -14,7 +14,11 @@ const state = {
       price: 60.0,
       photo:
         "https://thegreengrocermanila.com/wp-content/uploads/2015/12/carrots-large-1-500x500.jpg",
-      sale: 0,
+      sale: false,
+      salePrice: 0,
+      sellingWeight: 1,
+      unit: "kg",
+      inventory: 10,
       description: "bla bla bla bla carrots"
     },
     {
@@ -23,7 +27,11 @@ const state = {
       price: 180.0,
       photo:
         "https://thegreengrocermanila.com/wp-content/uploads/2015/12/organic-cabbage-1-500x500.jpg",
-      sale: 0,
+      sale: false,
+      salePrice: 0,
+      sellingWeight: 1,
+      unit: "kg",
+      inventory: 10,
       description: "bla bla bla bla cabbage"
     },
     {
@@ -32,7 +40,11 @@ const state = {
       price: 200.0,
       photo:
         "https://thegreengrocermanila.com/wp-content/uploads/2015/12/onion-red-local-1-500x500.jpg",
-      sale: 0,
+      sale: false,
+      salePrice: 0,
+      sellingWeight: 1,
+      unit: "kg",
+      inventory: 10,
       description: "bla bla bla bla Onion"
     },
     {
@@ -41,7 +53,11 @@ const state = {
       price: 120.0,
       photo:
         "https://thegreengrocermanila.com/wp-content/uploads/2015/12/cucumber-1-500x500.jpg",
-      sale: 0,
+      sale: false,
+      salePrice: 0,
+      sellingWeight: 1,
+      unit: "kg",
+      inventory: 10,
       description: "bla bla bla bla Cucumber"
     },
     {
@@ -50,7 +66,11 @@ const state = {
       price: 140.0,
       photo:
         "https://thegreengrocermanila.com/wp-content/uploads/2015/12/bell-pepper-red-conical-1-500x500.jpg",
-      sale: 0,
+      sale: false,
+      salePrice: 0,
+      sellingWeight: 1,
+      unit: "kg",
+      inventory: 10,
       description: "bla bla bla bla Bell pepper"
     },
     {
@@ -59,7 +79,11 @@ const state = {
       price: 30.0,
       photo:
         "https://thegreengrocermanila.com/wp-content/uploads/2015/12/organic-chayote-1-500x500.jpg",
-      sale: 0,
+      sale: false,
+      salePrice: 0,
+      sellingWeight: 1,
+      unit: "kg",
+      inventory: 10,
       description: "bla bla bla bla Chayote"
     },
     {
@@ -68,7 +92,11 @@ const state = {
       price: 220.0,
       photo:
         "https://thegreengrocermanila.com/wp-content/uploads/2015/12/cabbage-chinese-500x500.png",
-      sale: 0,
+      sale: false,
+      salePrice: 0,
+      sellingWeight: 1,
+      unit: "kg",
+      inventory: 10,
       description: "bla bla bla bla Bawang"
     },
     {
@@ -77,7 +105,11 @@ const state = {
       price: 40.0,
       photo:
         "https://thegreengrocermanila.com/wp-content/uploads/2015/12/organic-squash-1-500x500.jpg",
-      sale: 0,
+      sale: false,
+      salePrice: 0,
+      sellingWeight: 1,
+      unit: "kg",
+      inventory: 10,
       description: "bla bla bla bla Bawang"
     }
   ]
@@ -229,7 +261,8 @@ const mutations = {
       datePackingDone: null,
       dateDelivering: null,
       stage: "Processing",
-      userNotification: null
+      userNotification: null,
+      rider: []
     });
 
     state.finalCart = [];

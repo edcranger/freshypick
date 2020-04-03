@@ -144,20 +144,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.pow {
-  flex: 0 0 155px;
-}
-
-@media screen and (min-width: 599px) {
-  .mobileMenuView {
-    display: none;
-  }
-}
-
-@media screen and (max-width: 599px) {
-  .webMenuView {
-    display: none;
-  }
-}
-</style>
+<style lang="scss" scoped></style>

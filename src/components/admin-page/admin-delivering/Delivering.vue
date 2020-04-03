@@ -5,17 +5,27 @@
       $mq === 'sm' ? 'animated slideInRight' : 'animated fadeIn'
     "
   >
-    <div class="bg-white q-pa-sm">
+    <div class="bg-white">
       <q-table
         title="For Delivery"
         :data="tableData"
-        :columns="columns"
+        :columns="$mq === 'sm' ? columnsMobile : columnsWeb"
         row-key="name"
         :filter="filter"
+        :dense="$mq === 'sm'"
       >
         <template v-slot:body="props">
           <q-tr :props="props">
             <q-td key="name" :props="props">
+              <q-icon
+                :color="props.row.dateDelivering === null ? `orange` : `green`"
+                :name="
+                  props.row.dateDelivering === null
+                    ? `fas fa-truck-loading`
+                    : `fas fa-truck`
+                "
+                size="10px"
+              />
               <q-btn
                 flat
                 dense
@@ -25,14 +35,24 @@
                   params: { productId: props.row.name, type: 'Delivering' }
                 }"
                 :label="props.row.name"
-              />
+              ></q-btn>
             </q-td>
 
             <q-td key="date" :props="props">{{ props.row.date }}</q-td>
             <q-td key="user" :props="props">{{ props.row.user }}</q-td>
             <q-td key="items" :props="props">{{ props.row.numItems }}</q-td>
             <q-td key="status" :props="props">
-              <q-btn color="blue" flat dense>{{ props.row.status }}</q-btn>
+              <q-btn
+                :color="props.row.dateDelivering === null ? `orange` : `green`"
+                flat
+                dense
+              >
+                {{
+                  props.row.dateDelivering === null
+                    ? "To Courier"
+                    : "Delivering"
+                }}
+              </q-btn>
             </q-td>
           </q-tr>
         </template>
@@ -61,7 +81,7 @@ export default {
   data() {
     return {
       filter: "",
-      columns: [
+      columnsWeb: [
         {
           name: "name",
           required: true,
@@ -94,6 +114,31 @@ export default {
         },
         { name: "status", label: "Status", field: "status", sortable: true }
       ],
+      columnsMobile: [
+        {
+          name: "name",
+          required: true,
+          label: "Purchase ID",
+          align: "left",
+          field: row => row.name,
+          format: val => `${val}`,
+          sortable: true
+        },
+        {
+          name: "date",
+          align: "left",
+          label: "Date of Order",
+          field: "date",
+          sortable: true
+        },
+        {
+          name: "items",
+          align: "left",
+          label: "Item Qty",
+          field: "numItems",
+          sortable: true
+        }
+      ],
       tData: [this.tableData]
     };
   },
@@ -109,6 +154,7 @@ export default {
           date: this.datefxn(x.date),
           processDone: x.dateProcessingDone,
           packingDone: x.datePackingDone,
+          dateDelivering: x.dateDelivering,
           user: "Edison Ocampo",
           numItems: itemNum.length,
           status: x.stage

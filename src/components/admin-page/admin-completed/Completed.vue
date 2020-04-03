@@ -5,7 +5,7 @@
       $mq === 'sm' ? 'animated slideInRight' : 'animated fadeIn'
     "
   >
-    <div class="bg-white q-pa-sm">
+    <div class="bg-white">
       <q-table
         title="Completed"
         :data="tableData"

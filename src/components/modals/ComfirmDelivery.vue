@@ -6,7 +6,7 @@
       <div class="row">
         <div class="col-12">
           <div class="q-pa-md" style="max-height: 350px">
-            <q-list style="min-width: 450px">
+            <q-list>
               <p v-if="error" class="text-red text-caption">{{ error }}</p>
               Riders
               <q-item tag="label" v-for="i in getRiders" :key="i.id">
@@ -22,13 +22,13 @@
 
                 <q-item-section side top>
                   <q-item-label caption
-                    >On hand: {{ i.itemsInHand }}</q-item-label
+                    >On hand: {{ i.itemsInHand.length }}</q-item-label
                   >
                   <div class="text-orange">
                     <q-rating
                       v-model="i.rating"
                       max="5"
-                      size="1.3em"
+                      size="1.0em"
                       color="green-5"
                       icon="star_border"
                       icon-selected="star"
@@ -93,7 +93,7 @@ export default {
     ...mapGetters(["ordered", "getRiders"])
   },
   methods: {
-    ...mapActions(["editOrder"]),
+    ...mapActions(["editOrder", "addItemsToRider"]),
     confirmDelivery(i) {
       // eslint-disable-next-line no-console
       console.log(i);
@@ -109,11 +109,16 @@ export default {
         }
       }
 
+      const itemTorider = { id: pow[0], rider: this.sel };
+
+      this.addItemsToRider(itemTorider);
+
       if (this.sel !== null) {
         pow.forEach(i => {
           (i.stage = "Delivering"),
             (i.dateDelivering = new Date()),
-            (i.userNotification = "Yes");
+            (i.userNotification = "Yes"),
+            i.rider.push(this.sel);
         });
 
         this.editOrder(this.ordered);

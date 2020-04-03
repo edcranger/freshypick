@@ -14,17 +14,14 @@
 
       <div class="col" v-if="filteredOrder.length !== 0">
         <div class="col-12 bg-white">
-          <q-list bordered separator padding>
-            <div class="q-ml-md">
-              <q-icon name="notifications_active" class="q-mr-sm"></q-icon
-              >Orders
-            </div>
+          <q-list bordered separator>
+            <q-item-label header>
+              <h5 class="q-my-none">Item Management</h5>
+            </q-item-label>
 
             <q-item
-              v-ripple
               v-for="item in filteredOrder"
               :key="item.id"
-              clickable
               :to="{
                 name: $mq === 'sm' ? 'mview-orders' : 'view-orders',
                 params: { itemId: item.id }

@@ -1,5 +1,5 @@
 <template>
-  <q-page>
+  <div>
     <q-list bordered padding class="bg-white">
       <q-item-label header>
         <h5 class="q-my-none">{{ type }}</h5>
@@ -150,9 +150,9 @@
               <q-item-label caption>
                 <strong>Date Processed</strong>
               </q-item-label>
-              <q-item-label caption>{{
-                datefxn(item.dateProcessingDone)
-              }}</q-item-label>
+              <q-item-label caption>
+                {{ datefxn(item.dateProcessingDone) }}
+              </q-item-label>
             </q-item-section>
           </div>
           <div class="col-4 q-ml-md q-pa-md" v-if="item.datePackingDone">
@@ -160,9 +160,9 @@
               <q-item-label caption>
                 <strong>Date Packed</strong>
               </q-item-label>
-              <q-item-label caption>{{
-                datefxn(item.datePackingDone)
-              }}</q-item-label>
+              <q-item-label caption>
+                {{ datefxn(item.datePackingDone) }}
+              </q-item-label>
             </q-item-section>
           </div>
           <div class="col-4 q-ml-md q-pa-md" v-if="item.dateDelivering">
@@ -170,9 +170,9 @@
               <q-item-label caption>
                 <strong>Date Delivering</strong>
               </q-item-label>
-              <q-item-label caption>{{
-                datefxn(item.dateDelivering)
-              }}</q-item-label>
+              <q-item-label caption>
+                {{ datefxn(item.dateDelivering) }}
+              </q-item-label>
             </q-item-section>
           </div>
         </div>
@@ -181,8 +181,10 @@
             <q-btn
               v-if="type === 'Delivering'"
               @click="confirm = !confirm"
-              color="blue"
+              :color="item.dateDelivering === null ? 'blue' : 'green'"
               class="q-mx-lg"
+              :disable="item.dateDelivering !== null"
+              :outline="item.dateDelivering !== null"
               :label="
                 item.dateDelivering === null ? 'To Courier' : 'Delivering'
               "
@@ -228,23 +230,23 @@
           <q-item v-if="i.dateProcessingDone">
             <q-item-section>
               <q-item-label caption>Processing done</q-item-label>
-              <q-item-label caption>
-                {{ datefxn(i.dateProcessingDone) }}
-              </q-item-label>
+              <q-item-label caption>{{
+                datefxn(i.dateProcessingDone)
+              }}</q-item-label>
             </q-item-section>
           </q-item>
           <q-item v-if="i.datePackingDone">
             <q-item-section>
               <q-item-label caption>Packing done</q-item-label>
-              <q-item-label caption>
-                {{ datefxn(i.datePackingDone) }}
-              </q-item-label>
+              <q-item-label caption>{{
+                datefxn(i.datePackingDone)
+              }}</q-item-label>
             </q-item-section>
           </q-item>
         </div>
       </div>
     </q-list>
-  </q-page>
+  </div>
 </template>
 
 <script>

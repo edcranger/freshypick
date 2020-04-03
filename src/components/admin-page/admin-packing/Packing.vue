@@ -5,11 +5,11 @@
       $mq === 'sm' ? 'animated slideInRight' : 'animated fadeIn'
     "
   >
-    <div class="bg-white q-pa-sm">
+    <div class="bg-white">
       <q-table
         title="For Packing"
         :data="tableData"
-        :columns="columns"
+        :columns="$mq === 'sm' ? columnsMobile : columnsWeb"
         row-key="name"
         :filter="filter"
         :dense="$mq === 'sm'"
@@ -62,7 +62,7 @@ export default {
   data() {
     return {
       filter: "",
-      columns: [
+      columnsWeb: [
         {
           name: "name",
           required: true,
@@ -94,6 +94,31 @@ export default {
           sortable: true
         },
         { name: "status", label: "Status", field: "status", sortable: true }
+      ],
+      columnsMobile: [
+        {
+          name: "name",
+          required: true,
+          label: "Purchase ID",
+          align: "left",
+          field: row => row.name,
+          format: val => `${val}`,
+          sortable: true
+        },
+        {
+          name: "date",
+          align: "left",
+          label: "Date of Order",
+          field: "date",
+          sortable: true
+        },
+        {
+          name: "items",
+          align: "left",
+          label: "No. of Items",
+          field: "numItems",
+          sortable: true
+        }
       ],
       tData: [this.tableData]
     };
