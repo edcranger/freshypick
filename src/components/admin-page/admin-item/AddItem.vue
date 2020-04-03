@@ -5,9 +5,7 @@
       <p class="text-left q-mt-md q-mb-none text-subtitle text-grey-7">Title</p>
       <q-input outlined v-model="title" label="Product Name" />
 
-      <p class="text-left q-mt-md q-mb-none text-subtitle text-grey-7">
-        Description
-      </p>
+      <p class="text-left q-mt-md q-mb-none text-subtitle text-grey-7">Description</p>
       <q-editor
         v-model="description"
         :definitions="{
@@ -19,39 +17,26 @@
       <!-- Pricing -->
       <div class="row">
         <div class="col-5 q-pa-sm">
-          <p class="text-left q-mt-md q-mb-none text-subtitle text-grey-7">
-            Regular Price
-          </p>
+          <p class="text-left q-mt-md q-mb-none text-subtitle text-grey-7">Regular Price</p>
           <q-input outlined v-model="regPrice" type="number">
             <template v-slot:prepend>₱</template>
           </q-input>
         </div>
         <div class="col-3 q-pa-sm">
-          <p class="text-left q-mt-md q-mb-none text-subtitle text-grey-7">
-            Weight
-          </p>
+          <p class="text-left q-mt-md q-mb-none text-subtitle text-grey-7">Weight</p>
           <q-input outlined v-model="sellingWeight" type="number">
             <template v-slot:append>{{ unit }}</template>
           </q-input>
         </div>
         <div class="col-4 q-pa-sm">
-          <p class="text-left q-mt-md q-mb-none text-subtitle text-grey-7">
-            Unit
-          </p>
-          <q-select
-            outlined
-            v-model="unit"
-            :options="['kg', 'gm']"
-            label="Unit"
-          />
+          <p class="text-left q-mt-md q-mb-none text-subtitle text-grey-7">Unit</p>
+          <q-select outlined v-model="unit" :options="['kg', 'gm']" label="Unit" />
         </div>
       </div>
 
       <div class="row items-center" v-if="sale">
         <div class="col-4 q-pa-sm">
-          <p class="text-left q-mt-md q-mb-none text-subtitle text-grey-7">
-            Sale Price
-          </p>
+          <p class="text-left q-mt-md q-mb-none text-subtitle text-grey-7">Sale Price</p>
           <q-input
             outlined
             v-model="minusPercent"
@@ -72,15 +57,8 @@
           </q-input>
         </div>
         <div class="col-4 q-pa-sm">
-          <p class="text-left q-mt-md q-mb-none text-subtitle text-grey-7">
-            Less Percent
-          </p>
-          <q-input
-            outlined
-            v-model="percentSale"
-            type="number"
-            :disable="!usePercentage"
-          >
+          <p class="text-left q-mt-md q-mb-none text-subtitle text-grey-7">Less Percent</p>
+          <q-input outlined v-model="percentSale" type="number" :disable="!usePercentage">
             <template v-slot:append>%</template>
           </q-input>
         </div>
@@ -88,39 +66,27 @@
       <div class="row">
         <div class="col-6 text-left q-pa-sm q-gutter-sm">
           <q-checkbox v-model="sale" label="On Sale" />
-          <q-checkbox
-            v-model="usePercentage"
-            label="Sale Percentage"
-            v-if="sale"
-          />
+          <q-checkbox v-model="usePercentage" label="Sale Percentage" v-if="sale" />
         </div>
       </div>
       <h6 class="q-mb-none text-left">Inventory</h6>
       <!-- Inventory -->
       <div class="row">
         <div class="col-6 q-pa-sm">
-          <p class="text-left q-mt-md q-mb-none text-subtitle text-grey-7">
-            SKU(Stock Keeping Unit)
-          </p>
+          <p class="text-left q-mt-md q-mb-none text-subtitle text-grey-7">SKU(Stock Keeping Unit)</p>
           <q-input outlined v-model="sku" type="number" />
         </div>
         <div class="col-6 q-pa-sm">
-          <p class="text-left q-mt-md q-mb-none text-subtitle text-grey-7">
-            Barcode (ISBN,UPC,GTIN,etc)
-          </p>
+          <p
+            class="text-left q-mt-md q-mb-none text-subtitle text-grey-7"
+          >Barcode (ISBN,UPC,GTIN,etc)</p>
           <q-input outlined v-model="code" />
         </div>
       </div>
       <div class="row">
         <div class="col-6 q-pa-sm text-left">
-          <p class="text-left q-mt-md q-mb-none text-subtitle text-grey-7">
-            Policy
-          </p>
-          <q-checkbox
-            v-model="tracking"
-            label="Activate product tracking"
-            class="q-ml-none"
-          />
+          <p class="text-left q-mt-md q-mb-none text-subtitle text-grey-7">Policy</p>
+          <q-checkbox v-model="tracking" label="Activate product tracking" class="q-ml-none" />
           <p class="text-left q-mt-md q-mb-none text-subtitle text-grey-7"></p>
           <q-checkbox
             v-model="purchaseOutOfStock"
@@ -130,24 +96,20 @@
         </div>
 
         <div class="col-3 q-pa-sm text-left">
-          <p class="text-left q-mt-md q-mb-none text-subtitle text-grey-7">
-            Quantity
-          </p>
+          <p class="text-left q-mt-md q-mb-none text-subtitle text-grey-7">Quantity</p>
           <q-input outlined v-model="inventory" type="number" dense />
         </div>
       </div>
     </q-form>
     <q-form @submit="uploading">
       <h6 class="q-mb-none text-left">Image</h6>
-      <p class="text-left q-mt-md q-mb-none text-subtitle text-grey-7">
-        Upload Image
-      </p>
+      <p class="text-left q-mt-md q-mb-none text-subtitle text-grey-7">Upload Image</p>
       <div class="row items-center">
         <div class="col-6">
           <q-file
             @click="console.log('wew')"
             v-model="pota"
-            label="Select Photos"
+            label="Pick Photos"
             outlined
             multiple
             style="max-width: 300px"
@@ -169,20 +131,8 @@
         </div>
       </div>-->
 
-      <q-carousel
-        swipeable
-        animated
-        v-model="slide"
-        thumbnails
-        infinite
-        class="q-ma-sm"
-      >
-        <q-carousel-slide
-          v-for="(i, index) in url"
-          :key="index"
-          :name="i"
-          :img-src="i"
-        />
+      <q-carousel swipeable animated v-model="slide" thumbnails infinite class="q-ma-sm">
+        <q-carousel-slide v-for="(i, index) in url" :key="index" :name="i" :img-src="i" />
       </q-carousel>
     </div>
   </q-page>
