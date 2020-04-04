@@ -1,5 +1,5 @@
 <template>
-  <q-page>
+  <div>
     <q-form @submit.prevent="submitProduct">
       <h6 class="q-mb-none text-left">Info</h6>
       <p class="text-left q-mt-md q-mb-none text-subtitle text-grey-7">Title</p>
@@ -154,9 +154,10 @@
               flat
               color="blue"
               @click="editStorageLocation = !editStorageLocation"
+              >{{
+                editStorageLocation ? "Cancel" : "Edit Storage Location"
+              }}</q-btn
             >
-              {{ editStorageLocation ? "Cancel" : "Edit Storage Location" }}
-            </q-btn>
           </div>
 
           <div class="row">
@@ -220,7 +221,7 @@
         <q-btn color="green" type="submit">Submit</q-btn>
       </div>
     </q-form>
-  </q-page>
+  </div>
 </template>
 
 <script>

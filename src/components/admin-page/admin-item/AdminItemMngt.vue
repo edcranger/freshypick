@@ -49,8 +49,9 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import AddItem from "../admin-item/addProduct";
 import ItemTable from "../admin-item/itemTable";
-import AddItem from "../admin-item/addItem";
+
 export default {
   data() {
     return {
