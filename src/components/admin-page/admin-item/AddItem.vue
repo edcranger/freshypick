@@ -1,9 +1,14 @@
 <template>
   <q-page>
-    <q-form>
+    <q-form @submit.prevent="submitProduct">
       <h6 class="q-mb-none text-left">Info</h6>
       <p class="text-left q-mt-md q-mb-none text-subtitle text-grey-7">Title</p>
-      <q-input outlined v-model="title" label="Product Name" />
+      <q-input
+        outlined
+        v-model="name"
+        label="Product Name"
+        :rules="[val => !!val || 'Field is required']"
+      />
 
       <p class="text-left q-mt-md q-mb-none text-subtitle text-grey-7">
         Description
@@ -22,7 +27,12 @@
           <p class="text-left q-mt-md q-mb-none text-subtitle text-grey-7">
             Regular Price
           </p>
-          <q-input outlined v-model="regPrice" type="number">
+          <q-input
+            outlined
+            v-model="price"
+            type="number"
+            :rules="[val => !!val || 'Field is required']"
+          >
             <template v-slot:prepend>₱</template>
           </q-input>
         </div>
@@ -102,13 +112,21 @@
           <p class="text-left q-mt-md q-mb-none text-subtitle text-grey-7">
             SKU(Stock Keeping Unit)
           </p>
-          <q-input outlined v-model="sku" type="number" />
+          <q-input
+            outlined
+            v-model="sku"
+            :rules="[val => !!val || 'Field is required']"
+          />
         </div>
         <div class="col-6 q-pa-sm">
           <p class="text-left q-mt-md q-mb-none text-subtitle text-grey-7">
             Barcode (ISBN,UPC,GTIN,etc)
           </p>
-          <q-input outlined v-model="code" />
+          <q-input
+            outlined
+            v-model="code"
+            :rules="[val => !!val || 'Field is required']"
+          />
         </div>
       </div>
       <div class="row">
@@ -129,47 +147,59 @@
           />
         </div>
 
-        <div class="col-3 q-pa-sm text-left">
-          <p class="text-left q-mt-md q-mb-none text-subtitle text-grey-7">
-            Quantity
-          </p>
-          <q-input outlined v-model="inventory" type="number" dense />
+        <div class="col-6 q-pa-sm">
+          <div class="text-right">
+            <q-btn
+              dense
+              flat
+              color="blue"
+              @click="editStorageLocation = !editStorageLocation"
+            >
+              {{ editStorageLocation ? "Cancel" : "Edit Storage Location" }}
+            </q-btn>
+          </div>
+
+          <div class="row">
+            <div
+              class="col-12"
+              v-for="(i, index) in storageLocation"
+              :key="index"
+            >
+              <div class="row justify-end items-center">
+                <div class="col-7 q-pa-sm text-right">{{ i.name }}</div>
+                <div class="col-4 q-pa-sm">
+                  <q-input outlined v-model="i.qty" type="number" dense />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </q-form>
-    <q-form @submit="uploading">
       <h6 class="q-mb-none text-left">Image</h6>
       <p class="text-left q-mt-md q-mb-none text-subtitle text-grey-7">
         Upload Image
       </p>
       <div class="row items-center">
-        <div class="col-6">
-          <q-file
-            @click="console.log('wew')"
-            v-model="pota"
-            label="Pick Photos"
-            outlined
-            multiple
-            style="max-width: 300px"
-          />
-        </div>
-        <div class="col-6">
-          <q-btn color="green" flat type="submit">Update/Preview</q-btn>
-        </div>
+        <q-file
+          v-model="photoSelection"
+          label="Pick Photos"
+          outlined
+          multiple
+          use-chips
+          :rules="[val => !!val || 'Field is required']"
+        />
       </div>
-    </q-form>
-    <div v-if="url.length !== 0">
-      <!-- <div class="row items-center">
-        <div class="col-6 q-pa-xs" v-for="(i, index) in url" :key="index">
-          <q-img
-            :src="i"
-            spinner-color="red"
-            style="height: 240px; max-width: 250px"
-          />
-        </div>
-      </div>-->
 
-      <q-carousel
+      <div class="row q-mt-sm" v-if="uploadedPhoto.length !== 0">
+        <div
+          class="col-6 q-pa-xs"
+          v-for="(i, index) in uploadedPhoto"
+          :key="index"
+        >
+          Photo {{ index + 1 }}
+          <q-img :src="i.url" :ratio="4 / 3" />
+        </div>
+        <!-- <q-carousel
         swipeable
         animated
         v-model="slide"
@@ -183,69 +213,114 @@
           :name="i"
           :img-src="i"
         />
-      </q-carousel>
-    </div>
+        </q-carousel>-->
+      </div>
+      <div class="row justify-center q-mt-md q-gutter-sm">
+        <q-btn color="blue-6">Save</q-btn>
+        <q-btn color="green" type="submit">Submit</q-btn>
+      </div>
+    </q-form>
   </q-page>
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
+import { uid } from "quasar";
+import Photo from "../../../assets/noImage.jpg";
 export default {
   data() {
     return {
-      slide: "",
-      pota: null,
-      url: [],
-      files: null,
-      title: null,
-      description: "",
-      regPrice: null,
-      salePrice: null,
+      photoSelection: [],
+      id: null,
+      name: null,
+      price: null,
+      photos: [],
       sale: false,
+      salePrice: 0,
+      sellingWeight: 1,
+      unit: "kg",
+      inventory: [],
+      description: "",
       usePercentage: false,
-      percentSale: null,
+      percentSale: 0,
       sku: null,
       code: null,
       tracking: true,
-      sellingWeight: 1,
-      unit: "kg",
-      inventory: 0,
-      purchaseOutOfStock: false
+      purchaseOutOfStock: false,
+      editStorageLocation: false
     };
   },
   computed: {
+    ...mapGetters(["getWareHouse"]),
     minusPercent() {
       let wew = 0;
       if (this.percentSale !== null) {
-        wew = this.regPrice - this.regPrice * (this.percentSale / 100);
+        wew = this.price - this.price * (this.percentSale / 100);
       }
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+      this.salePrice = parseInt(wew);
       return parseInt(wew);
+    },
+    uploadedPhoto() {
+      let photoList = [];
+
+      this.photoSelection.map(i =>
+        photoList.push({ file: i, url: URL.createObjectURL(i) })
+      );
+
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+      this.photos = photoList;
+
+      return photoList;
+    },
+    storageLocation() {
+      let newLoc = [];
+
+      this.getWareHouse.map(i => newLoc.push({ name: i.name, qty: 0 }));
+
+      const arg = this.editStorageLocation ? newLoc : newLoc.slice(0, 1);
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+      this.inventory = arg;
+
+      return arg;
     }
   },
-  created() {
-    // eslint-disable-next-line no-console
-    console.log(this.minusPercent);
-  },
+  created() {},
   methods: {
-    uploading() {
-      this.url = [];
-      // eslint-disable-next-line no-console
-      console.log(this.url);
+    ...mapActions(["addProduct"]),
+    submitProduct() {
+      let inventory = [];
 
-      this.pota.map(i => this.url.push(URL.createObjectURL(i)));
+      this.inventory.map(i => {
+        inventory.push({ name: i.name, qty: parseInt(i.qty) });
+      });
 
-      this.slide = this.url[0];
-    },
-    onFileChange(e) {
-      let files = e.target.files;
-      let waw = [...files];
-
-      // eslint-disable-next-line no-console
-      waw.map(i => this.url.push(URL.createObjectURL(i)));
-
-      // eslint-disable-next-line no-console
-      console.log([...this.pota]);
-      // eslint-disable-next-line no-console
-      console.log(waw);
+      this.addProduct({
+        id: uid(),
+        name: this.name,
+        price: parseInt(this.price),
+        photo:
+          this.photos.length !== 0
+            ? this.photos
+            : [
+                {
+                  file: "",
+                  url: Photo
+                }
+              ],
+        sale: this.sale,
+        salePrice: parseInt(this.salePrice),
+        sellingWeight: this.sellingWeight,
+        unit: this.unit,
+        inventory: inventory,
+        description: this.description,
+        usePercentage: this.usePercentage,
+        percentSale: parseInt(this.percentSale),
+        sku: this.sku,
+        code: this.code,
+        tracking: this.tracking,
+        purchaseOutOfStock: this.purchaseOutOfStock
+      });
     }
   }
 };

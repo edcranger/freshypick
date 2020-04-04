@@ -12,104 +12,176 @@ const state = {
       id: "wqedfgadasdas",
       name: "Carrots",
       price: 60.0,
-      photo:
-        "https://thegreengrocermanila.com/wp-content/uploads/2015/12/carrots-large-1-500x500.jpg",
+      photo: [
+        {
+          file: "",
+          url:
+            "https://thegreengrocermanila.com/wp-content/uploads/2015/12/carrots-large-1-500x500.jpg"
+        }
+      ],
       sale: false,
       salePrice: 0,
       sellingWeight: 1,
       unit: "kg",
-      inventory: 10,
+      inventory: [
+        { name: "Main Store", qty: 55 },
+        { name: "Branch 1", qty: 10 }
+      ],
+      wareHouse: "Main",
       description: "bla bla bla bla carrots"
     },
     {
       id: "a12g",
       name: "Cabbage",
       price: 180.0,
-      photo:
-        "https://thegreengrocermanila.com/wp-content/uploads/2015/12/organic-cabbage-1-500x500.jpg",
+      photo: [
+        {
+          file: "",
+          url:
+            "https://thegreengrocermanila.com/wp-content/uploads/2015/12/organic-cabbage-1-500x500.jpg"
+        }
+      ],
       sale: false,
       salePrice: 0,
       sellingWeight: 1,
       unit: "kg",
-      inventory: 10,
+      inventory: [
+        { name: "Main Store", qty: 32 },
+        { name: "Branch 1", qty: 10 }
+      ],
+      wareHouse: "Main",
       description: "bla bla bla bla cabbage"
     },
     {
       id: "0964038",
       name: "Red Onion (Local)",
       price: 200.0,
-      photo:
-        "https://thegreengrocermanila.com/wp-content/uploads/2015/12/onion-red-local-1-500x500.jpg",
+      photo: [
+        {
+          file: "",
+          url:
+            "https://thegreengrocermanila.com/wp-content/uploads/2015/12/onion-red-local-1-500x500.jpg"
+        }
+      ],
       sale: false,
       salePrice: 0,
       sellingWeight: 1,
       unit: "kg",
-      inventory: 10,
+      inventory: [
+        { name: "Main Store", qty: 22 },
+        { name: "Branch 1", qty: 10 }
+      ],
+      wareHouse: "Main",
       description: "bla bla bla bla Onion"
     },
     {
       id: "1yhgbvc",
       name: "Cucumber",
       price: 120.0,
-      photo:
-        "https://thegreengrocermanila.com/wp-content/uploads/2015/12/cucumber-1-500x500.jpg",
+      photo: [
+        {
+          file: "",
+          url:
+            "https://thegreengrocermanila.com/wp-content/uploads/2015/12/cucumber-1-500x500.jpg"
+        }
+      ],
       sale: false,
       salePrice: 0,
       sellingWeight: 1,
       unit: "kg",
-      inventory: 10,
+      inventory: [
+        { name: "Main Store", qty: 40 },
+        { name: "Branch 1", qty: 10 }
+      ],
+      wareHouse: "Main",
       description: "bla bla bla bla Cucumber"
     },
     {
       id: "09012f",
       name: "Bell Pepper",
       price: 140.0,
-      photo:
-        "https://thegreengrocermanila.com/wp-content/uploads/2015/12/bell-pepper-red-conical-1-500x500.jpg",
+      photo: [
+        {
+          file: "",
+          url:
+            "https://thegreengrocermanila.com/wp-content/uploads/2015/12/bell-pepper-red-conical-1-500x500.jpg"
+        }
+      ],
       sale: false,
       salePrice: 0,
       sellingWeight: 1,
       unit: "kg",
-      inventory: 10,
+      inventory: [
+        { name: "Main Store", qty: 17 },
+        { name: "Branch 1", qty: 10 }
+      ],
+      wareHouse: "Main",
       description: "bla bla bla bla Bell pepper"
     },
     {
       id: "qwefdfbn6934",
       name: "Chayote",
       price: 30.0,
-      photo:
-        "https://thegreengrocermanila.com/wp-content/uploads/2015/12/organic-chayote-1-500x500.jpg",
+      photo: [
+        {
+          file: "",
+          url:
+            "https://thegreengrocermanila.com/wp-content/uploads/2015/12/organic-chayote-1-500x500.jpg"
+        }
+      ],
       sale: false,
       salePrice: 0,
       sellingWeight: 1,
       unit: "kg",
-      inventory: 10,
+      inventory: [
+        { name: "Main Store", qty: 27 },
+        { name: "Branch 1", qty: 10 }
+      ],
+      wareHouse: "Main",
       description: "bla bla bla bla Chayote"
     },
     {
       id: "qpofivnbnurh",
       name: "Chinese Cabbage",
       price: 220.0,
-      photo:
-        "https://thegreengrocermanila.com/wp-content/uploads/2015/12/cabbage-chinese-500x500.png",
+      photo: [
+        {
+          file: "",
+          url:
+            "https://thegreengrocermanila.com/wp-content/uploads/2015/12/cabbage-chinese-500x500.png"
+        }
+      ],
       sale: false,
       salePrice: 0,
       sellingWeight: 1,
       unit: "kg",
-      inventory: 10,
+      inventory: [
+        { name: "Main Store", qty: 33 },
+        { name: "Branch 1", qty: 10 }
+      ],
+      wareHouse: "Main",
       description: "bla bla bla bla Bawang"
     },
     {
       id: "qwepouvhfd",
       name: "Squash",
       price: 40.0,
-      photo:
-        "https://thegreengrocermanila.com/wp-content/uploads/2015/12/organic-squash-1-500x500.jpg",
+      photo: [
+        {
+          file: "",
+          url:
+            "https://thegreengrocermanila.com/wp-content/uploads/2015/12/organic-squash-1-500x500.jpg"
+        }
+      ],
       sale: false,
       salePrice: 0,
       sellingWeight: 1,
       unit: "kg",
-      inventory: 10,
+      inventory: [
+        { name: "Main Store", qty: 20 },
+        { name: "Branch 1", qty: 10 }
+      ],
+      wareHouse: "Main",
       description: "bla bla bla bla Bawang"
     }
   ]
@@ -205,6 +277,13 @@ const actions = {
     } catch (err) {
       consola.error(err);
     }
+  },
+  async addProduct({ commit }, payload) {
+    try {
+      commit("addToProducts", payload);
+    } catch (err) {
+      consola.error(err);
+    }
   }
 };
 
@@ -297,6 +376,10 @@ const mutations = {
     // eslint-disable-next-line no-console
     console.log(data);
     state.cancelled.push(data);
+  },
+  addToProducts(state, payload) {
+    state.products.push(payload);
+    consola.success("Product added ", state.products);
   }
 };
 

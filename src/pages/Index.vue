@@ -14,7 +14,7 @@
         :key="index"
       >
         <q-card clickable class="my-card q-mt-xl" flat>
-          <q-img :src="product.photo" />
+          <q-img :src="product.photo[0].url" />
 
           <q-card-section class="q-pa-none">
             <div class="row no-wrap items-center text-center">

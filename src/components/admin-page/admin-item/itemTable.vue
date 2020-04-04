@@ -14,7 +14,7 @@
           <div class="row items-center">
             <div class="col-5">
               <q-img
-                :src="props.row.photo"
+                :src="props.row.photo[0].url"
                 spinner-color="white"
                 style="height: 70px; max-width: 80px"
               />
@@ -36,7 +36,9 @@
             </div>
           </div>
         </q-td>
-        <q-td key="inventory" :props="props">{{ props.row.inventory }}</q-td>
+        <q-td key="inventory" :props="props">{{
+          countingInventory(props.row.inventory)
+        }}</q-td>
 
         <q-td key="price" :props="props">{{ props.row.price }}</q-td>
         <q-td key="salePrice" :props="props">{{ props.row.salePrice }}</q-td>
@@ -112,7 +114,14 @@ export default {
     ...mapGetters(["products"])
   },
   methods: {
-    ...mapActions([])
+    ...mapActions(["addProduct"]),
+    countingInventory(item) {
+      let counter = 0;
+
+      item.map(i => (counter += i.qty));
+
+      return counter;
+    }
   },
   components: {}
 };

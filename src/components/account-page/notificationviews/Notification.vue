@@ -44,7 +44,7 @@
                 :key="i.id"
               >
                 <q-avatar>
-                  <img :src="i.photo" />
+                  <img :src="i.photo[0].url" />
                 </q-avatar>
               </q-item-section>
 

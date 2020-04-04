@@ -37,7 +37,7 @@
               </div>
               <div class="col-md-3 col-4">
                 <q-img
-                  :src="item.photo"
+                  :src="item.photo[0].url"
                   spinner-color="white"
                   style="height: 100px; max-width: 100px"
                 />

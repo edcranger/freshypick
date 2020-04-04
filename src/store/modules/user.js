@@ -18,7 +18,8 @@ const state = {
     zipcode: 1442,
     detailedAdd: "Blk 22 Lot 12 Hibiscus Street Castle Spring Heights Camarin",
     default: true
-  }
+  },
+  wareHouse: [{ name: "Main Store" }, { name: "Branch 1" }]
 };
 
 // GETTERS-------------------------------------------------------------------------
@@ -26,7 +27,8 @@ const getters = {
   isLoggedIn: state => !!state.isLoggedIn,
   userProfile: state => state.userProfile,
   userAdd: state => state.userAddress,
-  userRole: state => state.role
+  userRole: state => state.role,
+  getWareHouse: state => state.wareHouse
 };
 
 // Actions-------------------------------------------------------------------------

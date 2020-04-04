@@ -13,7 +13,7 @@
             <q-item-section avatar>
               <q-img
                 :class="i.cancelled ? 'grayscale' : ''"
-                :src="i.photo"
+                :src="i.photo[0].url"
                 spinner-color="white"
                 width="40px"
               />
@@ -48,7 +48,7 @@
             <q-item-section>
               <q-img
                 :class="i.cancelled ? 'grayscale' : ''"
-                :src="i.photo"
+                :src="i.photo[0].url"
                 spinner-color="white"
                 width="50px"
               />
@@ -81,7 +81,7 @@
               <q-checkbox v-model="i.selected">
                 <q-img
                   :class="i.cancelled ? 'grayscale' : ''"
-                  :src="i.photo"
+                  :src="i.photo[0].url"
                   spinner-color="white"
                   width="40px"
                 />
@@ -150,9 +150,9 @@
               <q-item-label caption>
                 <strong>Date Processed</strong>
               </q-item-label>
-              <q-item-label caption>
-                {{ datefxn(item.dateProcessingDone) }}
-              </q-item-label>
+              <q-item-label caption>{{
+                datefxn(item.dateProcessingDone)
+              }}</q-item-label>
             </q-item-section>
           </div>
           <div class="col-4 q-ml-md q-pa-md" v-if="item.datePackingDone">
@@ -160,9 +160,9 @@
               <q-item-label caption>
                 <strong>Date Packed</strong>
               </q-item-label>
-              <q-item-label caption>
-                {{ datefxn(item.datePackingDone) }}
-              </q-item-label>
+              <q-item-label caption>{{
+                datefxn(item.datePackingDone)
+              }}</q-item-label>
             </q-item-section>
           </div>
           <div class="col-4 q-ml-md q-pa-md" v-if="item.dateDelivering">
@@ -170,9 +170,9 @@
               <q-item-label caption>
                 <strong>Date Delivering</strong>
               </q-item-label>
-              <q-item-label caption>
-                {{ datefxn(item.dateDelivering) }}
-              </q-item-label>
+              <q-item-label caption>{{
+                datefxn(item.dateDelivering)
+              }}</q-item-label>
             </q-item-section>
           </div>
         </div>
@@ -230,17 +230,17 @@
           <q-item v-if="i.dateProcessingDone">
             <q-item-section>
               <q-item-label caption>Processing done</q-item-label>
-              <q-item-label caption>{{
-                datefxn(i.dateProcessingDone)
-              }}</q-item-label>
+              <q-item-label caption>
+                {{ datefxn(i.dateProcessingDone) }}
+              </q-item-label>
             </q-item-section>
           </q-item>
           <q-item v-if="i.datePackingDone">
             <q-item-section>
               <q-item-label caption>Packing done</q-item-label>
-              <q-item-label caption>{{
-                datefxn(i.datePackingDone)
-              }}</q-item-label>
+              <q-item-label caption>
+                {{ datefxn(i.datePackingDone) }}
+              </q-item-label>
             </q-item-section>
           </q-item>
         </div>

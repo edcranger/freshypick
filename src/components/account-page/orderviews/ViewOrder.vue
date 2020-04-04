@@ -67,7 +67,7 @@
           <q-item-section>
             <q-img
               :class="i.cancelled ? 'grayscale' : ''"
-              :src="i.photo"
+              :src="i.photo[0].url"
               spinner-color="white"
               :width="$mq === 'sm' ? '50px' : '100px'"
             />

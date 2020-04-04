@@ -32,7 +32,7 @@
                 <div class="row" v-for="i in item.item" :key="i.purchaseid">
                   <div class="col" v-if="i.cancelled">
                     <q-img
-                      :src="i.photo"
+                      :src="i.photo[0].url"
                       spinner-color="white"
                       style="height: 30px; max-width: 30px"
                     />
