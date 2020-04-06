@@ -3,7 +3,7 @@
     flat
     title="All Products"
     :data="products"
-    :columns="columnsWeb"
+    :columns="$mq === 'sm' ? columnsMobile : columnsWeb"
     row-key="name"
     :filter="filter"
     :dense="$mq === 'sm'"
@@ -25,10 +25,9 @@
                 dense
                 color="blue"
                 :to="{
-                  name: $mq === 'sm' ? 'madminViewOrder' : 'adminViewOrder',
+                  name: $mq === 'sm' ? 'madminViewItem' : 'adminViewItem',
                   params: {
-                    productId: props.row.name,
-                    type: 'Delivering'
+                    productId: props.row.id
                   }
                 }"
                 :label="props.row.name"
@@ -103,6 +102,24 @@ export default {
           align: "center",
           label: "Sale Price",
           field: "salePrice",
+          sortable: true
+        }
+      ],
+      columnsMobile: [
+        {
+          name: "name",
+          required: true,
+          label: "Product",
+          align: "left",
+          field: row => row.name,
+          format: val => `${val}`,
+          sortable: true
+        },
+        {
+          name: "inventory",
+          align: "center",
+          label: "Inventory",
+          field: "inventory",
           sortable: true
         }
       ],

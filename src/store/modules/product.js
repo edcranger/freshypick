@@ -27,8 +27,13 @@ const state = {
         { name: "Main Store", qty: 55 },
         { name: "Branch 1", qty: 10 }
       ],
-      wareHouse: "Main",
-      description: "bla bla bla bla carrots"
+      usePercentage: false,
+      percentSale: 0,
+      sku: "I43205",
+      code: "IV320",
+      tracking: true,
+      purchaseOutOfStock: false,
+      description: `<div style="text-align: left;">Fresh from the producers of Baguio and Benget</div>`
     },
     {
       id: "a12g",
@@ -49,7 +54,12 @@ const state = {
         { name: "Main Store", qty: 32 },
         { name: "Branch 1", qty: 10 }
       ],
-      wareHouse: "Main",
+      usePercentage: false,
+      percentSale: 0,
+      sku: "I43205",
+      code: "IV320",
+      tracking: true,
+      purchaseOutOfStock: false,
       description: "bla bla bla bla cabbage"
     },
     {
@@ -71,7 +81,12 @@ const state = {
         { name: "Main Store", qty: 22 },
         { name: "Branch 1", qty: 10 }
       ],
-      wareHouse: "Main",
+      usePercentage: false,
+      percentSale: 0,
+      sku: "I43205",
+      code: "IV320",
+      tracking: true,
+      purchaseOutOfStock: false,
       description: "bla bla bla bla Onion"
     },
     {
@@ -93,7 +108,12 @@ const state = {
         { name: "Main Store", qty: 40 },
         { name: "Branch 1", qty: 10 }
       ],
-      wareHouse: "Main",
+      usePercentage: false,
+      percentSale: 0,
+      sku: "I43205",
+      code: "IV320",
+      tracking: true,
+      purchaseOutOfStock: false,
       description: "bla bla bla bla Cucumber"
     },
     {
@@ -115,7 +135,12 @@ const state = {
         { name: "Main Store", qty: 17 },
         { name: "Branch 1", qty: 10 }
       ],
-      wareHouse: "Main",
+      usePercentage: false,
+      percentSale: 0,
+      sku: "I43205",
+      code: "IV320",
+      tracking: true,
+      purchaseOutOfStock: false,
       description: "bla bla bla bla Bell pepper"
     },
     {
@@ -137,7 +162,12 @@ const state = {
         { name: "Main Store", qty: 27 },
         { name: "Branch 1", qty: 10 }
       ],
-      wareHouse: "Main",
+      usePercentage: false,
+      percentSale: 0,
+      sku: "I43205",
+      code: "IV320",
+      tracking: true,
+      purchaseOutOfStock: false,
       description: "bla bla bla bla Chayote"
     },
     {
@@ -159,7 +189,12 @@ const state = {
         { name: "Main Store", qty: 33 },
         { name: "Branch 1", qty: 10 }
       ],
-      wareHouse: "Main",
+      usePercentage: false,
+      percentSale: 0,
+      sku: "I43205",
+      code: "IV320",
+      tracking: true,
+      purchaseOutOfStock: false,
       description: "bla bla bla bla Bawang"
     },
     {
@@ -181,7 +216,12 @@ const state = {
         { name: "Main Store", qty: 20 },
         { name: "Branch 1", qty: 10 }
       ],
-      wareHouse: "Main",
+      usePercentage: false,
+      percentSale: 0,
+      sku: "I43205",
+      code: "IV320",
+      tracking: true,
+      purchaseOutOfStock: false,
       description: "bla bla bla bla Bawang"
     }
   ]
@@ -281,6 +321,10 @@ const actions = {
   async addProduct({ commit }, payload) {
     try {
       commit("addToProducts", payload);
+
+      const { id } = payload;
+
+      return id;
     } catch (err) {
       consola.error(err);
     }

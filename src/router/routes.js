@@ -137,6 +137,19 @@ const routes = [
             props: true,
             component: () =>
               import("components/admin-page/admin-order-views/View-order")
+          },
+          {
+            path: "/admin/product-view/:productId",
+            name: "adminViewItem",
+            props: true,
+            component: () => import("components/admin-page/admin-item/itemView")
+          },
+
+          {
+            path: "/admin/edit-product/",
+            name: "editItem",
+            props: true,
+            component: () => import("components/admin-page/admin-item/editItem")
           }
         ]
       },
@@ -187,6 +200,19 @@ const routes = [
         props: true,
         component: () =>
           import("components/admin-page/admin-order-views/View-order")
+      },
+      {
+        path: "/admin/mproduct-view/:productId",
+        name: "madminViewItem",
+        props: true,
+        component: () => import("components/admin-page/admin-item/itemView")
+      },
+
+      {
+        path: "/admin/medit-product/",
+        name: "meditItem",
+        props: true,
+        component: () => import("components/admin-page/admin-item/editItem")
       },
       {
         path: "/account/mnotification",
