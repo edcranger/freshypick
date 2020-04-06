@@ -146,7 +146,7 @@ const routes = [
           },
 
           {
-            path: "/admin/edit-product/",
+            path: "/admin/edit-product/:productId",
             name: "editItem",
             props: true,
             component: () => import("components/admin-page/admin-item/editItem")
@@ -209,7 +209,7 @@ const routes = [
       },
 
       {
-        path: "/admin/medit-product/",
+        path: "/admin/medit-product/:productId",
         name: "meditItem",
         props: true,
         component: () => import("components/admin-page/admin-item/editItem")

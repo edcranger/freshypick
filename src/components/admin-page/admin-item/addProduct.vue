@@ -4,7 +4,7 @@
     <p class="text-left q-mt-md q-mb-none text-subtitle text-grey-7">Title</p>
     <q-input
       outlined
-      v-model="name"
+      v-model="formData.name"
       label="Product Name"
       :rules="[val => !!val || 'Field is required']"
     />
@@ -13,7 +13,7 @@
       Description
     </p>
     <q-editor
-      v-model="description"
+      v-model="formData.description"
       :definitions="{
         bold: { label: 'Bold', icon: null, tip: 'My bold tooltip' }
       }"
@@ -28,7 +28,7 @@
         </p>
         <q-input
           outlined
-          v-model="price"
+          v-model="formData.price"
           type="number"
           :rules="[val => !!val || 'Field is required']"
         >
@@ -39,8 +39,8 @@
         <p class="text-left q-mt-md q-mb-none text-subtitle text-grey-7">
           Weight
         </p>
-        <q-input outlined v-model="sellingWeight" type="number">
-          <template v-slot:append>{{ unit }}</template>
+        <q-input outlined v-model="formData.sellingWeight" type="number">
+          <template v-slot:append>{{ formData.unit }}</template>
         </q-input>
       </div>
       <div class="col-4 q-pa-sm">
@@ -49,14 +49,14 @@
         </p>
         <q-select
           outlined
-          v-model="unit"
+          v-model="formData.unit"
           :options="['kg', 'gm']"
           label="Unit"
         />
       </div>
     </div>
 
-    <div class="row items-center" v-if="sale">
+    <div class="row items-center" v-if="formData.sale">
       <div class="col-4 q-pa-sm">
         <p class="text-left q-mt-md q-mb-none text-subtitle text-grey-7">
           Sale Price
@@ -65,17 +65,17 @@
           outlined
           v-model="minusPercent"
           type="number"
-          :disable="!sale || usePercentage"
-          v-if="usePercentage"
+          :disable="!formData.sale || formData.usePercentage"
+          v-if="formData.usePercentage"
         >
           <template v-slot:prepend>₱</template>
         </q-input>
         <q-input
           outlined
-          v-model="salePrice"
+          v-model="formData.salePrice"
           type="number"
-          :disable="!sale"
-          v-if="!usePercentage"
+          :disable="!formData.sale"
+          v-if="!formData.usePercentage"
         >
           <template v-slot:prepend>₱</template>
         </q-input>
@@ -86,9 +86,9 @@
         </p>
         <q-input
           outlined
-          v-model="percentSale"
+          v-model="formData.percentSale"
           type="number"
-          :disable="!usePercentage"
+          :disable="!formData.usePercentage"
         >
           <template v-slot:append>%</template>
         </q-input>
@@ -96,11 +96,11 @@
     </div>
     <div class="row">
       <div class="col-6 text-left q-pa-sm q-gutter-sm">
-        <q-checkbox v-model="sale" label="On Sale" />
+        <q-checkbox v-model="formData.sale" label="On Sale" />
         <q-checkbox
-          v-model="usePercentage"
+          v-model="formData.usePercentage"
           label="Sale Percentage"
-          v-if="sale"
+          v-if="formData.sale"
         />
       </div>
     </div>
@@ -113,17 +113,17 @@
         </p>
         <q-input
           outlined
-          v-model="sku"
+          v-model="formData.sku"
           :rules="[val => !!val || 'Field is required']"
         />
       </div>
       <div class="col-6 q-pa-sm">
         <p class="text-left q-mt-md q-mb-none text-subtitle text-grey-7">
-          Barcode (ISBN,UPC,etc)
+          Barcode (ISBN,UPC,GTIN,etc)
         </p>
         <q-input
           outlined
-          v-model="code"
+          v-model="formData.code"
           :rules="[val => !!val || 'Field is required']"
         />
       </div>
@@ -134,29 +134,32 @@
           Policy
         </p>
         <q-checkbox
-          v-model="tracking"
+          v-model="formData.tracking"
           label="Activate product tracking"
           class="q-ml-none"
         />
         <p class="text-left q-mt-md q-mb-none text-subtitle text-grey-7"></p>
         <q-checkbox
-          v-model="purchaseOutOfStock"
+          v-model="formData.purchaseOutOfStock"
           label="Allow customer to order when out of stock"
           class="q-ml-none"
         />
       </div>
 
-      <div class="col-xs-12 col-sm-6 q-pa-sm" v-if="process !== 'edit'">
+      <div class="col-xs-12 col-sm-6 q-pa-sm">
         <div>
           <q-btn
             dense
             flat
             color="blue"
-            @click="editStorageLocation = !editStorageLocation"
-            >{{
-              editStorageLocation ? "Cancel" : "Edit Storage Location"
-            }}</q-btn
+            @click="
+              formData.editStorageLocation = !formData.editStorageLocation
+            "
           >
+            {{
+              formData.editStorageLocation ? "Cancel" : "Edit Storage Location"
+            }}
+          </q-btn>
         </div>
 
         <div class="row" v-for="(i, index) in storageLocation" :key="index">
@@ -198,8 +201,8 @@
       <p>{{ photoSelection[0].size }}</p>
     </div>
     <div class="row justify-center q-mt-md q-gutter-sm">
-      <q-btn color="blue-6" v-if="process === 'edit'">Save</q-btn>
-      <q-btn color="green" v-else type="submit">Submit</q-btn>
+      <q-btn color="blue-6">Save</q-btn>
+      <q-btn color="green" type="submit">Submit</q-btn>
     </div>
   </q-form>
 </template>
@@ -208,39 +211,42 @@
 import { mapGetters, mapActions } from "vuex";
 
 import { uid } from "quasar";
-import Photo from "../../../assets/noImage.jpg";
+// import Photo from "../../../assets/noImage.jpg";
 
 export default {
   data() {
     return {
-      process: "",
       photoSelection: [],
-      id: null,
-      name: null,
-      price: null,
-      photos: [],
-      sale: false,
-      salePrice: 0,
-      sellingWeight: 1,
-      unit: "kg",
-      inventory: [],
-      description: "",
-      usePercentage: false,
-      percentSale: 0,
-      sku: null,
-      code: null,
-      tracking: true,
-      purchaseOutOfStock: false,
-      editStorageLocation: false
+      formData: {
+        name: null,
+        price: null,
+        photo: [],
+        sale: false,
+        salePrice: 0,
+        dummy: false,
+        sellingWeight: 1,
+        unit: "kg",
+        inventory: [],
+        description: "",
+        usePercentage: false,
+        percentSale: 0,
+        sku: null,
+        code: null,
+        tracking: true,
+        purchaseOutOfStock: false,
+        editStorageLocation: false
+      }
     };
   },
-  props: ["type", "product"],
+  props: [],
   computed: {
     ...mapGetters(["getWareHouse"]),
     minusPercent() {
       let wew = 0;
-      if (this.percentSale !== null) {
-        wew = this.price - this.price * (this.percentSale / 100);
+      if (this.formData.percentSale !== null) {
+        wew =
+          this.formData.price -
+          this.formData.price * (this.formData.percentSale / 100);
       }
       // eslint-disable-next-line vue/no-side-effects-in-computed-properties
       this.salePrice = parseInt(wew);
@@ -254,7 +260,7 @@ export default {
       );
 
       // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-      this.photos = photoList;
+      this.formData.photo = photoList;
 
       return photoList;
     },
@@ -263,57 +269,16 @@ export default {
 
       this.getWareHouse.map(i => newLoc.push({ name: i.name, qty: 0 }));
 
-      const arg = this.editStorageLocation ? newLoc : newLoc.slice(0, 1);
+      const arg = this.formData.editStorageLocation
+        ? newLoc
+        : newLoc.slice(0, 1);
       // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-      this.inventory = arg;
+      this.formData.inventory = arg;
 
       return arg;
     }
   },
   created() {
-    this.process = this.type;
-
-    if (this.process === "edit") {
-      const {
-        id,
-        name,
-        price,
-        photos,
-        sale,
-        salePrice,
-        sellingWeight,
-        unit,
-        inventory,
-        description,
-        usePercentage,
-        percentSale,
-        sku,
-        code,
-        tracking,
-        purchaseOutOfStock,
-        editStorageLocation
-      } = this.product[0];
-
-      // eslint-disable-next-line no-console
-      (this.id = id),
-        (this.name = name),
-        (this.price = price),
-        (this.photos = photos),
-        (this.sale = sale),
-        (this.salePrice = salePrice),
-        (this.sellingWeight = sellingWeight),
-        (this.unit = unit),
-        (this.inventory = inventory),
-        (this.description = description),
-        (this.usePercentage = usePercentage),
-        (this.percentSale = percentSale),
-        (this.sku = sku),
-        (this.code = code),
-        (this.tracking = tracking),
-        (this.purchaseOutOfStock = purchaseOutOfStock),
-        (this.editStorageLocation = editStorageLocation);
-    }
-
     // eslint-disable-next-line no-console
   },
   methods: {
@@ -321,41 +286,16 @@ export default {
     submitProduct() {
       let inventory = [];
 
-      this.inventory.map(i => {
+      this.formData.inventory.map(i => {
         inventory.push({ name: i.name, qty: parseInt(i.qty) });
       });
 
-      this.addProduct({
-        id: uid(),
-        name: this.name,
-        price: parseInt(this.price),
-        photo:
-          this.photos.length !== 0
-            ? this.photos
-            : [
-                {
-                  file: "",
-                  url: Photo
-                }
-              ],
-        sale: this.sale,
-        salePrice: parseInt(this.salePrice),
-        sellingWeight: this.sellingWeight,
-        unit: this.unit,
-        inventory: inventory,
-        description: this.description,
-        usePercentage: this.usePercentage,
-        percentSale: parseInt(this.percentSale),
-        sku: this.sku,
-        code: this.code,
-        tracking: this.tracking,
-        purchaseOutOfStock: this.purchaseOutOfStock
-        // eslint-disable-next-line no-console
-      }).then(res => {
+      this.addProduct({ id: uid(), ...this.formData }).then(res => {
+        this.$consola.info("submit response", res);
         this.$q
           .dialog({
             title: "Confirm",
-            message: `Are you sure you want to add <span class="text-green"> ${this.name}</span> as product?`,
+            message: `Are you sure you want to add <span class="text-green"> ${this.formData.name}</span> as product?`,
             cancel: true,
             html: true,
             persistent: true

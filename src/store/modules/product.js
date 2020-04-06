@@ -1,5 +1,6 @@
 import consola from "consola";
 import uuid from "uuid/v4";
+import Photo from "../../assets/noImage.jpg";
 
 const state = {
   cart: [],
@@ -14,13 +15,15 @@ const state = {
       price: 60.0,
       photo: [
         {
-          file: "",
+          file:
+            "https://thegreengrocermanila.com/wp-content/uploads/2015/12/carrots-large-1-500x500.jpg",
           url:
             "https://thegreengrocermanila.com/wp-content/uploads/2015/12/carrots-large-1-500x500.jpg"
         }
       ],
       sale: false,
       salePrice: 0,
+      dummy: true,
       sellingWeight: 1,
       unit: "kg",
       inventory: [
@@ -48,6 +51,7 @@ const state = {
       ],
       sale: false,
       salePrice: 0,
+      dummy: true,
       sellingWeight: 1,
       unit: "kg",
       inventory: [
@@ -75,6 +79,7 @@ const state = {
       ],
       sale: false,
       salePrice: 0,
+      dummy: true,
       sellingWeight: 1,
       unit: "kg",
       inventory: [
@@ -102,6 +107,7 @@ const state = {
       ],
       sale: false,
       salePrice: 0,
+      dummy: true,
       sellingWeight: 1,
       unit: "kg",
       inventory: [
@@ -129,6 +135,7 @@ const state = {
       ],
       sale: false,
       salePrice: 0,
+      dummy: true,
       sellingWeight: 1,
       unit: "kg",
       inventory: [
@@ -156,6 +163,7 @@ const state = {
       ],
       sale: false,
       salePrice: 0,
+      dummy: true,
       sellingWeight: 1,
       unit: "kg",
       inventory: [
@@ -183,6 +191,7 @@ const state = {
       ],
       sale: false,
       salePrice: 0,
+      dummy: true,
       sellingWeight: 1,
       unit: "kg",
       inventory: [
@@ -210,6 +219,7 @@ const state = {
       ],
       sale: false,
       salePrice: 0,
+      dummy: true,
       sellingWeight: 1,
       unit: "kg",
       inventory: [
@@ -320,11 +330,34 @@ const actions = {
   },
   async addProduct({ commit }, payload) {
     try {
-      commit("addToProducts", payload);
-
       const { id } = payload;
 
+      payload.price = parseInt(payload.price);
+
+      // eslint-disable-next-line no-console
+      if (payload.photo.length === 0) {
+        payload.photo = [
+          {
+            file: "",
+            url: Photo
+          }
+        ];
+      }
+
+      commit("addToProducts", payload);
+
+      consola.info("addProduct", payload);
+
       return id;
+    } catch (err) {
+      consola.error(err);
+    }
+  },
+  async saveEditedProduct({ commit }, payload) {
+    try {
+      commit("saveEditProd", payload);
+      consola.info("saveEditProd", payload);
+      return payload;
     } catch (err) {
       consola.error(err);
     }
@@ -423,7 +456,12 @@ const mutations = {
   },
   addToProducts(state, payload) {
     state.products.push(payload);
-    consola.success("Product added ", state.products);
+  },
+  saveEditProd() {
+    // const index = state.products.findIndex(i => i.id === payload.id);
+    // state.products.splice(index, 1, payload);
+    // // eslint-disable-next-line no-console
+    // consola.success("photo", payload);
   }
 };
 

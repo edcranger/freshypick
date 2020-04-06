@@ -67,10 +67,7 @@
               </div>
             </div>
           </div>
-          <div class="col-6 q-pa-sm text-green text-weight-bold">
-            <span class="text-overline text-grey-8">Inventory Tracking:</span>
-            {{ product[0].tracking ? "Yes" : "No" }}
-          </div>
+
           <div class="col-6 q-pa-sm text-green text-weight-bold">
             <span class="text-overline text-grey-8">SKU:</span>
             {{ product[0].sku }}
@@ -80,20 +77,24 @@
             {{ product[0].code }}
           </div>
           <div class="col-6 q-pa-sm text-green text-weight-bold">
+            <span class="text-overline text-grey-8">Inventory Tracking:</span>
+            {{ product[0].tracking ? "Yes" : "No" }}
+          </div>
+          <div class="col-6 q-pa-sm text-green text-weight-bold">
             <span class="text-overline text-grey-8"
-              >Allow out of stock purchase:</span
+              >Out of stock purchase:</span
             >
             {{ product[0].purchaseOutOfStock ? "Yes" : "No" }}
           </div>
         </div>
-        <div class="row q-gutter-sm justify-end">
+        <div class="row q-gutter-md justify-end">
           <q-btn color="green" dense rounded icon="fas fa-plus-square" flat />
           <q-btn color="grey" dense rounded icon="fas fa-list" flat />
           <q-btn
             color="blue"
             :to="{
               name: $mq === 'sm' ? 'meditItem' : 'editItem',
-              params: { product: [...product], type: 'edit' }
+              params: { productId: product[0].id }
             }"
             dense
             rounded
@@ -119,12 +120,10 @@ export default {
   },
   props: [],
   created() {
-    const filter = this.products.filter(i => i.id === this.routeParams);
-    this.product = filter;
-    this.product.map(i => (this.slide = i.photo[0].url));
+    this.product = this.products.filter(i => i.id === this.routeParams);
 
-    // eslint-disable-next-line no-console
-    console.log(this.filter);
+    this.$consola.info("itemView", this.product);
+    this.product.map(i => (this.slide = i.photo[0].url));
   },
 
   computed: {
