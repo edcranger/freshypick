@@ -4,7 +4,7 @@
       <h5 class="q-my-none">Product Profile</h5>
     </q-item-label>
     <div class="row">
-      <div class="col-xs-12 col-sm-6 q-pa-sm">
+      <div class="col-xs-12 col-sm-6">
         <q-carousel
           swipeable
           animated
@@ -14,6 +14,7 @@
           class="q-ma-sm"
         >
           <q-carousel-slide
+            class="q-pa-none"
             v-for="(i, index) in getProductPhoto"
             :key="index"
             :name="i"
@@ -88,8 +89,28 @@
           </div>
         </div>
         <div class="row q-gutter-md justify-end">
-          <q-btn color="green" dense rounded icon="fas fa-plus-square" flat />
-          <q-btn color="grey" dense rounded icon="fas fa-list" flat />
+          <q-btn
+            color="green"
+            dense
+            rounded
+            icon="fas fa-plus-square"
+            flat
+            @click="openInventoryDialog = !openInventoryDialog"
+          />
+          <q-dialog v-model="openInventoryDialog" persistent>
+            <AddInventory :product="product[0]" />
+          </q-dialog>
+          <q-btn
+            color="grey"
+            @click="openLogDialog = !openLogDialog"
+            dense
+            rounded
+            icon="fas fa-list"
+            flat
+          />
+          <q-dialog v-model="openLogDialog" persistent>
+            <ItemLog :product="product[0]" />
+          </q-dialog>
           <q-btn
             color="blue"
             :to="{
@@ -109,10 +130,13 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-
+import AddInventory from "../../modals/addInventory";
+import ItemLog from "../../modals/ItemLog";
 export default {
   data() {
     return {
+      openInventoryDialog: false,
+      openLogDialog: false,
       slide: null,
       product: null,
       routeParams: this.$route.params.productId
@@ -143,7 +167,10 @@ export default {
   methods: {
     ...mapActions([])
   },
-  components: {}
+  components: {
+    AddInventory,
+    ItemLog
+  }
 };
 </script>
 

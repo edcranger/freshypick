@@ -1,5 +1,5 @@
 import consola from "consola";
-import uuid from "uuid/v4";
+// import uuid from "uuid/v4";
 import Photo from "../../assets/noImage.jpg";
 
 const state = {
@@ -376,7 +376,7 @@ const mutations = {
       item.qty = 1;
     }
     item.selected = true;
-    item.id = uuid();
+
     item.stage = "cart";
 
     state.cart.push({ ...item });
@@ -457,11 +457,11 @@ const mutations = {
   addToProducts(state, payload) {
     state.products.push(payload);
   },
-  saveEditProd() {
-    // const index = state.products.findIndex(i => i.id === payload.id);
-    // state.products.splice(index, 1, payload);
-    // // eslint-disable-next-line no-console
-    // consola.success("photo", payload);
+  saveEditProd(state, payload) {
+    const index = state.products.findIndex(i => i.id === payload.id);
+    state.products.splice(index, 1, payload);
+    // eslint-disable-next-line no-console
+    consola.success("photo", payload);
   }
 };
 

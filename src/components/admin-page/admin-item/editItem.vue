@@ -243,9 +243,14 @@ export default {
       // eslint-disable-next-line no-console
 
       this.saveEditedProduct({
-        ...this.formData
+        ...this.formData[0]
         // eslint-disable-next-line no-console
       }).then(res => console.log(res));
+
+      this.$q.notify({
+        message: `This item has been edited`,
+        color: "purple"
+      });
     }
   },
   watch: {}
