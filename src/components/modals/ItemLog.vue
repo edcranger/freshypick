@@ -2,17 +2,20 @@
   <q-card>
     <ModalHeader>Log</ModalHeader>
     <ModalBody>
-      <div>
+      <h5 class="text-subtitle1" v-if="getProductIdLog.length === 0">
+        No log data
+      </h5>
+      <div v-for="(i, index) in getProductIdLog" :key="index">
+        <p class="text-caption q-ma-none">{{ dateFxn(i.date) }}</p>
         <p class="text-caption">
-          {{ dateFxn(new Date()) }} - Product
-          <span class="text-green">Banana</span> was recently edited by Edison
-          (32123)
+          <span class="text-blue-7">{{ i.type }}</span>
+          -
+          {{ i.message }}
         </p>
       </div>
     </ModalBody>
     <ModalActions>
-      <q-btn flat label="No" color="primary" v-close-popup />
-      <q-btn flat label="Yes" color="primary" v-close-popup />
+      <q-btn flat label="close" color="primary" v-close-popup />
     </ModalActions>
   </q-card>
 </template>
@@ -26,14 +29,18 @@ import { mapGetters, mapActions } from "vuex";
 export default {
   name: "Modal",
   data() {
-    return {
-      inventories: []
-    };
+    return {};
   },
   props: ["product"],
-  created() {},
+  created() {
+    // eslint-disable-next-line no-console
+    console.log(this.getProductIdLog);
+  },
   computed: {
-    ...mapGetters([])
+    ...mapGetters(["getProductLog"]),
+    getProductIdLog() {
+      return this.getProductLog.filter(i => i.productId === this.product.id);
+    }
   },
   methods: {
     ...mapActions([]),

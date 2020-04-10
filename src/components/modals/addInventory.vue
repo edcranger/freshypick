@@ -30,6 +30,7 @@
 </template>
 
 <script>
+import { uid } from "quasar";
 import ModalHeader from "../modals/shared/ModalHeader";
 import ModalBody from "../modals/shared/ModalBody";
 import ModalActions from "../modals/shared/ModalActions";
@@ -48,14 +49,27 @@ export default {
     );
   },
   computed: {
-    ...mapGetters(["getWareHouse"])
+    ...mapGetters(["getWareHouse", "userProfile"])
   },
   methods: {
-    ...mapActions([]),
+    ...mapActions(["addToLog"]),
     submitInventory() {
+      let storageLog = [];
       this.product.inventory.map(i => {
         this.inventories.map(e => {
           if (i.name === e.name && e.qty !== 0) {
+            storageLog.push(` ${e.qty}${this.product.unit} to ${e.name}`);
+
+            const logData = {
+              id: uid(),
+              type: "Inventory",
+              productId: this.product.id,
+              message:
+                `${this.userProfile.name} added `.concat(storageLog) + ".",
+              date: new Date()
+            };
+
+            this.addToLog(logData);
             // eslint-disable-next-line no-console
             i.qty += parseInt(e.qty);
           }

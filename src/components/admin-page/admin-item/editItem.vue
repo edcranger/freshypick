@@ -184,7 +184,7 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-
+import { uid } from "quasar";
 export default {
   data() {
     return {
@@ -194,7 +194,7 @@ export default {
   },
   props: [],
   computed: {
-    ...mapGetters(["products"]),
+    ...mapGetters(["products", "userProfile"]),
     minusPercent() {
       let wew = 0;
       if (this.percentSale !== null) {
@@ -237,7 +237,7 @@ export default {
     this.$consola.info("editItem", this.formData);
   },
   methods: {
-    ...mapActions(["saveEditedProduct"]),
+    ...mapActions(["saveEditedProduct", "addToLog"]),
 
     saveEdit() {
       // eslint-disable-next-line no-console
@@ -245,11 +245,21 @@ export default {
       this.saveEditedProduct({
         ...this.formData[0]
         // eslint-disable-next-line no-console
-      }).then(res => console.log(res));
+      }).then(() => {
+        this.$q.notify({
+          message: `This item has been edited`,
+          color: "purple"
+        });
 
-      this.$q.notify({
-        message: `This item has been edited`,
-        color: "purple"
+        const logData = {
+          id: uid(),
+          type: "Update",
+          productId: this.formData[0].id,
+          message: `This product was edited by ${this.userProfile.name}`,
+          date: new Date()
+        };
+
+        this.addToLog(logData);
       });
     }
   },
