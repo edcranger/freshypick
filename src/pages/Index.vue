@@ -13,20 +13,26 @@
         v-for="(product, index) in products"
         :key="index"
       >
-        <q-card clickable class="my-card q-mt-xl" flat>
-          <q-img :src="product.photo[0].url" />
-
-          <q-card-section class="q-pa-none">
+        <q-card clickable class="my-card zoom q-mt-xl" flat>
+          <q-card-section @click="viewSingleProduct(product)" class="q-pa-none">
+            <q-img :src="product.photo[0].url" />
             <div class="row no-wrap items-center text-center">
-              <div class="col text-h6 ellipsis">{{ product.name }}</div>
+              <h6
+                class="col text-subtitle2 text-grey-8 q-ma-none text-italic text-bold"
+              >
+                {{ product.name }}
+              </h6>
               <div
                 class="col-auto text-grey text-caption q-pt-md row no-wrap items-center"
               ></div>
             </div>
 
-            <p class="text-center">₱{{ product.price }}</p>
+            <p class="text-center text-italic text-grey-8">
+              <span class="text-green text-bold">₱{{ product.price }}</span>
+              /{{ product.unit }}
+            </p>
 
-            <div
+            <!-- <div
               class="full-width row wrap justify-center items-start content-center"
             >
               <q-input
@@ -55,19 +61,26 @@
                   />
                 </template>
               </q-input>
-            </div>
-            <div class="fit row wrap justify-center items-start content-center">
-              <q-btn
-                dense
-                label="Add to cart"
-                color="primary"
-                @click="product.confirm = !product.confirm"
-              />
-              <q-dialog v-model="product.confirm" persistent>
-                <AddtoCart :productInfo="product" />
-              </q-dialog>
-            </div>
+            </div>-->
           </q-card-section>
+          <q-card-actions
+            class="fit row wrap justify-center items-start content-center"
+          >
+            <q-btn
+              :outline="cart.find(i => i.id === product.id) ? true : false"
+              :disable="cart.find(i => i.id === product.id) ? true : false"
+              :label="
+                cart.find(i => i.id === product.id)
+                  ? 'PLACED ON CART'
+                  : 'ADD TO CART'
+              "
+              color="green"
+              @click="product.confirm = !product.confirm"
+            />
+            <q-dialog v-model="product.confirm" persistent>
+              <AddtoCart :productInfo="product" />
+            </q-dialog>
+          </q-card-actions>
 
           <!-- <q-separator /> -->
         </q-card>
@@ -79,24 +92,34 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import AddtoCart from "../components/modals/AddtoCart";
+
 export default {
   name: "PageIndex",
   data() {
     return {
-      power: null
+      viewItem: false
     };
   },
   computed: {
-    ...mapGetters(["products"])
+    ...mapGetters(["products", "cart"])
+  },
+  methods: {
+    ...mapActions(["getItems"]),
+    viewSingleProduct(product) {
+      // eslint-disable-next-line no-console
+      this.$router.push({ name: "product", params: { name: product.name } });
+    }
   },
   created() {
     this.getItems();
   },
   components: {
     AddtoCart
-  },
-  methods: {
-    ...mapActions(["getItems"])
   }
 };
 </script>
+<style lang="stylus" scoped>
+.my-card {
+  cursor: pointer;
+}
+</style>

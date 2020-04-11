@@ -15,6 +15,11 @@ const routes = [
     children: [
       { path: "", component: () => import("../pages/Index.vue") },
       {
+        path: "/product/:name",
+        name: "product",
+        component: () => import("pages/Product.vue")
+      },
+      {
         path: "/cart",
         component: () => import("../pages/Cart.vue")
       },
@@ -26,6 +31,7 @@ const routes = [
         beforeEnter: ifAuthenticated,
         component: () => import("pages/Checkout.vue")
       },
+
       {
         path: "/account",
         component: () => import("layouts/AccountLayout.vue"),

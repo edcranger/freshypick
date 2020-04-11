@@ -2,6 +2,8 @@ import consola from "consola";
 // import uuid from "uuid/v4";
 import Photo from "../../assets/noImage.jpg";
 
+import { Notify } from "quasar";
+
 const state = {
   cart: [],
   checkoutCart: [],
@@ -24,6 +26,7 @@ const state = {
       sale: false,
       salePrice: 0,
       dummy: true,
+
       sellingWeight: 1,
       unit: "kg",
       inventory: [
@@ -52,6 +55,7 @@ const state = {
       sale: false,
       salePrice: 0,
       dummy: true,
+
       sellingWeight: 1,
       unit: "kg",
       inventory: [
@@ -80,6 +84,7 @@ const state = {
       sale: false,
       salePrice: 0,
       dummy: true,
+
       sellingWeight: 1,
       unit: "kg",
       inventory: [
@@ -108,6 +113,7 @@ const state = {
       sale: false,
       salePrice: 0,
       dummy: true,
+
       sellingWeight: 1,
       unit: "kg",
       inventory: [
@@ -136,6 +142,7 @@ const state = {
       sale: false,
       salePrice: 0,
       dummy: true,
+
       sellingWeight: 1,
       unit: "kg",
       inventory: [
@@ -164,6 +171,7 @@ const state = {
       sale: false,
       salePrice: 0,
       dummy: true,
+
       sellingWeight: 1,
       unit: "kg",
       inventory: [
@@ -192,6 +200,7 @@ const state = {
       sale: false,
       salePrice: 0,
       dummy: true,
+
       sellingWeight: 1,
       unit: "kg",
       inventory: [
@@ -220,6 +229,7 @@ const state = {
       sale: false,
       salePrice: 0,
       dummy: true,
+
       sellingWeight: 1,
       unit: "kg",
       inventory: [
@@ -286,6 +296,24 @@ const actions = {
   },
   async addToCart({ commit }, cartItem) {
     try {
+      if (state.cart.find(i => i.name === cartItem.name)) {
+        // eslint-disable-next-line no-console
+        return Notify.create({
+          message: `You already have this item in your cart.`,
+          color: "purple",
+          progress: true,
+          timeout: 2000,
+          actions: [
+            {
+              label: "x",
+              color: "white",
+              handler: () => {
+                /* ... */
+              }
+            }
+          ]
+        });
+      }
       commit("addToCart_success", cartItem);
     } catch (err) {
       consola.error(err);
@@ -368,13 +396,10 @@ const actions = {
 const mutations = {
   getProduct_success(state) {
     state.products = state.products.map(item => {
-      return { ...item, confirm: false, qty: parseInt(0) };
+      return { ...item, confirm: false, qty: parseInt(1) };
     });
   },
   addToCart_success(state, item) {
-    if (item.qty < 1) {
-      item.qty = 1;
-    }
     item.selected = true;
 
     item.stage = "cart";
