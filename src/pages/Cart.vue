@@ -3,17 +3,35 @@
     appear
     :enter-active-class="$mq === 'sm' ? 'animated fadeIn ' : 'animated fadeIn'"
   >
-    <q-page padding class="row wrap justify-start items-start content-start">
+    <q-page
+      :class="
+        $mq === 'sm' || $mq === 'md'
+          ? ' row wrap justify-start items-start content-start q-px-sm'
+          : 'web row wrap justify-start items-start content-start q-px-sm'
+      "
+    >
       <!-- This is the cart items with the toolbar select all -->
       <div class="absolute-center" v-if="cart.length === 0">
-        <p class="text-center text-subtitle1">No Items in the cart</p>
+        <p class="text-center text-h6 text-grey-8">No Items in the cart</p>
         <q-btn outline style="color: green;" label="Continue Shopping" to="/" />
       </div>
 
-      <div class="col-12 col-sm-8 col-md-8 q-mb-xl" v-if="cart.length !== 0">
+      <div
+        class="col-12 col-sm-8 col-md-8 q-mb-xl shadow-1 bg-white q-mt-sm"
+        v-if="cart.length !== 0"
+      >
+        <q-breadcrumbs class="text-brown q-ma-md" v-if="$mq !== 'sm'">
+          <template v-slot:separator>
+            <q-icon size="1.5em" name="chevron_right" color="primary" />
+          </template>
+
+          <q-breadcrumbs-el label="Home" icon="fas fa-carrot" />
+          <q-breadcrumbs-el label="Cart" icon="shopping_cart" />
+        </q-breadcrumbs>
+
         <div class="row">
-          <div class="col-12 shadow-1">
-            <q-toolbar class="bg-white">
+          <div class="col-12">
+            <q-toolbar>
               <q-checkbox
                 v-model="selectAllItem"
                 @click.native="allSelected"
@@ -22,12 +40,13 @@
 
               <q-space />
 
-              <q-btn flat round dense icon="delete" />
+              <q-btn flat round dense icon="delete" @click="deleteSelected()" />
             </q-toolbar>
+            <q-separator inset />
           </div>
 
           <div class="col-12 bg-white" v-for="item in cart" :key="item.id">
-            <div class="row shadow-1 q-pa-sm">
+            <div class="row q-pa-sm">
               <div class="col-1 col-md-1 q-mr-md">
                 <q-checkbox
                   class="q-ml-xs"
@@ -65,7 +84,7 @@
                           flat
                           round
                           icon="fas fa-minus-square"
-                          @click="item.qty--"
+                          @click="deleteItem(item)"
                         />
                       </template>
 
@@ -82,13 +101,15 @@
                 </div>
               </div>
             </div>
+            <q-separator inset />
           </div>
         </div>
       </div>
 
       <!-- This is for the side checkout pane -->
+
       <div
-        class="orderSummaryCol col bg-white shadow-1 q-mx-md q-pa-md"
+        class="orderSummaryCol col text-grey-10 q-mt-sm q-mx-sm q-pa-md shadow-1 bg-white"
         v-if="cart.length !== 0"
       >
         <h6 class="q-my-sm">Order Summary</h6>
@@ -165,7 +186,7 @@ export default {
     ...mapGetters(["cart", "totalInCart"])
   },
   methods: {
-    ...mapActions(["cartToCheckout"]),
+    ...mapActions(["cartToCheckout", "deleteFromCart"]),
     allSelected() {
       if (this.selectAllItem) {
         this.cart.map(item => {
@@ -182,14 +203,21 @@ export default {
     selectOneCheckbox() {
       this.selectAllItem = false;
       // eslint-disable-next-line no-console
+      console.log(this.cart);
     },
-    deleteFromCart(id) {
-      const result = this.cart.findIndex(cartItem => {
-        return cartItem.id === id;
-      });
+    deleteItem(product) {
+      if (product.qty < 2) {
+        this.deleteFromCart({ type: "single", item: product.id });
+        // eslint-disable-next-line no-console
+        console.log(this.cart);
+      } else {
+        product.qty--;
+      }
+    },
+    deleteSelected() {
+      const items = this.cart.filter(i => i.selected);
 
-      // eslint-disable-next-line no-console
-      this.cart.splice(result, 1);
+      this.deleteFromCart({ type: "selection", item: items.map(i => i.id) });
     },
     checkOut() {
       this.cartToCheckout(this.cart);

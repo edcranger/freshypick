@@ -1,5 +1,8 @@
 <template>
-  <q-layout style="min-height: auto;">
+  <q-layout
+    :class="$mq === 'sm' || $mq === 'md' ? '' : 'web'"
+    style="min-height: auto;"
+  >
     <component
       :is="comp"
       :web1="webAdminMenu"
@@ -124,7 +127,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .pow {
   flex: 0 0 155px;
 }

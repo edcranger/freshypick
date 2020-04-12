@@ -1,6 +1,9 @@
 <template>
-  <q-page padding class="bg-white">
-    <div class="row text-center items-center content-center">
+  <q-page
+    padding
+    :class="$mq === 'sm' || $mq === 'md' ? 'bg-white' : 'web web bg-white'"
+  >
+    <div class="row text-center">
       <div class="col-xs-12 col-sm-6">
         <q-carousel
           swipeable
@@ -84,7 +87,7 @@
         </div>
       </div>
     </div>
-    <q-separator style="height: 2px;" />
+    <q-separator style="height: 3px;" inset />
     <p class="text-grey-8 text-h6 q-ml-md q-mb-none">Recommendations</p>
 
     <div class="row">
@@ -140,6 +143,7 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import AddtoCart from "../components/modals/AddtoCart";
 export default {
   data() {
     return {
@@ -173,7 +177,7 @@ export default {
     viewSingleProduct(product) {
       // eslint-disable-next-line no-console
       this.$router
-        .push({ name: "product", params: { name: product.name } })
+        .replace({ name: "product", params: { name: product.name } })
         .then(() => {
           this.$router.go();
         });
@@ -190,8 +194,14 @@ export default {
     // eslint-disable-next-line no-console
     this.$consola.info("productPage", this.recommendations);
   },
-  components: {}
+  components: {
+    AddtoCart
+  }
 };
 </script>
 
-<style></style>
+<style>
+.my-card {
+  cursor: pointer;
+}
+</style>

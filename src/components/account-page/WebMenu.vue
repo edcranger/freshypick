@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="bg-light-green-11" style="max-height: 100px;">
     <q-list bordered padding class="rounded-borders bg-white">
       <q-item-label header>Transactions</q-item-label>
 

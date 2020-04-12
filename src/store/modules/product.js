@@ -319,6 +319,13 @@ const actions = {
       consola.error(err);
     }
   },
+  async deleteFromCart({ commit }, payload) {
+    try {
+      commit("deletetoCart", payload);
+    } catch (err) {
+      consola.error("deleted to cart", err);
+    }
+  },
   async cartToCheckout({ commit }, data) {
     try {
       commit("setCartToAllSelectedItem", data);
@@ -350,7 +357,6 @@ const actions = {
   },
   async cancelPurchasedItem({ commit }, payload) {
     try {
-      consola.success("cancelitem ", payload);
       commit("cancelRequest", payload);
     } catch (err) {
       consola.error(err);
@@ -374,8 +380,6 @@ const actions = {
 
       commit("addToProducts", payload);
 
-      consola.info("addProduct", payload);
-
       return id;
     } catch (err) {
       consola.error(err);
@@ -384,7 +388,7 @@ const actions = {
   async saveEditedProduct({ commit }, payload) {
     try {
       commit("saveEditProd", payload);
-      consola.info("saveEditProd", payload);
+
       return payload;
     } catch (err) {
       consola.error(err);
@@ -405,6 +409,20 @@ const mutations = {
     item.stage = "cart";
 
     state.cart.push({ ...item });
+  },
+  deletetoCart(state, payload) {
+    if (payload.type === "single") {
+      const result = state.cart.findIndex(i => {
+        return i.id === payload;
+      });
+
+      state.cart.splice(result, 1);
+    } else if (payload.type === "selection") {
+      payload.item.forEach(i => {
+        const result = state.cart.findIndex(e => e.id === i);
+        state.cart.splice(result, 1);
+      });
+    }
   },
   setCartToAllSelectedItem(state, item) {
     state.cart = item;
@@ -432,6 +450,8 @@ const mutations = {
       }
     });
 
+    state.products.map(i => (i.stage = ""));
+
     state.ordered.push({
       id: purchaseId,
       item: [...finalCart],
@@ -447,6 +467,7 @@ const mutations = {
     });
 
     state.finalCart = [];
+    state.cart = [];
   },
   editOrder_request(state, payload) {
     state.ordered = payload;
@@ -476,7 +497,6 @@ const mutations = {
   cancelRequest(state, payload) {
     const data = { ...payload, datecancelled: Date.now() };
     // eslint-disable-next-line no-console
-    console.log(data);
     state.cancelled.push(data);
   },
   addToProducts(state, payload) {
@@ -486,7 +506,6 @@ const mutations = {
     const index = state.products.findIndex(i => i.id === payload.id);
     state.products.splice(index, 1, payload);
     // eslint-disable-next-line no-console
-    consola.success("photo", payload);
   }
 };
 

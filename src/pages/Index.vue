@@ -1,5 +1,5 @@
 <template>
-  <q-page padding class="bg-white">
+  <q-page class="bg-white">
     <q-parallax :height="250" :speed="0.5" class="q-mb-sm">
       <template v-slot:media>
         <img :src="require('../assets/vegies.jpg')" />
@@ -7,9 +7,9 @@
 
       <h3 class="text-white text-center">Get Healthy With Our Vegie</h3>
     </q-parallax>
-    <div class="row wrap">
+    <div :class="$mq === 'sm' || $mq === 'md' ? 'row wrap ' : 'web row wrap'">
       <div
-        class="col-xs-6 col-sm-3 col-md-3 col-xl-2 q-pa-xs"
+        class="col-xs-6 col-sm-3 col-md-3 col-xl-3 q-pa-xs q-mb-md"
         v-for="(product, index) in products"
         :key="index"
       >
@@ -118,7 +118,7 @@ export default {
   }
 };
 </script>
-<style lang="stylus" scoped>
+<style lang="stylus">
 .my-card {
   cursor: pointer;
 }

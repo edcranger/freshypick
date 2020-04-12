@@ -6,7 +6,7 @@
       v-if="$mq !== 'sm'"
     >
       <div class="col-12">
-        <p class="text-center text-subtitle1">{{ react.desc }}</p>
+        <p class="text-center text-h6 text-grey-8">{{ react.desc }}</p>
       </div>
       <div class="col-12 text-center">
         <q-btn outline style="color: green;" label="Continue Shopping" to="/" />
@@ -14,7 +14,7 @@
     </div>
     <!-- mobile view if no orders -->
     <div class="absolute-center" v-if="$mq === 'sm'">
-      <p class="text-center text-subtitle1">{{ react.desc }}</p>
+      <p class="text-center text-h6 text-grey-8">{{ react.desc }}</p>
       <q-btn outline style="color: green;" label="Continue Shopping" to="/" />
     </div>
   </div>

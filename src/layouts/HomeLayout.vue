@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="hHh lpR fFf" :class="$mq === 'lg' ? 'web' : ''">
+  <q-layout view="hHh lpR fFf">
     <q-header elevated :class="$mq === 'lg' ? 'web bg-green' : 'bg-green'">
       <q-toolbar>
         <q-toolbar-title class="q-mt-sm q-ml-md">
@@ -104,8 +104,46 @@
       <router-view />
     </q-page-container>
 
+    <div class="bg-light-green-4 text-grey-9 q-pa-lg" v-if="$mq !== 'sm'">
+      <div :class="$mq === 'sm' || $mq === 'md' ? 'row' : 'web row'">
+        <div class="col-3">
+          <h5 class="text-subtitle2 q-ma-xs">Customer Service</h5>
+          <p class="q-ml-xs text-caption q-ma-none">Free Shipping</p>
+          <p class="q-ml-xs text-caption q-ma-none">Order Tracking</p>
+          <p class="q-ml-xs text-caption q-ma-none">Return and Refund</p>
+        </div>
+        <div class="col-3">
+          <h5 class="text-subtitle2 q-ma-xs">Products</h5>
+          <p class="q-ml-xs text-caption q-ma-none">Vegetables</p>
+          <p class="q-ml-xs text-caption q-ma-none">Meat</p>
+          <p class="q-ml-xs text-caption q-ma-none">Fish</p>
+        </div>
+        <div class="col-3">
+          <h5 class="text-subtitle2 q-ma-xs">Connect with us.</h5>
+          <p class="q-ml-xs text-caption q-ma-none">+639156870548</p>
+          <p class="q-ml-xs text-caption q-ma-none">Facebook</p>
+          <p class="q-ml-xs text-caption q-ma-none">Instagram</p>
+        </div>
+        <div class="col-3">
+          <h5 class="text-subtitle2 q-ma-xs">FAQ.</h5>
+          <p class="q-ml-xs text-caption q-ma-none">How to order</p>
+          <p class="q-ml-xs text-caption q-ma-none">Payment refund</p>
+        </div>
+      </div>
+      <div
+        :class="$mq === 'sm' || $mq === 'md' ? ' q-mt-xl' : 'web row q-mt-xl'"
+      >
+        <div class="col-xs-12 col-sm-6">
+          <p class="text-left">© 2020 Freshypick. All Rights Reserved</p>
+        </div>
+        <div class="col-xs-12 col-sm-6 text-right">
+          Service Locations : Quezon City | Caloocan | Mandaluyong | Makati |
+          Ortigas | Pasig | Pasay
+        </div>
+      </div>
+    </div>
+
     <q-footer class="bg-green">
-      <div class="q-pa-lg" v-if="$mq !== 'sm'">By Vertive Interactive</div>
       <q-toolbar v-if="$mq === 'sm'">
         <q-toolbar-title class="q-pa-xs">
           <q-tabs dense indicator-color="yellow" :breakpoint="100">
@@ -159,11 +197,16 @@ export default {
       });
     }
   }
+
+  //   .web {
+  //   padding-left: 250px;
+  //   padding-right: 250px;
+  // }
 };
 </script>
 <style lang="stylus">
 .web {
-  padding-left: 300px;
-  padding-right: 300px;
+  padding-left: 250px;
+  padding-right: 250px;
 }
 </style>

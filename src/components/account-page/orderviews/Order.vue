@@ -12,76 +12,74 @@
         :itemLength="filteredOrder.length"
       />
 
-      <div class="col" v-if="filteredOrder.length !== 0">
-        <div class="col-12 bg-white">
-          <q-list bordered separator>
-            <q-item-label header>
-              <h5 class="q-my-none">Item Management</h5>
-            </q-item-label>
+      <div class="col-12" v-if="filteredOrder.length !== 0">
+        <q-list bordered separator class="bg-white">
+          <q-item-label header>
+            <h5 class="q-my-none">My Orders</h5>
+          </q-item-label>
 
-            <q-item
-              v-for="item in filteredOrder"
-              :key="item.id"
-              :to="{
-                name: $mq === 'sm' ? 'mview-orders' : 'view-orders',
-                params: { itemId: item.id }
-              }"
-            >
-              <q-item-section>
-                <q-item-label caption>
-                  <div class="row">
-                    <div class="col">{{ item.id }}</div>
-                    <div class="col text-right">
-                      <p v-if="item.stage === 'Delivered'" class="text-green">
-                        Completed
-                        <q-icon
-                          name="fas fa-check-double"
-                          color="green"
-                          class="q-ml-xs"
-                        />
-                      </p>
-                      <p
-                        v-else-if="item.stage === 'Delivering'"
-                        class="text-grey"
-                      >
-                        Delivering
-                        <q-icon
-                          name="fas fa-truck"
-                          color="grey"
-                          class="q-ml-xs"
-                        />
-                      </p>
-                    </div>
-                  </div>
-                </q-item-label>
-
-                <q-item-label overline>
-                  <div class="row" v-for="i in item.item" :key="i.purchaseid">
-                    <div class="col" v-if="!i.cancelled">
-                      <q-img
-                        :src="i.photo[0].url"
-                        spinner-color="white"
-                        style="height: 30px; max-width: 30px"
-                      />
-                      x {{ i.qty }} {{ i.name }}
-                    </div>
-                  </div>
-                </q-item-label>
-
-                <q-item-label>
+          <q-item
+            v-for="item in filteredOrder"
+            :key="item.id"
+            :to="{
+              name: $mq === 'sm' ? 'mview-orders' : 'view-orders',
+              params: { itemId: item.id }
+            }"
+          >
+            <q-item-section>
+              <q-item-label caption>
+                <div class="row">
+                  <div class="col">{{ item.id }}</div>
                   <div class="col text-right">
-                    <p class="text-green">
-                      <strong>
-                        <span class="q-mr-xs lt-sm">Total:</span>
-                        ₱{{ calCulateItem(item.id) }}
-                      </strong>
+                    <p v-if="item.stage === 'Delivered'" class="text-green">
+                      Completed
+                      <q-icon
+                        name="fas fa-check-double"
+                        color="green"
+                        class="q-ml-xs"
+                      />
+                    </p>
+                    <p
+                      v-else-if="item.stage === 'Delivering'"
+                      class="text-grey"
+                    >
+                      Delivering
+                      <q-icon
+                        name="fas fa-truck"
+                        color="grey"
+                        class="q-ml-xs"
+                      />
                     </p>
                   </div>
-                </q-item-label>
-              </q-item-section>
-            </q-item>
-          </q-list>
-        </div>
+                </div>
+              </q-item-label>
+
+              <q-item-label overline>
+                <div class="row" v-for="i in item.item" :key="i.purchaseid">
+                  <div class="col" v-if="!i.cancelled">
+                    <q-img
+                      :src="i.photo[0].url"
+                      spinner-color="white"
+                      style="height: 30px; max-width: 30px"
+                    />
+                    x {{ i.qty }} {{ i.name }}
+                  </div>
+                </div>
+              </q-item-label>
+
+              <q-item-label>
+                <div class="col text-right">
+                  <p class="text-green">
+                    <strong>
+                      <span class="q-mr-xs lt-sm">Total:</span>
+                      ₱{{ calCulateItem(item.id) }}
+                    </strong>
+                  </p>
+                </div>
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+        </q-list>
       </div>
     </q-page>
   </transition>
