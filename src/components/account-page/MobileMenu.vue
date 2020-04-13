@@ -6,7 +6,7 @@
     "
   >
     <div
-      class="fit row wrap justify-center items-center content-center bg-light-green-2"
+      class="fit row wrap justify-center items-center content-center bg-light-green-3"
     >
       <div class="col-12 q-mt-lg">
         <div class="row items-center content-center justify-center">
@@ -15,10 +15,13 @@
             font-size="52px"
             color="teal"
             text-color="white"
-            icon="fas fa-user-circle"
-          />
+          >
+            <q-img :src="userProfile.photo" />
+          </q-avatar>
         </div>
-        <div class="row items-center content-center justify-center">
+        <div
+          class="row items-center content-center justify-center text-grey-8 text-bolder"
+        >
           <div class="q-mt-sm text-center">
             <span
               :class="
@@ -29,7 +32,7 @@
               >Edison Ocampo</span
             >
             <div>
-              <p class="text-grey-9">
+              <p class="text-grey-8 text-bold text-caption">
                 My Cart: {{ cart.length }} | My Order: {{ filterBadge.length }}
               </p>
             </div>
@@ -109,7 +112,7 @@ export default {
   },
   props: ["mobile1", "mobile2"],
   computed: {
-    ...mapGetters(["cart", "ordered", "receivedItems"]),
+    ...mapGetters(["cart", "ordered", "receivedItems", "userProfile"]),
     filterBadge() {
       return this.ordered.filter(i => i.userNotification === "Yes");
     }

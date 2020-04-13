@@ -5,22 +5,23 @@
   >
     <div class="row text-center">
       <div class="col-xs-12 col-sm-6">
-        <q-carousel
-          swipeable
-          animated
-          v-model="slide"
-          thumbnails
-          infinite
-          class="q-ma-sm"
-        >
-          <q-carousel-slide
-            class="q-pa-none"
+        <q-img
+          :src="slide"
+          spinner-color="white"
+          style="height: 300px; max-width: 400px"
+        />
+
+        <div class="row justify-center items-center content-center q-pa-sm">
+          <q-img
+            @click="slide = i"
+            class
             v-for="(i, index) in getProductPhoto"
             :key="index"
-            :name="i"
-            :img-src="i"
+            :src="i"
+            spinner-color="white"
+            style="height: 40px; max-width: 50px"
           />
-        </q-carousel>
+        </div>
       </div>
 
       <div class="col-xs-12 col-sm-6 q-pa-md">
@@ -147,6 +148,7 @@ import AddtoCart from "../components/modals/AddtoCart";
 export default {
   data() {
     return {
+      param: this.$route.params.name,
       product: null,
       slide: null
     };
@@ -171,28 +173,34 @@ export default {
   },
   methods: {
     ...mapActions(["addToCart", "getItems"]),
+    init() {
+      this.product = this.products.filter(i => i.name === this.param)[0];
+
+      this.slide = this.product.photo[0].url;
+
+      // eslint-disable-next-line no-console
+      this.$consola.info("productPage", this.recommendations);
+    },
     addCart() {
       this.addToCart(this.product).then(() => {});
     },
     viewSingleProduct(product) {
       // eslint-disable-next-line no-console
-      this.$router
-        .replace({ name: "product", params: { name: product.name } })
-        .then(() => {
-          this.$router.go();
-        });
+      this.param = product.name;
+      this.$route.params.name = product.name;
     }
   },
   created() {
-    this.getItems();
-    this.product = this.products.filter(
-      i => i.name === this.$route.params.name
-    )[0];
-
-    this.slide = this.product.photo[0].url;
-
-    // eslint-disable-next-line no-console
-    this.$consola.info("productPage", this.recommendations);
+    this.init();
+  },
+  watch: {
+    param: function(newValue, oldValue) {
+      // eslint-disable-next-line no-console
+      console.log(newValue);
+      // eslint-disable-next-line no-console
+      console.log(oldValue);
+      this.init();
+    }
   },
   components: {
     AddtoCart

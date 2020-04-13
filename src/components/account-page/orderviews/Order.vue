@@ -30,32 +30,19 @@
               <q-item-label caption>
                 <div class="row">
                   <div class="col">{{ item.id }}</div>
+
                   <div class="col text-right">
-                    <p v-if="item.stage === 'Delivered'" class="text-green">
-                      Completed
-                      <q-icon
-                        name="fas fa-check-double"
-                        color="green"
-                        class="q-ml-xs"
-                      />
-                    </p>
-                    <p
-                      v-else-if="item.stage === 'Delivering'"
-                      class="text-grey"
-                    >
-                      Delivering
-                      <q-icon
-                        name="fas fa-truck"
-                        color="grey"
-                        class="q-ml-xs"
-                      />
-                    </p>
+                    <p>Processing</p>
                   </div>
                 </div>
               </q-item-label>
 
               <q-item-label overline>
-                <div class="row" v-for="i in item.item" :key="i.purchaseid">
+                <div
+                  class="row text-grey-8"
+                  v-for="i in item.item"
+                  :key="i.purchaseid"
+                >
                   <div class="col" v-if="!i.cancelled">
                     <q-img
                       :src="i.photo[0].url"
@@ -68,13 +55,15 @@
               </q-item-label>
 
               <q-item-label>
-                <div class="col text-right">
-                  <p class="text-green">
-                    <strong>
-                      <span class="q-mr-xs lt-sm">Total:</span>
-                      ₱{{ calCulateItem(item.id) }}
-                    </strong>
-                  </p>
+                <div class="row text-grey-8">
+                  <div class="col-6 text-left text-caption">
+                    Date ordered - {{ datefxn(item.date) }}
+                  </div>
+                  <div class="col-6 text-right">
+                    <p class="text-green text-italic">
+                      <strong>Total: ₱{{ calCulateItem(item.id) }}</strong>
+                    </p>
+                  </div>
                 </div>
               </q-item-label>
             </q-item-section>
@@ -88,6 +77,7 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import NoItems from "../../utils/NoItems";
+import { date } from "quasar";
 export default {
   data() {
     return {
@@ -106,16 +96,6 @@ export default {
       );
       return wew;
     }
-    // filt() {
-    //   const filtOrder = this.ordered.map(i =>
-    //     i.item.map(e => {
-    //       return e.cancelled;
-    //     })
-    //   );
-
-    //   const wew = filtOrder.map(i => i);
-    //   return wew;
-    // }
   },
   methods: {
     ...mapActions(["receivedOrder", "editOrder"]),
@@ -133,6 +113,9 @@ export default {
     receive(id) {
       this.receivedOrder(id);
       this.editOrder(this.ordered);
+    },
+    datefxn(timestamp) {
+      return date.formatDate(timestamp, "MM/DD/YYYY ");
     }
   },
   components: {

@@ -1,12 +1,9 @@
 <template>
   <div>
-    <q-list
-      :separator="$mq === 'sm' ? true : false"
-      bordered
-      padding
-      class="bg-white text-grey-7"
-    >
-      <q-item-label header>User Profile</q-item-label>
+    <q-list padding class="bg-white text-grey-7">
+      <q-item-label header>
+        <h5 class="q-my-none">My Profile</h5>
+      </q-item-label>
 
       <q-item clickable v-ripple>
         <q-item-section>

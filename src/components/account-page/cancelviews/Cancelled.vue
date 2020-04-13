@@ -9,10 +9,9 @@
       <NoItems :desc="desc" :itemLength="cancelledItems.length" />
       <div class="col-12" v-if="cancelledItems.length !== 0">
         <q-list bordered separator class="bg-white">
-          <div class="q-ml-md">
-            <q-icon name="remove_shopping_cart" class="q-mr-sm"></q-icon
-            >Canceled
-          </div>
+          <q-item-label header>
+            <h5 class="q-my-none">Canceled</h5>
+          </q-item-label>
 
           <q-item v-for="item in filterCancelled" :key="item.id" clickable>
             <q-item-section>
@@ -20,10 +19,7 @@
                 <div class="row">
                   <div class="col">{{ item.id }}</div>
                   <div class="col text-right">
-                    <p class="text-red">
-                      Canceled
-                      <q-icon name="close" color="red" class="q-ml-xs" />
-                    </p>
+                    <p class="text-red">Canceled</p>
                   </div>
                 </div>
               </q-item-label>

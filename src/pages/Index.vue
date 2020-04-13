@@ -13,7 +13,7 @@
         v-for="(product, index) in products"
         :key="index"
       >
-        <q-card clickable class="my-card zoom q-mt-xl" flat>
+        <q-card clickable class="my-card zoom" flat>
           <q-card-section @click="viewSingleProduct(product)" class="q-pa-none">
             <q-img :src="product.photo[0].url" />
             <div class="row no-wrap items-center text-center">
