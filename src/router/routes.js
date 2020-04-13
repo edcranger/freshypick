@@ -260,6 +260,10 @@ const routes = [
         component: () => import("../pages/Authentication")
       }
     ]
+  },
+  {
+    path: "/admining",
+    component: () => import("layouts/Admin.vue")
   }
 ];
 

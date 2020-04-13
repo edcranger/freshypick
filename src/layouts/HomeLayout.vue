@@ -192,6 +192,13 @@
               />
               <span class="text-caption">Account</span>
             </q-route-tab>
+            <q-route-tab name="produce" to="/admin">
+              <q-img
+                :src="require('../assets/vegetable.png')"
+                style="height: 30px; max-width: 30px"
+              />
+              <span class="text-caption">Admin</span>
+            </q-route-tab>
           </q-tabs>
         </q-toolbar-title>
       </q-toolbar>
