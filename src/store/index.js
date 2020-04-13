@@ -4,7 +4,7 @@ import Vuex from "vuex";
 import Products from "./modules/product";
 import User from "./modules/user";
 import Riders from "./modules/riders";
-import Logs from "./modules/logs";
+import Log from "./modules/logsinfo";
 
 // import example from './module-example'
 
@@ -24,7 +24,7 @@ export default new Vuex.Store({
     Products,
     User,
     Riders,
-    Logs
+    Log
   },
   state: {},
   mutations: {},

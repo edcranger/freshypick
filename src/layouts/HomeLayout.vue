@@ -160,9 +160,9 @@
                 style="height: 30px; max-width: 30px"
               />
               <span class="text-caption">Cart</span>
-              <q-badge color="red" v-if="cart.length > 0" floating>
-                {{ cart.length }}
-              </q-badge>
+              <q-badge color="red" v-if="cart.length > 0" floating>{{
+                cart.length
+              }}</q-badge>
             </q-route-tab>
             <q-route-tab name="account" to="/account">
               <q-img
