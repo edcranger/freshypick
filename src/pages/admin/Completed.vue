@@ -5,14 +5,13 @@
       $mq === 'sm' ? 'animated slideInRight' : 'animated fadeIn'
     "
   >
-    <div class="bg-white">
+    <q-page padding>
       <q-table
-        title="For Packing"
+        title="Completed"
         :data="tableData"
-        :columns="$mq === 'sm' ? columnsMobile : columnsWeb"
+        :columns="columns"
         row-key="name"
         :filter="filter"
-        :dense="$mq === 'sm'"
       >
         <template v-slot:body="props">
           <q-tr :props="props">
@@ -22,8 +21,8 @@
                 dense
                 color="blue"
                 :to="{
-                  name: $mq === 'sm' ? 'madminViewOrder' : 'adminViewOrder',
-                  params: { productId: props.row.name, type: 'Packing' }
+                  name: 'viewItemCompleted',
+                  params: { productOrderId: props.row.name }
                 }"
                 :label="props.row.name"
               />
@@ -51,7 +50,7 @@
           </q-input>
         </template>
       </q-table>
-    </div>
+    </q-page>
   </transition>
 </template>
 
@@ -62,7 +61,7 @@ export default {
   data() {
     return {
       filter: "",
-      columnsWeb: [
+      columns: [
         {
           name: "name",
           required: true,
@@ -95,31 +94,6 @@ export default {
         },
         { name: "status", label: "Status", field: "status", sortable: true }
       ],
-      columnsMobile: [
-        {
-          name: "name",
-          required: true,
-          label: "Purchase ID",
-          align: "left",
-          field: row => row.name,
-          format: val => `${val}`,
-          sortable: true
-        },
-        {
-          name: "date",
-          align: "left",
-          label: "Date of Order",
-          field: "date",
-          sortable: true
-        },
-        {
-          name: "items",
-          align: "left",
-          label: "No. of Items",
-          field: "numItems",
-          sortable: true
-        }
-      ],
       tData: [this.tableData]
     };
   },
@@ -127,7 +101,7 @@ export default {
   computed: {
     ...mapGetters(["ordered"]),
     tableData() {
-      const forProcessing = this.ordered.filter(x => x.stage === "Packing");
+      const forProcessing = this.ordered.filter(x => x.stage === "Delivered");
       const wew = forProcessing.map(x => {
         const itemNum = x.item.filter(i => !i.cancelled);
         return {
@@ -141,7 +115,7 @@ export default {
         };
       });
 
-      return wew.sort((a, b) => (a.processDone > b.processDone ? 1 : -1));
+      return wew.sort((a, b) => (a.packingDone > b.packingDone ? 1 : -1));
     }
   },
   methods: {

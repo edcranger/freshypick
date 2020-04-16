@@ -1,9 +1,9 @@
 <template>
-  <div class="bg-white">
-    <q-item-label header>
+  <q-page padding>
+    <q-item-label header class="bg-white">
       <h5 class="q-my-none">Product Profile</h5>
     </q-item-label>
-    <div class="row">
+    <div class="row bg-white">
       <div class="col-xs-12 col-sm-6">
         <q-carousel
           swipeable
@@ -114,7 +114,7 @@
           <q-btn
             color="blue"
             :to="{
-              name: $mq === 'sm' ? 'meditItem' : 'editItem',
+              name: 'productEdit',
               params: { productId: product[0].id }
             }"
             dense
@@ -125,13 +125,13 @@
         </div>
       </div>
     </div>
-  </div>
+  </q-page>
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import AddInventory from "../../modals/addInventory";
-import ItemLog from "../../modals/ItemLog";
+import AddInventory from "../../components/modals/AddInventory";
+import ItemLog from "../../components/modals/ItemLog";
 export default {
   data() {
     return {

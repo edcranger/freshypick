@@ -31,7 +31,7 @@ export default {
     return {
       error: null,
       userID: null,
-      routeParams: this.$route.params.productId
+      routeParams: this.$route.params.productOrderId
     };
   },
   props: ["i", "dataTitle"],
@@ -63,11 +63,7 @@ export default {
 
         this.editOrder(this.ordered);
 
-        if (this.dataTitle === "Packing" && this.$mq !== "sm") {
-          this.$router.replace("/admin/packing");
-        } else if (this.dataTitle === "Packing" && this.$mq === "sm") {
-          this.$router.replace("/admin/mpacking");
-        }
+        this.$router.replace("/admining/packing");
       } else {
         this.error = "Credentials Invalid";
       }

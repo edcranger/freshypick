@@ -67,7 +67,7 @@ export default {
       sel: null,
       error: null,
       userID: null,
-      routeParams: this.$route.params.productId,
+      routeParams: this.$route.params.productOrderId,
       thumbStyle: {
         right: "4px",
         borderRadius: "5px",
@@ -122,11 +122,8 @@ export default {
         });
 
         this.editOrder(this.ordered);
-        if (this.dataTitle === "Delivering" && this.$mq !== "sm") {
-          this.$router.replace("/admin/delivering");
-        } else if (this.dataTitle === "Delivering" && this.$mq === "sm") {
-          this.$router.replace("/admin/mdelivering");
-        }
+
+        this.$router.replace("/admining/delivering");
       } else {
         this.error = "Credentials Invalid";
       }

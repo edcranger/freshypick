@@ -93,7 +93,7 @@
                       color="yellow-4"
                       icon="fas fa-user-lock"
                       class="q-ml-md q-mx-sm"
-                      to="/admin"
+                      to="/admining"
                     />
                   </div>
                 </div>
@@ -181,9 +181,9 @@
                 style="height: 30px; max-width: 30px"
               />
               <span class="text-caption">Cart</span>
-              <q-badge color="red" v-if="cart.length > 0" floating>
-                {{ cart.length }}
-              </q-badge>
+              <q-badge color="red" v-if="cart.length > 0" floating>{{
+                cart.length
+              }}</q-badge>
             </q-route-tab>
             <q-route-tab name="account" to="/account">
               <q-img
@@ -192,7 +192,7 @@
               />
               <span class="text-caption">Account</span>
             </q-route-tab>
-            <q-route-tab name="produce" to="/admin">
+            <q-route-tab name="produce" to="/admining">
               <q-img
                 :src="require('../assets/vegetable.png')"
                 style="height: 30px; max-width: 30px"

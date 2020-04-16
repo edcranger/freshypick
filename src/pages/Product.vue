@@ -186,6 +186,7 @@ export default {
     },
     viewSingleProduct(product) {
       // eslint-disable-next-line no-console
+      this.$router.push({ name: "product", params: { name: product.name } });
       this.param = product.name;
       this.$route.params.name = product.name;
     }
@@ -200,6 +201,7 @@ export default {
       // eslint-disable-next-line no-console
       console.log(oldValue);
       this.init();
+      window.scrollTo(0, 0);
     }
   },
   components: {

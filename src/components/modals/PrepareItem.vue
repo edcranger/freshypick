@@ -16,12 +16,6 @@
           />
         </div>
       </div>
-
-      <!-- <span class="q-ml-sm">
-        Are you sure that
-        <span class="text-green">{{ i.name }}</span>
-        is prepaired ?
-      </span>-->
     </ModalBody>
     <ModalActions>
       <q-btn flat label="No" color="primary" v-close-popup />
@@ -47,7 +41,7 @@ export default {
   name: "Modal",
   data() {
     return {
-      routeParams: this.$route.params.productId,
+      routeParams: this.$route.params.productOrderId,
       storageValue: null
     };
   },
@@ -94,11 +88,8 @@ export default {
         pow.map(
           i => ((i.stage = "Packing"), (i.dateProcessingDone = new Date()))
         );
-        if (this.dataTitle === "Processing" && this.$mq !== "sm") {
-          this.$router.replace("/admin/processing");
-        } else if (this.dataTitle === "Processing" && this.$mq === "sm") {
-          this.$router.replace("/admin/mprocessing");
-        }
+
+        this.$router.replace("/admining/processing");
       }
       this.editOrder(this.ordered);
     }

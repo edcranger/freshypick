@@ -1,9 +1,9 @@
 <template>
-  <div class="bg-white q-pa-sm">
-    <q-item-label header>
+  <q-page padding>
+    <q-item-label header class="bg-white">
       <h5 class="q-my-none">Edit Product</h5>
     </q-item-label>
-    <q-form @submit.prevent="saveEdit()">
+    <q-form @submit.prevent="saveEdit()" class="bg-white q-pa-md">
       <h6 class="q-my-none text-left">Info</h6>
       <p class="text-left q-mt-md q-mb-none text-subtitle text-grey-7">Title</p>
       <q-input
@@ -179,7 +179,7 @@
         <q-btn color="blue-6" type="submit">Save</q-btn>
       </div>
     </q-form>
-  </div>
+  </q-page>
 </template>
 
 <script>

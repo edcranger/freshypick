@@ -5,7 +5,7 @@
       $mq === 'sm' ? 'animated slideInRight' : 'animated fadeIn'
     "
   >
-    <div class>
+    <q-page padding>
       <q-table
         title="For Processing"
         :data="tableData"
@@ -21,8 +21,8 @@
                 dense
                 color="blue"
                 :to="{
-                  name: $mq === 'sm' ? 'madminViewOrder' : 'adminViewOrder',
-                  params: { productId: props.row.name, type: 'Processing' }
+                  name: 'viewItemProcessing',
+                  params: { productOrderId: props.row.name }
                 }"
                 :label="props.row.name"
               />
@@ -50,7 +50,7 @@
           </q-input>
         </template>
       </q-table>
-    </div>
+    </q-page>
   </transition>
 </template>
 
@@ -114,7 +114,7 @@ export default {
         {
           name: "items",
           align: "left",
-          label: "No. of Items",
+          label: "Item qty",
           field: "numItems",
           sortable: true
         }

@@ -5,14 +5,14 @@
       $mq === 'sm' ? 'animated slideInRight' : 'animated fadeIn'
     "
   >
-    <div class="bg-white">
+    <q-page padding>
       <div class="bg-white">
         <q-item-label header>
           <h5 class="q-my-none">Item Management</h5>
         </q-item-label>
       </div>
 
-      <div class="productTabs q-pa-sm">
+      <div class="productTabs bg-white">
         <q-tabs v-model="tab" align="justify" narrow-indicator class="q-mb-lg">
           <q-tab
             class="text-green"
@@ -43,14 +43,14 @@
           </q-tab-panel>
         </q-tab-panels>
       </div>
-    </div>
+    </q-page>
   </transition>
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import AddItem from "../admin-item/addProduct";
-import ItemTable from "../admin-item/itemTable";
+import AddItem from "../../components/admin-page/admin-item/addProduct";
+import ItemTable from "../../components/admin-page/admin-item/itemTable";
 
 export default {
   data() {
