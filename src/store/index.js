@@ -21,12 +21,14 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   modules: {
-    Products,
-    User,
     Riders,
-    Log
+    Log,
+    User,
+    Products
   },
-  state: {},
+  state: {
+    products: Products.products
+  },
   mutations: {},
   actions: {},
   getters: {}

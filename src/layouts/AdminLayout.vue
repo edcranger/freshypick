@@ -1,13 +1,6 @@
 <template>
-  <q-layout
-    :class="$mq === 'sm' || $mq === 'md' ? '' : 'web'"
-    style="min-height: auto;"
-  >
-    <component
-      :is="comp"
-      :web1="webAdminMenu"
-      :mobile1="mobileAdminMenu"
-    ></component>
+  <q-layout :class="$mq === 'sm' || $mq === 'md' ? '' : 'web'" style="min-height: auto;">
+    <component :is="comp" :web1="webAdminMenu" :mobile1="mobileAdminMenu"></component>
 
     <p class="text-center text-grey-5 q-mt-md">Version 1.0</p>
   </q-layout>
@@ -21,15 +14,6 @@ export default {
     return {
       compt: null,
       webAdminMenu: [
-        // {
-        //   id: 1,
-        //   btnName: "All Orders",
-        //   color: "teal",
-        //   icon: "fas fa-shopping-basket",
-        //   route: "/admin/orders",
-        //   label: true,
-        //   labelValue: "ordered"
-        // },
         {
           id: 2,
           btnName: "For Processing",
@@ -68,15 +52,6 @@ export default {
       ],
 
       mobileAdminMenu: [
-        // {
-        //   id: 1,
-        //   btnName: "All Orders",
-        //   color: "teal",
-        //   icon: "fas fa-shopping-basket",
-        //   route: "/admin/morders",
-        //   label: true,
-        //   labelValue: "ordered"
-        // },
         {
           id: 2,
           btnName: "For Processing",

@@ -131,6 +131,13 @@ export default {
           color: "indigo-10",
           icon: "fas fa-question-circle",
           route: "/account/mhelp"
+        },
+        {
+          id: 8,
+          btnName: "Message",
+          color: "indigo-10",
+          icon: "fas fa-question-circle",
+          route: "/account/mhelp"
         }
       ]
     };

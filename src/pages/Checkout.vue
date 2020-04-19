@@ -285,7 +285,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(["checkoutCart", "totalInCart", "ordered"]),
+    ...mapGetters(["checkoutCart", "totalInCart", "ordered", "userAdd"]),
     checkoutCartComp() {
       return this.checkoutCart;
     }
@@ -294,7 +294,9 @@ export default {
     ...mapActions(["order", "deleteFromCart"]),
 
     ordering() {
-      this.order();
+      //const { province, city, brgy, zipcode, detailedAdd } = this.userAdd;
+      //const address = `${detailedAdd} ${brgy} ${city}, ${zipcode} ${province}`;
+      this.order(this.userAdd);
     },
     onClickChild(value) {
       this.paymentMethod = value;
@@ -305,7 +307,6 @@ export default {
       this.deleteFromCart({ type: "single", item: item.id });
     }
   },
-  beforeCreate() {},
   created() {
     if (this.checkoutCart.length === 0) {
       this.$router.replace("/");

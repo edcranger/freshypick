@@ -23,7 +23,7 @@
           <q-item-section side center>
             <q-btn
               flat
-              v-if="!item.received"
+              v-if="!item.received && i.stage !== 'prepaired'"
               :color="!i.cancelled ? `red` : `grey`"
               :dense="$mq === 'sm'"
               :disable="i.cancelled"

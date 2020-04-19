@@ -14,11 +14,21 @@
         <q-toolbar-title class="q-mt-sm">
           <img height="60" :src="require('../assets/fp.png')" class="q-pa-sm" />
         </q-toolbar-title>
-        <q-btn color="purple" icon="home" round to="/" class="text-right" />
+        <div class="q-gutter-md">
+          <q-btn color="purple" icon="home" round to="/" class="text-right" />
+          <q-btn
+            color="purple"
+            icon="fas fa-motorcycle"
+            round
+            to="/rider"
+            class="text-right"
+          />
+        </div>
       </q-toolbar>
     </q-header>
 
     <q-drawer
+      mini-to-overlay
       v-model="drawer"
       show-if-above
       :mini="miniState"

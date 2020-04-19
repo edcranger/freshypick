@@ -1,6 +1,14 @@
 import consola from "consola";
 // import uuid from "uuid/v4";
 import Photo from "../../assets/noImage.jpg";
+import carrots from "../../assets/carrots.jpg";
+import cabbage from "../../assets/cabbage.jpg";
+import onion from "../../assets/onion.jpg";
+import cucumber from "../../assets/cucumber.jpg";
+import bellpeper from "../../assets/bellpeper.jpg";
+import chayote from "../../assets/chayote.jpg";
+import chinessecabbage from "../../assets/chinessecabbage.png";
+import squash from "../../assets/squash.jpg";
 
 import { Notify } from "quasar";
 
@@ -17,10 +25,8 @@ const state = {
       price: 60.0,
       photo: [
         {
-          file:
-            "https://thegreengrocermanila.com/wp-content/uploads/2015/12/carrots-large-1-500x500.jpg",
-          url:
-            "https://thegreengrocermanila.com/wp-content/uploads/2015/12/carrots-large-1-500x500.jpg"
+          file: "",
+          url: carrots
         }
       ],
       sale: false,
@@ -48,8 +54,7 @@ const state = {
       photo: [
         {
           file: "",
-          url:
-            "https://thegreengrocermanila.com/wp-content/uploads/2015/12/organic-cabbage-1-500x500.jpg"
+          url: cabbage
         }
       ],
       sale: false,
@@ -77,8 +82,7 @@ const state = {
       photo: [
         {
           file: "",
-          url:
-            "https://thegreengrocermanila.com/wp-content/uploads/2015/12/onion-red-local-1-500x500.jpg"
+          url: onion
         }
       ],
       sale: false,
@@ -106,8 +110,7 @@ const state = {
       photo: [
         {
           file: "",
-          url:
-            "https://thegreengrocermanila.com/wp-content/uploads/2015/12/cucumber-1-500x500.jpg"
+          url: cucumber
         }
       ],
       sale: false,
@@ -135,8 +138,7 @@ const state = {
       photo: [
         {
           file: "",
-          url:
-            "https://thegreengrocermanila.com/wp-content/uploads/2015/12/bell-pepper-red-conical-1-500x500.jpg"
+          url: bellpeper
         }
       ],
       sale: false,
@@ -164,8 +166,7 @@ const state = {
       photo: [
         {
           file: "",
-          url:
-            "https://thegreengrocermanila.com/wp-content/uploads/2015/12/organic-chayote-1-500x500.jpg"
+          url: chayote
         }
       ],
       sale: false,
@@ -193,8 +194,7 @@ const state = {
       photo: [
         {
           file: "",
-          url:
-            "https://thegreengrocermanila.com/wp-content/uploads/2015/12/cabbage-chinese-500x500.png"
+          url: chinessecabbage
         }
       ],
       sale: false,
@@ -222,8 +222,7 @@ const state = {
       photo: [
         {
           file: "",
-          url:
-            "https://thegreengrocermanila.com/wp-content/uploads/2015/12/organic-squash-1-500x500.jpg"
+          url: squash
         }
       ],
       sale: false,
@@ -334,9 +333,9 @@ const actions = {
       consola.error(err);
     }
   },
-  async order({ commit }) {
+  async order({ commit }, payload) {
     try {
-      commit("addingToOrderedCollection");
+      commit("addingToOrderedCollection", payload);
     } catch (err) {
       consola.error(err);
     }
@@ -433,7 +432,7 @@ const mutations = {
     const checking = state.cart.filter(item => item.selected === true);
     state.checkoutCart = checking;
   },
-  addingToOrderedCollection(state) {
+  addingToOrderedCollection(state, payload) {
     const purchaseId = `${Date.now()}`;
     const finalCart = [];
 
@@ -454,6 +453,12 @@ const mutations = {
 
     state.ordered.push({
       id: purchaseId,
+      user: {
+        name: "Edison Ocampo",
+        id: 123523312,
+        email: "edisonocampo.eo@gmail.com",
+        phone: "09958402424"
+      },
       item: [...finalCart],
       received: false,
       receivedDate: null,
@@ -463,7 +468,11 @@ const mutations = {
       dateDelivering: null,
       stage: "Processing",
       userNotification: null,
-      rider: []
+      location: payload,
+      rider: "",
+      confirmedByRider: false,
+      riderStatus: "",
+      deliveryProgress: ""
     });
 
     state.finalCart = [];

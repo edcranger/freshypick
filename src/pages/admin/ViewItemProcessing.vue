@@ -10,7 +10,7 @@
       <div v-for="item in orderedItems" :key="item.id">
         <!-- If the display is for processing purposes -->
 
-        <q-item v-for="i in item.item" :key="i.id">
+        <q-item v-for="i in filterCanceled" :key="i.id">
           <q-item-section>
             <q-img
               :class="i.cancelled ? 'grayscale' : ''"
@@ -77,17 +77,17 @@
         <q-item v-if="i.dateProcessingDone">
           <q-item-section>
             <q-item-label caption>Processing done</q-item-label>
-            <q-item-label caption>
-              {{ datefxn(i.dateProcessingDone) }}
-            </q-item-label>
+            <q-item-label caption>{{
+              datefxn(i.dateProcessingDone)
+            }}</q-item-label>
           </q-item-section>
         </q-item>
         <q-item v-if="i.datePackingDone">
           <q-item-section>
             <q-item-label caption>Packing done</q-item-label>
-            <q-item-label caption>
-              {{ datefxn(i.datePackingDone) }}
-            </q-item-label>
+            <q-item-label caption>{{
+              datefxn(i.datePackingDone)
+            }}</q-item-label>
           </q-item-section>
         </q-item>
       </div>
@@ -111,11 +111,7 @@ export default {
   },
   props: ["type"],
   created() {
-    // eslint-disable-next-line no-console
-    console.log(this.orderedItems);
-
-    // eslint-disable-next-line no-console
-    console.log(this.checkIfAllselected);
+    this.$consola.log(this.filterCanceled);
   },
   beforeDestroy() {
     // eslint-disable-next-line no-console
@@ -130,7 +126,9 @@ export default {
       return watiw[0];
     },
     orderedItems() {
-      return this.ordered.filter(item => item.id === this.routeParams);
+      let order = this.ordered.filter(item => item.id === this.routeParams);
+
+      return order;
     },
     calCulateItem() {
       const pow = this.ordered.filter(item => item.id === this.routeParams);
@@ -148,6 +146,11 @@ export default {
       });
 
       return parseInt(totalPrice);
+    },
+    filterCanceled() {
+      const filtered = this.orderedItems[0].item.filter(i => !i.cancelled);
+
+      return filtered;
     }
   },
   methods: {

@@ -118,7 +118,7 @@ export default {
           (i.stage = "Delivering"),
             (i.dateDelivering = new Date()),
             (i.userNotification = "Yes"),
-            i.rider.push(this.sel);
+            (i.rider = this.sel.id);
         });
 
         this.editOrder(this.ordered);

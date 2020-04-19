@@ -1,4 +1,4 @@
-import consola from "consola";
+import { success, error } from "consola";
 
 const state = {
   riders: [
@@ -16,7 +16,140 @@ const state = {
       name: "Mae Anne Tribunal",
       vehicle: "Honda Dash",
       plateNo: "BZM724",
-      itemsInHand: [],
+      itemsInHand: [
+        {
+          user: {
+            name: "Mark soliz",
+            id: 123523312,
+            email: "mark.so@gmail.com",
+            phone: "023451234"
+          },
+          confirmedByRider:
+            "Sat Apr 18 2020 16:31:41 GMT+0800 (Philippine Standard Time)",
+          date: 1587198670894,
+          dateDelivering:
+            "Sat Apr 18 2020 16:31:30 GMT+0800 (Philippine Standard Time)",
+          datePackingDone:
+            "Sat Apr 18 2020 16:31:27 GMT+0800 (Philippine Standard Time)",
+          dateProcessingDone:
+            "Sat Apr 18 2020 16:31:22 GMT+0800 (Philippine Standard Time)",
+          id: "1587198670893",
+          item: [
+            {
+              cancelled: false,
+              code: "IV320",
+              confirm: false,
+              datePurchased: 1587198670894,
+              description: "bla bla bla bla cabbage",
+              dummy: true,
+              id: "a12g",
+              inventory: Array(2),
+              name: "Cabbage",
+              percentSale: 0,
+              photo: [{ file: "", url: "img/cabbage.jpg" }],
+              prepaired: true,
+              price: 180,
+              purchaseId: "1587198670893",
+              purchaseOutOfStock: false,
+              qty: 1,
+              sale: false,
+              salePrice: 0,
+              selected: false,
+              sellingWeight: 1,
+              sku: "I43205",
+              stage: "prepaired",
+              tracking: true,
+              unit: "kg",
+              usePercentage: false
+            }
+          ],
+
+          location: {
+            brgy: "Brgy 117",
+            city: "Caloocan",
+            default: true,
+            detailedAdd:
+              "Blk 22 Lot 12 Hibiscus Street Castle Spring Heights Camarin",
+            name: "Home",
+            province: "Metro Manila",
+            region: "NCR",
+            zipcode: 1442
+          },
+
+          received: false,
+          receivedDate: null,
+          rider: "fos753",
+          riderStatus: "pending",
+          stage: "Delivering",
+          userNotification: "Yes"
+        },
+        {
+          user: {
+            name: "Angela Devila",
+            id: 123523312,
+            email: "angel.de@gmail.com",
+            phone: "09452143324"
+          },
+          confirmedByRider:
+            "Sat Apr 18 2020 16:31:41 GMT+0800 (Philippine Standard Time)",
+          date: 1587198670894,
+          dateDelivering:
+            "Sat Apr 18 2020 16:31:30 GMT+0800 (Philippine Standard Time)",
+          datePackingDone:
+            "Sat Apr 18 2020 16:31:27 GMT+0800 (Philippine Standard Time)",
+          dateProcessingDone:
+            "Sat Apr 18 2020 16:31:22 GMT+0800 (Philippine Standard Time)",
+          id: "1587198672325",
+          item: [
+            {
+              cancelled: false,
+              code: "IV320",
+              confirm: false,
+              datePurchased: 1587198670894,
+              description: "bla bla bla bla cabbage",
+              dummy: true,
+              id: "a12g",
+              inventory: Array(2),
+              name: "Cabbage",
+              percentSale: 0,
+              photo: [{ file: "", url: "img/cabbage.jpg" }],
+              prepaired: true,
+              price: 180,
+              purchaseId: "1587198670893",
+              purchaseOutOfStock: false,
+              qty: 1,
+              sale: false,
+              salePrice: 0,
+              selected: false,
+              sellingWeight: 1,
+              sku: "I43205",
+              stage: "prepaired",
+              tracking: true,
+              unit: "kg",
+              usePercentage: false
+            }
+          ],
+
+          location: {
+            brgy: "Brgy 117",
+            city: "Caloocan",
+            default: true,
+            detailedAdd:
+              "Blk 22 Lot 12 Hibiscus Street Castle Spring Heights Camarin",
+            name: "Home",
+            province: "Metro Manila",
+            region: "NCR",
+            zipcode: 1442
+          },
+
+          received: false,
+          receivedDate: null,
+          rider: "fos753",
+          riderStatus: "in-progress",
+          stage: "Delivering",
+          userNotification: "Yes"
+        }
+      ],
       available: true,
       rating: 4.5
     },
@@ -43,7 +176,23 @@ const actions = {
     try {
       commit("addtoRider", payload);
     } catch (err) {
-      consola.error(err);
+      error({ message: err, badge: true });
+    }
+  },
+  async deliveryRequest({ commit, rootState }, payload) {
+    try {
+      const luh = rootState.Products;
+      success("root", luh.ordered);
+
+      const order = luh.ordered.filter(i => i.id === payload);
+      // eslint-disable-next-line no-console
+      order.map(i => {
+        i.confirmedByRider = new Date();
+        i.riderStatus = "pending";
+      });
+      commit("acceptDelivery", payload);
+    } catch (err) {
+      error({ message: err, badge: true });
     }
   }
 };
@@ -57,9 +206,10 @@ const mutations = {
 
     // eslint-disable-next-line no-console
     searchRider.map(i => {
-      i.itemsInHand.push(id.id);
+      i.itemsInHand.push(id);
     });
-  }
+  },
+  acceptDelivery() {}
 };
 
 export default {

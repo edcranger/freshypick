@@ -1,6 +1,6 @@
 <template>
   <q-page class="bg-white text-center text-grey-9">
-    <div class="row justify-center">
+    <div class="row justify-center items-center content-center">
       <div
         :class="
           $mq === 'sm' ? 'col-md-8 col-xs-12' : 'col-md-8 col-xs-12  q-mt-xl'
