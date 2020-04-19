@@ -16,9 +16,9 @@
         </q-item-section>
 
         <q-item-section>
-          <q-item-label class="text-bold text-grey-7">
-            {{ i.data }}
-          </q-item-label>
+          <q-item-label class="text-bold text-grey-7">{{
+            i.data
+          }}</q-item-label>
         </q-item-section>
       </q-item>
     </q-list>
@@ -39,9 +39,9 @@
         </q-item-section>
 
         <q-item-section>
-          <q-item-label class="text-bold text-grey-7">
-            {{ i.data }}
-          </q-item-label>
+          <q-item-label class="text-bold text-grey-7">{{
+            i.data
+          }}</q-item-label>
         </q-item-section>
       </q-item>
       <q-separator />
@@ -79,7 +79,7 @@
           <q-btn class="full-width q-pa-md" color="red">Decline</q-btn>
         </div>
         <div class="col-6">
-          <q-btn class="full-width q-pa-md" color="green">Accept</q-btn>
+          <q-btn class="full-width q-pa-md" color="green">In Progress</q-btn>
         </div>
       </div>
     </div>

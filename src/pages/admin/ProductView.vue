@@ -98,7 +98,7 @@
             @click="openInventoryDialog = !openInventoryDialog"
           />
           <q-dialog v-model="openInventoryDialog" persistent>
-            <AddInventory :product="product[0]" />
+            <AddInventories :product="product[0]" />
           </q-dialog>
           <q-btn
             color="grey"
@@ -130,7 +130,7 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import AddInventory from "../../components/modals/AddInventory";
+import AddInventories from "../../components/modals/addInventory";
 import ItemLog from "../../components/modals/ItemLog";
 export default {
   data() {
@@ -168,7 +168,7 @@ export default {
     ...mapActions([])
   },
   components: {
-    AddInventory,
+    AddInventories,
     ItemLog
   }
 };

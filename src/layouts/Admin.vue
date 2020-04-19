@@ -1,6 +1,6 @@
 <template>
   <q-layout view="hHh lpR fFf">
-    <q-header bordered class="bg-green text-white">
+    <q-header bordered class="bg-white text-dark" elevated>
       <q-toolbar>
         <q-btn
           dense
@@ -12,11 +12,20 @@
         />
 
         <q-toolbar-title class="q-mt-sm">
-          <img height="60" :src="require('../assets/fp.png')" class="q-pa-sm" />
+          <span class="text-h6" v-html="`Freshypick Admin`" />
+          <!-- <img height="60" :src="require('../assets/fp.png')" class="q-pa-sm" /> -->
         </q-toolbar-title>
         <div class="q-gutter-md">
-          <q-btn color="purple" icon="home" round to="/" class="text-right" />
           <q-btn
+            flat
+            color="purple"
+            icon="home"
+            round
+            to="/"
+            class="text-right"
+          />
+          <q-btn
+            flat
             color="purple"
             icon="fas fa-motorcycle"
             round
@@ -66,7 +75,7 @@
 
     <q-footer
       elevated
-      class="bg-green text-white text-center q-pa-sm"
+      class="bg-white text-dark text-center q-pa-sm"
       v-if="$mq === 'sm'"
     >
       <!-- <q-btn

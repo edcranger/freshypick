@@ -1,6 +1,13 @@
 <template>
-  <q-layout :class="$mq === 'sm' || $mq === 'md' ? '' : 'web'" style="min-height: auto;">
-    <component :is="comp" :web1="webAdminMenu" :mobile1="mobileAdminMenu"></component>
+  <q-layout
+    :class="$mq === 'sm' || $mq === 'md' ? '' : 'web'"
+    style="min-height: auto;"
+  >
+    <component
+      :is="comp"
+      :web1="webAdminMenu"
+      :mobile1="mobileAdminMenu"
+    ></component>
 
     <p class="text-center text-grey-5 q-mt-md">Version 1.0</p>
   </q-layout>
