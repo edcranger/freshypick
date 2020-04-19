@@ -18,7 +18,7 @@
         <div class="q-gutter-md">
           <q-btn
             flat
-            color="purple"
+            color="dark"
             icon="home"
             round
             to="/"
@@ -26,7 +26,7 @@
           />
           <q-btn
             flat
-            color="purple"
+            color="dark"
             icon="fas fa-motorcycle"
             round
             to="/rider"
@@ -61,9 +61,9 @@
               <q-icon :name="i.icon" :color="i.color" />
             </q-item-section>
 
-            <q-item-section class="text-caption">{{
-              i.btnName
-            }}</q-item-section>
+            <q-item-section class="text-caption">
+              {{ i.btnName }}
+            </q-item-section>
           </q-item>
         </q-list>
       </q-scroll-area>

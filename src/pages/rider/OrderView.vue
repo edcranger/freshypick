@@ -51,7 +51,11 @@
       <p class="text-subtitle2 text-grey-7 q-my-sm q-ml-xs">Items</p>
     </div>
 
-    <q-list bordered separator>
+    <q-list
+      bordered
+      separator
+      :style="$mq === 'sm' ? 'margin-bottom:60px;' : ''"
+    >
       <q-item
         class="bg-white q-"
         clickable
@@ -73,7 +77,7 @@
     </q-list>
 
     <!-- This is the bottom buttons -->
-    <div class="btndown fixed-bottom">
+    <q-footer class="btndown">
       <div class="row">
         <div class="col-6">
           <q-btn class="full-width q-pa-md" color="red">Decline</q-btn>
@@ -82,7 +86,7 @@
           <q-btn class="full-width q-pa-md" color="green">In Progress</q-btn>
         </div>
       </div>
-    </div>
+    </q-footer>
   </q-page>
 </template>
 
