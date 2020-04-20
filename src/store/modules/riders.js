@@ -179,20 +179,30 @@ const actions = {
       error({ message: err, badge: true });
     }
   },
-  async deliveryRequest({ commit, rootState }, payload) {
+  async deliveryRequest({ rootState }, payload) {
     try {
-      const luh = rootState.Products;
-      success("root", luh.ordered);
+      const order = rootState.Products.ordered.filter(i => i.id === payload);
 
-      const order = luh.ordered.filter(i => i.id === payload);
-      // eslint-disable-next-line no-console
       order.map(i => {
         i.confirmedByRider = new Date();
         i.riderStatus = "pending";
       });
-      commit("acceptDelivery", payload);
     } catch (err) {
       error({ message: err, badge: true });
+    }
+  },
+  async viewPageSubmit({ commit, rootState }, payload) {
+    try {
+      const { type, orderId } = payload;
+
+      if (type === "pending") {
+        const product = rootState.Products.ordered.find(i => i.id === orderId);
+
+        success("product", product);
+        return commit("startDelivery_mut", payload);
+      }
+    } catch (err) {
+      error(err);
     }
   }
 };
@@ -209,7 +219,12 @@ const mutations = {
       i.itemsInHand.push(id);
     });
   },
-  acceptDelivery() {}
+  startDelivery_mut(state, payload) {
+    const getRider = state.riders.find(i => i.id === payload.riderId);
+
+    getRider.itemsInHand.find(i => i.id === payload.orderId).riderStatus =
+      "in-progress";
+  }
 };
 
 export default {

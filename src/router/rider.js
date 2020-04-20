@@ -34,7 +34,7 @@ const routes = [
         component: () => import("../pages/rider/Canceled")
       },
       {
-        path: "/rider/view-order/:orderId",
+        path: "/rider/view-order/:orderStatus/:orderId",
         name: "orderView",
         component: () => import("../pages/rider/OrderView")
       }

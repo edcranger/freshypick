@@ -42,10 +42,7 @@
             <q-item
               class="q-pa-md"
               clickable
-              :to="{
-                name: 'orderView',
-                params: { orderId: props.row.id }
-              }"
+              @click="viewOrderRoute(props.row.id)"
             >
               <q-item-section avatar>
                 <q-icon
@@ -152,6 +149,12 @@ export default {
         let perItem = item.qty * item.price;
         return perItem + currentTotal;
       }, 0);
+    },
+    viewOrderRoute(id) {
+      this.$router.push({
+        name: "orderView",
+        params: { orderStatus: this.dataType, orderId: id }
+      });
     }
   },
   created() {

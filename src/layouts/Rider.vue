@@ -63,16 +63,26 @@
         rounded
         flat
         :icon="i.icon"
-      />
+      >
+        <q-badge
+          color="orange"
+          floating
+          class="textSize q-pa-xs"
+          v-if="i.id === 1 && badgeData.notificaiton > 0"
+          :label="badgeData.notificaiton"
+        />
+      </q-btn>
     </q-footer>
   </q-layout>
 </template>
 
 <script>
 // import RiderTabs from "../components/utils/RiderTabs";
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
+      riderId: "fos753",
       routes: [
         // {
         //   id: 1,
@@ -86,7 +96,7 @@ export default {
           id: 1,
           btnName: "Requests",
           color: "teal",
-          icon: "move_to_inbox",
+          icon: "fas fa-bell",
           route: "/rider/requests"
         },
         {
@@ -106,6 +116,19 @@ export default {
       ]
     };
   },
+  computed: {
+    ...mapGetters(["getRiders"]),
+    badgeData() {
+      const data = this.getRiders.find(i => i.id === this.riderId);
+
+      return {
+        notificaiton: data.itemsInHand.filter(
+          i => i.riderStatus === "" && !i.confirmedByRider
+        ).length
+      };
+    }
+  },
+  created() {},
   components: {
     // RiderTabs
   }

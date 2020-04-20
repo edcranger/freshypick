@@ -14,9 +14,13 @@
               text-color="orange"
               icon="directions_bike"
             >
-              <q-badge color="red" floating class="textSize q-pa-xs shadow-1"
-                >2</q-badge
-              >
+              <q-badge
+                color="red"
+                floating
+                class="textSize q-pa-xs shadow-1"
+                :label="badgeData.inProgress"
+                v-if="badgeData.inProgress > 0"
+              />
             </q-avatar>
             <h6 class="text-h6 q-mt-sm q-ma-none q-mb-sm">In Progress</h6>
           </div>
@@ -36,9 +40,13 @@
               icon="transfer_within_a_station
 "
             >
-              <q-badge color="red" floating class="textSize q-pa-xs shadow-1"
-                >4</q-badge
-              >
+              <q-badge
+                color="red"
+                floating
+                class="textSize q-pa-xs shadow-1"
+                :label="badgeData.pending"
+                v-if="badgeData.pending > 0"
+              />
             </q-avatar>
             <h6 class="text-h6 q-mt-xs q-ma-none q-mb-sm">Pending</h6>
           </div>
@@ -57,9 +65,13 @@
               text-color="orange"
               icon="check_box"
             >
-              <q-badge color="red" floating class="textSize q-pa-xs shadow-1"
-                >3</q-badge
-              >
+              <q-badge
+                color="red"
+                floating
+                class="textSize q-pa-xs shadow-1"
+                :label="badgeData.done"
+                v-if="badgeData.done > 0"
+              />
             </q-avatar>
             <h6 class="text-h6 q-mt-xs q-ma-none q-mb-sm">Done</h6>
           </div>
@@ -95,11 +107,25 @@ import { mapGetters, mapActions } from "vuex";
 import RiderTabs from "../../components/utils/RiderTabs";
 export default {
   data() {
-    return {};
+    return {
+      riderId: "fos753"
+    };
   },
   props: ["routes"],
   computed: {
-    ...mapGetters([])
+    ...mapGetters(["getRiders"]),
+    badgeData() {
+      const data = this.getRiders.find(i => i.id === this.riderId);
+
+      return {
+        inProgress: data.itemsInHand.filter(
+          i => i.riderStatus === "in-progress"
+        ).length,
+        pending: data.itemsInHand.filter(i => i.riderStatus === "pending")
+          .length,
+        done: data.itemsInHand.filter(i => i.riderStatus === "done").length
+      };
+    }
   },
   methods: {
     ...mapActions([]),
@@ -126,6 +152,7 @@ export default {
       }
     }
   },
+  created() {},
   components: {
     RiderTabs
   }

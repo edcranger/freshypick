@@ -77,14 +77,25 @@
     </q-list>
 
     <!-- This is the bottom buttons -->
-    <q-footer class="btndown">
-      <div class="row">
-        <div class="col-6">
-          <q-btn class="full-width q-pa-md" color="red">Decline</q-btn>
-        </div>
-        <div class="col-6">
-          <q-btn class="full-width q-pa-md" color="green">In Progress</q-btn>
-        </div>
+
+    <q-footer class="row btndown justify-center">
+      <div class="col-6">
+        <q-btn
+          stack
+          class="full-width q-pa-sm"
+          color="red"
+          :label="buttonType.cancel"
+          @click="btnCancelFxn()"
+        />
+      </div>
+      <div class="col-6">
+        <q-btn
+          stack
+          class="full-width q-pa-sm"
+          color="green"
+          :label="buttonType.submit"
+          @click="btnSubmitFxn()"
+        />
       </div>
     </q-footer>
   </q-page>
@@ -96,7 +107,9 @@ import { date } from "quasar";
 export default {
   data() {
     return {
-      id: this.$route.params.orderId
+      id: this.$route.params.orderId,
+      pageType: this.$route.params.orderStatus,
+      riderId: "fos753"
     };
   },
   computed: {
@@ -131,10 +144,13 @@ export default {
         }
       ];
     },
-    getOrderDetails() {
-      const item = this.getRiders
-        .find(i => i.id === "fos753")
+    deliveryDetails() {
+      return this.getRiders
+        .find(i => i.id === this.riderId)
         .itemsInHand.find(e => e.id === this.id);
+    },
+    getOrderDetails() {
+      const item = this.deliveryDetails;
 
       return [
         {
@@ -160,10 +176,25 @@ export default {
         .itemsInHand.find(e => e.id === this.id).item;
 
       return item;
+    },
+    buttonType() {
+      let btnType;
+
+      if (this.pageType === "pending") {
+        return (btnType = { submit: "Start Delivery", cancel: "Decline" });
+      }
+      if (this.pageType === "in-progress") {
+        return (btnType = {
+          submit: "Completed",
+          cancel: "Cancel"
+        });
+      }
+
+      return btnType;
     }
   },
   methods: {
-    ...mapActions([]),
+    ...mapActions(["viewPageSubmit"]),
     datefxn(timestamp) {
       return date.formatDate(timestamp, "MMM DD YYYY");
     },
@@ -172,11 +203,51 @@ export default {
         let perItem = item.qty * item.price;
         return perItem + currentTotal;
       }, 0);
+    },
+    btnSubmitFxn() {
+      let message =
+        this.pageType === "pending"
+          ? "You wanted to start the delivery now?"
+          : "The package was already been delivered?";
+      this.$q
+        .dialog({
+          title: "Confirm",
+          message: message,
+          cancel: true,
+          persistent: true
+        })
+        .onOk(() => {
+          if (this.pageType === "pending") {
+            this.viewPageSubmit({
+              type: this.pageType,
+              riderId: this.riderId,
+              orderId: this.id
+            }).then(() => {
+              this.$router.push({ name: "myOrders" });
+            });
+          }
+        })
+        .onOk(() => {
+          // console.log('>>>> second OK catcher')
+        })
+        .onCancel(() => {
+          // console.log('>>>> Cancel')
+        })
+        .onDismiss(() => {
+          // console.log('I am triggered on both OK and Cancel')
+        });
+    },
+    btnCancelFxn() {
+      if (this.pageType === "in-progress") {
+        return;
+      } else if (this.pageType === "pending") {
+        return;
+      }
     }
   },
   created() {
     // eslint-disable-next-line no-console
-    this.$consola.success("order", this.itemDetails);
+    this.$consola.success("Order details", this.deliveryDetails);
   }
 };
 </script>

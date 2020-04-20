@@ -62,10 +62,7 @@ export default {
       return this.getRiders.find(i => i.name === "Mae Anne Tribunal");
     }
   },
-  created() {
-    // eslint-disable-next-line no-console
-    console.log("getRider -> getRider", this.getRider);
-  }
+  created() {}
 };
 </script>
 
