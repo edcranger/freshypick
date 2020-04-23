@@ -1,7 +1,12 @@
 <template>
   <q-page padding>
     <div class="q-ma-none">
-      <p class="text-subtitle2 text-grey-7 q-my-sm q-ml-xs">Customer Details</p>
+      <p class="text-subtitle2 text-grey-7 q-my-sm q-ml-xs">
+        Customer Details
+        <q-chip color="green" class="text-white" v-if="pageType === 'done'"
+          >Completed</q-chip
+        >
+      </p>
     </div>
     <q-list bordered separator>
       <q-item
@@ -19,6 +24,7 @@
           <q-item-label class="text-bold text-grey-7">{{
             i.data
           }}</q-item-label>
+          <q-item-label></q-item-label>
         </q-item-section>
       </q-item>
     </q-list>
@@ -78,7 +84,7 @@
 
     <!-- This is the bottom buttons -->
 
-    <q-footer class="row btndown justify-center">
+    <q-footer class="row btndown justify-center" v-if="pageType !== 'done'">
       <div class="col-6">
         <q-btn
           stack
@@ -90,12 +96,45 @@
       </div>
       <div class="col-6">
         <q-btn
+          v-if="pageType === 'pending'"
           stack
           class="full-width q-pa-sm"
           color="green"
           :label="buttonType.submit"
           @click="btnSubmitFxn()"
         />
+        <q-btn
+          v-if="pageType === 'in-progress'"
+          stack
+          class="full-width q-pa-sm"
+          color="green"
+          :label="buttonType.submit"
+        >
+          <q-menu>
+            <q-list style="min-width: 100px">
+              <q-item clickable v-close-popup class="text-subtitle2">
+                <q-item-section>
+                  <a
+                    class="linkMap"
+                    :href="
+                      `https://www.google.com.ph/maps/dir/${getLocation.lat},${getLocation.lng}/smdc grass tower 3`
+                    "
+                    >Start Journey</a
+                  >
+                </q-item-section>
+              </q-item>
+              <q-item
+                clickable
+                v-close-popup
+                @click="btnSubmitFxn()"
+                class="text-subtitle2"
+              >
+                <q-item-section>Completed</q-item-section>
+              </q-item>
+              <q-separator />
+            </q-list>
+          </q-menu>
+        </q-btn>
       </div>
     </q-footer>
   </q-page>
@@ -109,7 +148,8 @@ export default {
     return {
       id: this.$route.params.orderId,
       pageType: this.$route.params.orderStatus,
-      riderId: "fos753"
+      riderId: "fos753",
+      getLocation: null
     };
   },
   computed: {
@@ -185,7 +225,7 @@ export default {
       }
       if (this.pageType === "in-progress") {
         return (btnType = {
-          submit: "Completed",
+          submit: "Action",
           cancel: "Cancel"
         });
       }
@@ -217,15 +257,13 @@ export default {
           persistent: true
         })
         .onOk(() => {
-          if (this.pageType === "pending") {
-            this.viewPageSubmit({
-              type: this.pageType,
-              riderId: this.riderId,
-              orderId: this.id
-            }).then(() => {
-              this.$router.push({ name: "myOrders" });
-            });
-          }
+          this.viewPageSubmit({
+            type: this.pageType,
+            riderId: this.riderId,
+            orderId: this.id
+          }).then(() => {
+            this.$router.push({ name: "myOrders" });
+          });
         })
         .onOk(() => {
           // console.log('>>>> second OK catcher')
@@ -246,8 +284,9 @@ export default {
     }
   },
   created() {
-    // eslint-disable-next-line no-console
-    this.$consola.success("Order details", this.deliveryDetails);
+    this.$getLocation({}).then(coordinates => {
+      this.getLocation = coordinates;
+    });
   }
 };
 </script>
@@ -255,5 +294,9 @@ export default {
 <style>
 .btndown {
   margin-bottom: 55.5px;
+}
+
+.linkMap {
+  text-decoration: none;
 }
 </style>

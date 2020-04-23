@@ -104,7 +104,9 @@ export default {
       return [...newArray]
         .filter(
           i =>
-            (i.stage !== "canceled" && i.userNotification === "Yes") ||
+            (i.stage !== "canceled" &&
+              i.riderStatus === "done" &&
+              i.userNotification === "Yes") ||
             i.userNotification === "No"
         )
         .sort((a, b) => (a.date < b.date ? 1 : -1));

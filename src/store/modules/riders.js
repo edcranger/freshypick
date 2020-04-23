@@ -65,7 +65,7 @@ const state = {
           ],
 
           location: {
-            brgy: "Brgy 117",
+            brgy: "Brgy 177",
             city: "Caloocan",
             default: true,
             detailedAdd:
@@ -131,7 +131,7 @@ const state = {
           ],
 
           location: {
-            brgy: "Brgy 117",
+            brgy: "Brgy 177",
             city: "Caloocan",
             default: true,
             detailedAdd:
@@ -201,6 +201,12 @@ const actions = {
         success("product", product);
         return commit("startDelivery_mut", payload);
       }
+      if (type === "in-progress") {
+        const product = rootState.Products.ordered.find(i => i.id === orderId);
+
+        success("product", product);
+        return commit("done_delivery_mut", payload);
+      }
     } catch (err) {
       error(err);
     }
@@ -224,6 +230,13 @@ const mutations = {
 
     getRider.itemsInHand.find(i => i.id === payload.orderId).riderStatus =
       "in-progress";
+  },
+  done_delivery_mut(state, payload) {
+    success("deliverymut", payload);
+    const getRider = state.riders.find(i => i.id === payload.riderId);
+
+    getRider.itemsInHand.find(i => i.id === payload.orderId).riderStatus =
+      "done";
   }
 };
 

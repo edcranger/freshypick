@@ -66,6 +66,7 @@
                   {{ props.row.id }}
                 </p>
               </q-item-section>
+
               <q-item-section side>
                 <div>
                   <q-btn round flat color="green"
