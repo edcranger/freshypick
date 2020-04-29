@@ -74,10 +74,10 @@
                     >
                       <q-badge
                         color="red"
-                        v-if="cart.length > 0"
+                        v-if="cart.cartCount > 0"
                         floating
                         class="q-pa-xs q-ml-xs"
-                        >{{ cart.length }}</q-badge
+                        >{{ cart.cartCount }}</q-badge
                       >
                     </q-btn>
 
@@ -181,8 +181,8 @@
                 style="height: 30px; max-width: 30px"
               />
               <span class="text-caption">Cart</span>
-              <q-badge color="red" v-if="cart.length > 0" floating>{{
-                cart.length
+              <q-badge color="red" v-if="cart.cartCount > 0" floating>{{
+                cart.cartCount
               }}</q-badge>
             </q-route-tab>
             <q-route-tab name="account" to="/account">
@@ -218,13 +218,14 @@ export default {
     ...mapGetters(["cart", "userProfile", "isLoggedIn", "userRole"])
   },
   methods: {
-    ...mapActions(["logoutUser"]),
+    ...mapActions(["logoutUser", "getCart"]),
     logOut() {
       this.logoutUser().then(() => {
         this.$router.push("/");
       });
     }
-  }
+  },
+  created() {}
 
   //   .web {
   //   padding-left: 250px;

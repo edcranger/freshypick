@@ -10,17 +10,17 @@
     <div :class="$mq === 'sm' || $mq === 'md' ? 'row wrap ' : 'web row wrap'">
       <div
         class="col-xs-6 col-sm-3 col-md-3 col-xl-3 q-pa-xs q-mb-md"
-        v-for="(product, index) in products"
+        v-for="(i, index) in getProducts"
         :key="index"
       >
         <q-card clickable class="my-card zoom" flat>
-          <q-card-section @click="viewSingleProduct(product)" class="q-pa-none">
-            <q-img :src="product.photo[0].url" />
+          <q-card-section @click="viewSingleProduct(i)" class="q-pa-none">
+            <q-img :src="`http://localhost:3000/${i.photos[0]}`" />
             <div class="row no-wrap items-center text-center">
               <h6
                 class="col text-subtitle2 text-grey-8 q-ma-none text-italic text-bold"
               >
-                {{ product.name }}
+                {{ i.name }}
               </h6>
               <div
                 class="col-auto text-grey text-caption q-pt-md row no-wrap items-center"
@@ -28,57 +28,20 @@
             </div>
 
             <p class="text-center text-italic text-grey-8">
-              <span class="text-green text-bold">₱{{ product.price }}</span>
-              /{{ product.unit }}
+              <span class="text-green text-bold">₱{{ i.price }}</span>
+              /{{ i.unit }}
             </p>
-
-            <!-- <div
-              class="full-width row wrap justify-center items-start content-center"
-            >
-              <q-input
-                outlined
-                bottom-slots
-                v-model="product.qty"
-                type="number"
-                maxlength="12"
-                dense
-              >
-                <template v-slot:before>
-                  <q-btn
-                    flat
-                    @click="product.qty--"
-                    round
-                    icon="fas fa-minus-square"
-                  />
-                </template>
-
-                <template v-slot:after>
-                  <q-btn
-                    flat
-                    round
-                    icon="fas fa-plus-square"
-                    @click="product.qty++"
-                  />
-                </template>
-              </q-input>
-            </div>-->
           </q-card-section>
           <q-card-actions
             class="fit row wrap justify-center items-start content-center"
           >
             <q-btn
-              :outline="cart.find(i => i.id === product.id) ? true : false"
-              :disable="cart.find(i => i.id === product.id) ? true : false"
-              :label="
-                cart.find(i => i.id === product.id)
-                  ? 'PLACED ON CART'
-                  : 'ADD TO CART'
-              "
+              label="ADD TO CART"
               color="green"
-              @click="product.confirm = !product.confirm"
+              @click="i.confirm = !i.confirm"
             />
-            <q-dialog v-model="product.confirm" persistent>
-              <AddtoCart :productInfo="product" />
+            <q-dialog v-model="i.confirm" persistent>
+              <AddtoCart :product="i" />
             </q-dialog>
           </q-card-actions>
 
@@ -97,21 +60,30 @@ export default {
   name: "PageIndex",
   data() {
     return {
+      newProducts: null,
       viewItem: false
     };
   },
   computed: {
-    ...mapGetters(["products", "cart"])
+    ...mapGetters(["products", "cart"]),
+    getProducts() {
+      return this.newProducts;
+    }
   },
   methods: {
-    ...mapActions(["getItems"]),
+    ...mapActions(["getAllProducts"]),
     viewSingleProduct(product) {
       // eslint-disable-next-line no-console
       this.$router.push({ name: "product", params: { name: product.name } });
     }
   },
-  created() {
-    this.getItems();
+  async created() {
+    const prods = await this.getAllProducts();
+    // eslint-disable-next-line no-console
+    console.log("prods", prods);
+    this.newProducts = this.products;
+    // eslint-disable-next-line no-console
+    console.log("newprods", this.newProducts);
   },
   components: {
     AddtoCart

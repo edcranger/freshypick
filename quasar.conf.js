@@ -6,7 +6,15 @@ module.exports = function(ctx) {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://quasar.dev/quasar-cli/cli-documentation/boot-files
-    boot: ["axios", "consola", "mq", "authentication", "graph", "geolocation"],
+    boot: [
+      "axios",
+      "consola",
+      "mq",
+      "authentication",
+      "graph",
+      "geolocation",
+      "async"
+    ],
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
     css: ["app.scss"],
@@ -76,6 +84,16 @@ module.exports = function(ctx) {
 
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-devServer
     devServer: {
+      proxy: {
+        // proxy all requests starting with /api to jsonplaceholder
+        "/api": {
+          target: "http://localhost:3000/api",
+          changeOrigin: true,
+          pathRewrite: {
+            "^/api": ""
+          }
+        }
+      },
       https: false,
       port: 8080,
       open: true // opens browser window automatically

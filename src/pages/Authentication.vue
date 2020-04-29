@@ -77,6 +77,7 @@
                   class="full-width"
                   :type="password"
                   color="green"
+                  @click="loginRegUser()"
                   >Login</q-btn
                 >
               </div>
@@ -108,12 +109,13 @@
 
 <script>
 import { mapActions } from "vuex";
+
 export default {
   data() {
     return {
       fullname: null,
-      email: null,
-      password: null,
+      email: "edisonocampo.eo@gmail.com",
+      password: "magica123",
       tab: "login",
       customModel: false
     };
@@ -121,7 +123,11 @@ export default {
   methods: {
     ...mapActions(["loginUser"]),
     loginRegUser() {
-      this.loginUser();
+      this.loginUser({
+        email: this.email,
+        password: this.password
+        // eslint-disable-next-line no-console
+      }).then(user => console.log(user.data.user));
     }
   }
 };

@@ -1,6 +1,9 @@
+import axios from "axios";
+
 const state = {
   isLoggedIn: true,
   role: "user",
+  user: null,
   userProfile: {
     name: "Edison Ocampo",
     username: "edisonocampo.eo",
@@ -27,15 +30,22 @@ const getters = {
   isLoggedIn: state => !!state.isLoggedIn,
   userProfile: state => state.userProfile,
   userAdd: state => state.userAddress,
-  userRole: state => state.role,
-  getWareHouse: state => state.wareHouse
+  userRole: state => state.role
 };
 
 // Actions-------------------------------------------------------------------------
 const actions = {
-  async loginUser({ commit }) {
+  async loginUser({ commit }, loginPayload) {
     try {
-      commit("regularUserLogin");
+      // eslint-disable-next-line no-console
+      console.log("login", loginPayload);
+      const user = await axios.post("/api/v1/users/login", loginPayload, {
+        withCredentials: true
+      });
+
+      commit("regularUserLogin", user.data);
+
+      return user;
     } catch (err) {
       // eslint-disable-next-line no-console
       console.error(err);
@@ -53,8 +63,10 @@ const actions = {
 
 // Mutations-------------------------------------------------------------------------
 const mutations = {
-  regularUserLogin(state) {
+  regularUserLogin(state, user) {
     state.isLoggedIn = true;
+    // eslint-disable-next-line no-console
+    state.user = user;
   },
   regularUserOut(state) {
     state.isLoggedIn = false;

@@ -35,27 +35,27 @@
                 <q-card-section>
                   <div
                     class="row q-pa-sm"
-                    v-for="item in checkoutCartComp"
-                    :key="item.id"
+                    v-for="item in selectedFromCart"
+                    :key="item._id"
                   >
                     <div class="col-md-3 col-4">
                       <q-img
-                        :src="item.photo[0].url"
+                        :src="`http://localhost:3000/${item.product.photos[0]}`"
                         spinner-color="white"
                         style="height: 100px; max-width: 100px"
                       />
                     </div>
                     <div class="col">
                       <div class="q-mt-lg">
-                        <strong>{{ item.name }}</strong>
+                        <strong>{{ item.product.name }}</strong>
                       </div>
-                      <div class="q-ma-none">₱{{ item.price }}/kg</div>
+                      <div class="q-ma-none">₱{{ item.product.price }}/kg</div>
 
                       <div
                         class="fit row wrap justify-end items-start content-start q-mt-md q-mb-none"
                       >
                         <div class="col">
-                          <p>Qty: {{ item.qty }}</p>
+                          <p>Qty: {{ item.quantity }}</p>
                         </div>
                         <div class="col text-right">
                           <div>
@@ -150,27 +150,27 @@
           <div class="col-12 bg-white">
             <div
               class="row shadow-1 q-pa-sm"
-              v-for="item in checkoutCartComp"
-              :key="item.id"
+              v-for="item in selectedFromCart"
+              :key="item._id"
             >
               <div class="col-md-3 col-4">
                 <q-img
-                  :src="item.photo[0].url"
+                  :src="`http://localhost:3000/${item.product.photos[0]}`"
                   spinner-color="white"
                   style="height: 100px; max-width: 100px"
                 />
               </div>
               <div class="col">
                 <div class="q-mt-lg">
-                  <strong>{{ item.name }}</strong>
+                  <strong>{{ item.product.name }}</strong>
                 </div>
-                <div class="q-ma-none">₱{{ item.price }}/kg</div>
+                <div class="q-ma-none">₱{{ item.product.price }}/kg</div>
 
                 <div
                   class="fit row wrap justify-end items-start content-start q-mt-md q-mb-none"
                 >
                   <div class="col">
-                    <p>Qty: {{ item.qty }}</p>
+                    <p>Qty: {{ item.quantity }}</p>
                   </div>
                   <div class="col text-right">
                     <div>
@@ -203,10 +203,10 @@
       <div class="row q-mt-none">
         <div class="col-8">
           <p class="q-mt-none">
-            Subtotal ({{ checkoutCartComp.length }} items)
+            Subtotal ({{ selectedFromCart.length || 0 }} items)
           </p>
         </div>
-        <div class="col-4 text-right">₱{{ totalInCart }}</div>
+        <div class="col-4 text-right">₱{{ checkOutTotal }}</div>
         <div class="col-8">
           <p>Shipping cost</p>
         </div>
@@ -219,7 +219,9 @@
           <p class="text-subtitle2">Total</p>
         </div>
         <div class="col-4 q-mt-lg">
-          <p class="text-right text-green text-subtitle2">₱{{ totalInCart }}</p>
+          <p class="text-right text-green text-subtitle2">
+            ₱{{ checkOutTotal + 50 }}
+          </p>
         </div>
       </div>
       <div class="row justify-center">
@@ -227,7 +229,6 @@
           class="q-mb-md"
           color="purple"
           @click="ordering()"
-          to="/account/orders"
           label="Order now"
         />
       </div>
@@ -241,20 +242,14 @@
             <div class="row">
               <h6 class="col-12 text-right text-grey-8 text-h6 q-ma-none">
                 Total: ₱
-                <span class="text-green">{{ totalInCart }}</span>
+                <span class="text-green">{{ checkOutTotal + 50 }}</span>
               </h6>
             </div>
           </div>
 
           <div class="col-4">
             <div class="row justify-end q-mb-sm">
-              <q-btn
-                color="purple"
-                @click="ordering()"
-                to="/account/orders"
-                dense
-                >Order now</q-btn
-              >
+              <q-btn color="purple" @click="ordering()" dense>Order now</q-btn>
             </div>
           </div>
         </div>
@@ -283,20 +278,30 @@ export default {
       language: "English"
     };
   },
-
+  props: {
+    selectedFromCart: {
+      type: Array,
+      required: true,
+      default: () => []
+    }
+  },
   computed: {
-    ...mapGetters(["checkoutCart", "totalInCart", "ordered", "userAdd"]),
-    checkoutCartComp() {
-      return this.checkoutCart;
+    ...mapGetters([]),
+    checkOutTotal() {
+      return this.selectedFromCart.reduce(
+        (total, items) => items.total + total,
+        0
+      );
     }
   },
   methods: {
-    ...mapActions(["order", "deleteFromCart"]),
-
+    ...mapActions(["newOrder", "deleteFromCart"]),
     ordering() {
       //const { province, city, brgy, zipcode, detailedAdd } = this.userAdd;
       //const address = `${detailedAdd} ${brgy} ${city}, ${zipcode} ${province}`;
-      this.order(this.userAdd);
+      this.newOrder({ orderedProducts: this.selectedFromCart }).then(res =>
+        this.$consola.success("Order Made", res.data)
+      );
     },
     onClickChild(value) {
       this.paymentMethod = value;
@@ -308,15 +313,16 @@ export default {
     }
   },
   created() {
-    if (this.checkoutCart.length === 0) {
-      this.$router.replace("/");
+    this.$consola.success("cartSelected", this.selectedFromCart);
+    if (!this.selectedFromCart || this.selectedFromCart.length === 0) {
+      this.$router.replace("/cart");
     }
   },
   watch: {
-    checkoutCartComp(newCount, oldCount) {
+    selectedFromCart(newCount, oldCount) {
       if (newCount.length === 0 || oldCount.length === 0) {
         // eslint-disable-next-line no-console
-        this.$router.replace("/");
+        this.$router.replace("/cart");
       }
     }
   },

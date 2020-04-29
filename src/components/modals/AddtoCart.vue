@@ -5,7 +5,7 @@
     <ModalBody>
       <span class="q-ml-sm">
         Are you sure you want to add
-        <span class="text-green">{{ productInfo.name }}</span> to your cart?
+        <span class="text-green">{{ product.name }}</span> to your cart?
       </span>
     </ModalBody>
     <ModalActions>
@@ -27,21 +27,19 @@ export default {
       dataItem: null
     };
   },
-  props: ["productInfo"],
-  created() {
-    this.dataItem = { ...this.productInfo };
-  },
+  props: ["product"],
+  created() {},
   computed: {
     ...mapGetters(["cart"])
   },
   methods: {
-    ...mapActions(["addToCart"]),
+    ...mapActions(["cartItemFxn"]),
     addCart() {
       // eslint-disable-next-line no-console
-
-      // eslint-disable-next-line no-console
-      this.addToCart(this.dataItem).then(() => {
-        this.productInfo.qty = 0;
+      console.log("id", this.product._id);
+      this.cartItemFxn({
+        productId: this.product._id,
+        payload: { quantity: 1, cartFxnType: "add" }
       });
     }
   },

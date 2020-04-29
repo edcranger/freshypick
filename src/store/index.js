@@ -19,13 +19,14 @@ Vue.use(Vuex);
  * with the Store instance.
  */
 
-export default new Vuex.Store({
+const store = new Vuex.Store({
   modules: {
     Riders,
     Log,
     User,
     Products
   },
+
   state: {
     products: Products.products
   },
@@ -33,3 +34,5 @@ export default new Vuex.Store({
   actions: {},
   getters: {}
 });
+store.dispatch("initAction");
+export default store;

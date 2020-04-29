@@ -126,9 +126,7 @@ export default {
       tData: [this.product]
     };
   },
-  created() {
-    this.$consola.info("itemTable", this.products);
-  },
+  created() {},
   computed: {
     ...mapGetters(["products"])
   },

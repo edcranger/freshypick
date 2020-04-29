@@ -3,21 +3,38 @@
     padding
     :class="$mq === 'sm' || $mq === 'md' ? 'bg-white' : 'web web bg-white'"
   >
-    <div class="row text-center">
+    <q-spinner-hourglass
+      color="light-green"
+      v-if="loading"
+      size="10rem"
+      class="fixed-center"
+    />
+    <div class="row text-center" v-if="!loading">
       <div class="col-xs-12 col-sm-6">
+        <!-- <q-spinner
+          color="primary"
+          size="3em"
+          :thickness="10"
+          v-if="slide === null"
+        />-->
         <q-img
-          :src="slide"
+          :src="`http://localhost:3000/${changeProdPic}`"
           spinner-color="white"
           style="height: 300px; max-width: 400px"
-        />
+        >
+          <template v-slot:error>
+            <div class="absolute-full flex flex-center bg-negative text-white">
+              Cannot load image
+            </div>
+          </template>
+        </q-img>
 
         <div class="row justify-center items-center content-center q-pa-sm">
           <q-img
-            @click="slide = i"
-            class
-            v-for="(i, index) in getProductPhoto"
+            v-for="(i, index) in getProduct.photos"
+            @click="slide = index"
             :key="index"
-            :src="i"
+            :src="`http://localhost:3000/${i}`"
             spinner-color="white"
             style="height: 40px; max-width: 50px"
           />
@@ -26,19 +43,19 @@
 
       <div class="col-xs-12 col-sm-6 q-pa-md">
         <h3 class="text-h5 text-grey-8 q-mb-none q-mt-md text-italic">
-          {{ product.name }}
+          {{ getProduct.name }}
         </h3>
         <q-separator inset />
         <h6 class="text-h6 q-ma-none text-italic text-grey-8 q-ml-sm">
           <span class="text-green text-weight-bolder"
-            >₱{{ product.price }}</span
+            >₱{{ getProduct.price }}</span
           >
-          per {{ product.unit }}
+          per {{ getProduct.unit }}
         </h6>
 
         <p
           class="text-body2 text-grey-8 q-mt-md q-ml-sm"
-          v-html="product.description"
+          v-html="getProduct.description"
         />
         <div
           class="full-width row wrap justify-center items-start content-center"
@@ -47,7 +64,7 @@
             outlined
             bottom-slots
             style="max-width: 150px;"
-            v-model="product.qty"
+            v-model="getProduct.qty"
             type="number"
             maxlength="12"
             dense
@@ -55,8 +72,8 @@
             <template v-slot:before>
               <q-btn
                 flat
-                :disable="product.qty < 2"
-                @click="product.qty--"
+                :disable="getProduct.qty < 2"
+                @click="getProduct.qty--"
                 round
                 icon="fas fa-minus-square"
               />
@@ -67,31 +84,23 @@
                 flat
                 round
                 icon="fas fa-plus-square"
-                @click="product.qty++"
+                @click="getProduct.qty++"
               />
             </template>
           </q-input>
         </div>
 
         <div class="q-ml-sm">
-          <q-btn
-            color="green"
-            :outline="cart.find(i => i.id === product.id) ? true : false"
-            :disable="cart.find(i => i.id === product.id) ? true : false"
-            :label="
-              cart.find(i => i.id === product.id)
-                ? 'Added to cart'
-                : 'ADD TO CART'
-            "
-            @click="addCart"
-          />
+          <q-btn color="green" label="ADD TO CART" @click="addCart" />
         </div>
       </div>
     </div>
-    <q-separator style="height: 3px;" inset />
-    <p class="text-grey-8 text-h6 q-ml-md q-mb-none">Recommendations</p>
+    <q-separator style="height: 3px;" inset v-if="!loading" />
+    <p class="text-grey-8 text-h6 q-ml-md q-mb-none" v-if="!loading">
+      Recommendations
+    </p>
 
-    <div class="row">
+    <div class="row" v-if="!loading">
       <div
         class="col-xs-6 col-sm-2"
         v-for="(product, index) in recommendations"
@@ -99,7 +108,7 @@
       >
         <q-card clickable class="my-card zoom q-mt-xl" flat>
           <q-card-section @click="viewSingleProduct(product)" class="q-pa-none">
-            <q-img :src="product.photo[0].url" />
+            <q-img :src="`http://localhost:3000/${product.photos[0]}`" />
             <div class="row no-wrap items-center text-center">
               <h6
                 class="col text-subtitle2 text-grey-8 q-ma-none text-italic text-bold"
@@ -120,13 +129,7 @@
             class="fit row wrap justify-center items-start content-center"
           >
             <q-btn
-              :outline="cart.find(i => i.id === product.id) ? true : false"
-              :disable="cart.find(i => i.id === product.id) ? true : false"
-              :label="
-                cart.find(i => i.id === product.id)
-                  ? 'PLACED ON CART'
-                  : 'ADD TO CART'
-              "
+              label="ADD TO CART"
               color="green"
               @click="product.confirm = !product.confirm"
             />
@@ -148,18 +151,19 @@ import AddtoCart from "../components/modals/AddtoCart";
 export default {
   data() {
     return {
+      vueProducts: null,
       param: this.$route.params.name,
-      product: null,
-      slide: null
+      slide: 0,
+      loading: true
     };
   },
   computed: {
-    ...mapGetters(["cart", "products"]),
-    getProductPhoto() {
-      let photos = [];
-      this.product.photo.map(i => photos.push(i.url));
-
-      return photos;
+    ...mapGetters(["products"]),
+    getProduct() {
+      return this.products.find(i => i.name === this.param);
+    },
+    changeProdPic() {
+      return this.getProduct.photos[this.slide];
     },
     recommendations() {
       let items = [];
@@ -172,17 +176,9 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["addToCart", "getItems"]),
-    init() {
-      this.product = this.products.filter(i => i.name === this.param)[0];
-
-      this.slide = this.product.photo[0].url;
-
-      // eslint-disable-next-line no-console
-      this.$consola.info("productPage", this.recommendations);
-    },
-    addCart() {
-      this.addToCart(this.product).then(() => {});
+    ...mapActions(["getAllProducts"]),
+    async addCart() {
+      await this.addToCart(this.product).then(() => {});
     },
     viewSingleProduct(product) {
       // eslint-disable-next-line no-console
@@ -191,8 +187,12 @@ export default {
       this.$route.params.name = product.name;
     }
   },
-  created() {
-    this.init();
+
+  async created() {
+    // eslint-disable-next-line no-console
+    if (this.products.length !== 0) {
+      this.loading = false;
+    }
   },
   watch: {
     param: function(newValue, oldValue) {
@@ -200,8 +200,13 @@ export default {
       console.log(newValue);
       // eslint-disable-next-line no-console
       console.log(oldValue);
-      this.init();
+
       window.scrollTo(0, 0);
+    },
+    getProduct: function(newValue) {
+      if (newValue) {
+        this.loading = false;
+      }
     }
   },
   components: {

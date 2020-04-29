@@ -152,10 +152,7 @@ export default {
       return icon;
     }
   },
-  created() {
-    // eslint-disable-next-line no-console
-    console.log(this.getRiderItems);
-  }
+  created() {}
 };
 </script>
 

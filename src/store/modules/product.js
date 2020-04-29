@@ -1,16 +1,10 @@
-import consola from "consola";
+import { success, error } from "consola";
 // import uuid from "uuid/v4";
 import Photo from "../../assets/noImage.jpg";
-import carrots from "../../assets/carrots.jpg";
-import cabbage from "../../assets/cabbage.jpg";
-import onion from "../../assets/onion.jpg";
-import cucumber from "../../assets/cucumber.jpg";
-import bellpeper from "../../assets/bellpeper.jpg";
-import chayote from "../../assets/chayote.jpg";
-import chinessecabbage from "../../assets/chinessecabbage.png";
-import squash from "../../assets/squash.jpg";
 
-import { Notify } from "quasar";
+import axios from "axios";
+
+import Api from "../../api/Api";
 
 const state = {
   cart: [],
@@ -18,257 +12,44 @@ const state = {
   ordered: [],
   received: [],
   cancelled: [],
-  products: [
-    {
-      id: "wqedfgadasdas",
-      name: "Carrots",
-      price: 60.0,
-      photo: [
-        {
-          file: "",
-          url: carrots
-        }
-      ],
-      sale: false,
-      salePrice: 0,
-      dummy: true,
+  products: []
+  // products: [
+  //   {
+  //     id: "wqedfgadasdas",
+  //     name: "Carrots",
+  //     price: 60.0,
+  //     photo: [
+  //       {
+  //         file: "",
+  //         url: carrots
+  //       }
+  //     ],
+  //     sale: false,
+  //     salePrice: 0,
+  //     dummy: true,
 
-      sellingWeight: 1,
-      unit: "kg",
-      inventory: [
-        { name: "Main Store", qty: 55 },
-        { name: "Branch 1", qty: 10 }
-      ],
-      usePercentage: false,
-      percentSale: 0,
-      sku: "I43205",
-      code: "IV320",
-      tracking: true,
-      purchaseOutOfStock: false,
-      description: `<div style="text-align: left;">Fresh from the producers of Baguio and Benget</div>`
-    },
-    {
-      id: "a12g",
-      name: "Cabbage",
-      price: 180.0,
-      photo: [
-        {
-          file: "",
-          url: cabbage
-        }
-      ],
-      sale: false,
-      salePrice: 0,
-      dummy: true,
-
-      sellingWeight: 1,
-      unit: "kg",
-      inventory: [
-        { name: "Main Store", qty: 32 },
-        { name: "Branch 1", qty: 10 }
-      ],
-      usePercentage: false,
-      percentSale: 0,
-      sku: "I43205",
-      code: "IV320",
-      tracking: true,
-      purchaseOutOfStock: false,
-      description: "bla bla bla bla cabbage"
-    },
-    {
-      id: "0964038",
-      name: "Red Onion (Local)",
-      price: 200.0,
-      photo: [
-        {
-          file: "",
-          url: onion
-        }
-      ],
-      sale: false,
-      salePrice: 0,
-      dummy: true,
-
-      sellingWeight: 1,
-      unit: "kg",
-      inventory: [
-        { name: "Main Store", qty: 22 },
-        { name: "Branch 1", qty: 10 }
-      ],
-      usePercentage: false,
-      percentSale: 0,
-      sku: "I43205",
-      code: "IV320",
-      tracking: true,
-      purchaseOutOfStock: false,
-      description: "bla bla bla bla Onion"
-    },
-    {
-      id: "1yhgbvc",
-      name: "Cucumber",
-      price: 120.0,
-      photo: [
-        {
-          file: "",
-          url: cucumber
-        }
-      ],
-      sale: false,
-      salePrice: 0,
-      dummy: true,
-
-      sellingWeight: 1,
-      unit: "kg",
-      inventory: [
-        { name: "Main Store", qty: 40 },
-        { name: "Branch 1", qty: 10 }
-      ],
-      usePercentage: false,
-      percentSale: 0,
-      sku: "I43205",
-      code: "IV320",
-      tracking: true,
-      purchaseOutOfStock: false,
-      description: "bla bla bla bla Cucumber"
-    },
-    {
-      id: "09012f",
-      name: "Bell Pepper",
-      price: 140.0,
-      photo: [
-        {
-          file: "",
-          url: bellpeper
-        }
-      ],
-      sale: false,
-      salePrice: 0,
-      dummy: true,
-
-      sellingWeight: 1,
-      unit: "kg",
-      inventory: [
-        { name: "Main Store", qty: 17 },
-        { name: "Branch 1", qty: 10 }
-      ],
-      usePercentage: false,
-      percentSale: 0,
-      sku: "I43205",
-      code: "IV320",
-      tracking: true,
-      purchaseOutOfStock: false,
-      description: "bla bla bla bla Bell pepper"
-    },
-    {
-      id: "qwefdfbn6934",
-      name: "Chayote",
-      price: 30.0,
-      photo: [
-        {
-          file: "",
-          url: chayote
-        }
-      ],
-      sale: false,
-      salePrice: 0,
-      dummy: true,
-
-      sellingWeight: 1,
-      unit: "kg",
-      inventory: [
-        { name: "Main Store", qty: 27 },
-        { name: "Branch 1", qty: 10 }
-      ],
-      usePercentage: false,
-      percentSale: 0,
-      sku: "I43205",
-      code: "IV320",
-      tracking: true,
-      purchaseOutOfStock: false,
-      description: "bla bla bla bla Chayote"
-    },
-    {
-      id: "qpofivnbnurh",
-      name: "Chinese Cabbage",
-      price: 220.0,
-      photo: [
-        {
-          file: "",
-          url: chinessecabbage
-        }
-      ],
-      sale: false,
-      salePrice: 0,
-      dummy: true,
-
-      sellingWeight: 1,
-      unit: "kg",
-      inventory: [
-        { name: "Main Store", qty: 33 },
-        { name: "Branch 1", qty: 10 }
-      ],
-      usePercentage: false,
-      percentSale: 0,
-      sku: "I43205",
-      code: "IV320",
-      tracking: true,
-      purchaseOutOfStock: false,
-      description: "bla bla bla bla Bawang"
-    },
-    {
-      id: "qwepouvhfd",
-      name: "Squash",
-      price: 40.0,
-      photo: [
-        {
-          file: "",
-          url: squash
-        }
-      ],
-      sale: false,
-      salePrice: 0,
-      dummy: true,
-
-      sellingWeight: 1,
-      unit: "kg",
-      inventory: [
-        { name: "Main Store", qty: 20 },
-        { name: "Branch 1", qty: 10 }
-      ],
-      usePercentage: false,
-      percentSale: 0,
-      sku: "I43205",
-      code: "IV320",
-      tracking: true,
-      purchaseOutOfStock: false,
-      description: "bla bla bla bla Bawang"
-    }
-  ]
+  //     sellingWeight: 1,
+  //     unit: "kg",
+  //     inventory: [
+  //       { name: "Main Store", qty: 55 },
+  //       { name: "Branch 1", qty: 10 }
+  //     ],
+  //     usePercentage: false,
+  //     percentSale: 0,
+  //     sku: "I43205",
+  //     code: "IV320",
+  //     tracking: true,
+  //     purchaseOutOfStock: false,
+  //     description: `<div style="text-align: left;">Fresh from the producers of Baguio and Benget</div>`
+  //   },
+  //
+  // ]
 };
 
 // GETTERS-------------------------------------------------------------------------
 const getters = {
   products: state => state.products,
-  cart: state => {
-    return state.cart.filter(item => {
-      return item.stage === "cart";
-    });
-  },
-  totalInCart: state => {
-    let total = 0;
-    state.cart.map(item => {
-      if (item.selected) {
-        total += item.qty * item.price;
-      }
-    });
-
-    return total;
-  },
-  checkoutCart: state => {
-    return state.cart.filter(item => {
-      return item.selected === true;
-    });
-  },
+  cart: state => state.cart,
 
   ordered: state => {
     return state.ordered.filter(item => {
@@ -286,79 +67,114 @@ const getters = {
 
 // Actions-------------------------------------------------------------------------
 const actions = {
-  async getItems({ commit }) {
+  async initAction({ dispatch }) {
     try {
-      commit("getProduct_success");
+      dispatch("getAllProducts");
+      dispatch("getCart");
     } catch (err) {
-      consola.error(err);
+      error(err);
     }
   },
-  async addToCart({ commit }, cartItem) {
+  async getAllProducts({ commit }) {
     try {
-      if (state.cart.find(i => i.name === cartItem.name)) {
-        // eslint-disable-next-line no-console
-        return Notify.create({
-          message: `You already have this item in your cart.`,
-          color: "purple",
-          progress: true,
-          timeout: 2000,
-          actions: [
-            {
-              label: "x",
-              color: "white",
-              handler: () => {
-                /* ... */
-              }
-            }
-          ]
-        });
-      }
-      commit("addToCart_success", cartItem);
+      success("getProducts dispatched");
+      const products = await Api.get("/api/v1/products");
+
+      products.data.data.map(i => {
+        i.confirm = false;
+        i.qty = 0;
+      });
+
+      commit("getProduct_request", products.data.data);
+
+      return products.data;
     } catch (err) {
-      consola.error(err);
+      error(err);
     }
   },
-  async deleteFromCart({ commit }, payload) {
+  async getCart({ commit }) {
     try {
-      commit("deletetoCart", payload);
+      success("getCart dispatched");
+      const cart = await Api.get("/api/v1/cart/");
+      cart.data.cart.map(i => {
+        i.product.spinner = false;
+        i.selected = false;
+      });
+      commit("getCart_request", cart.data);
+
+      return cart;
     } catch (err) {
-      consola.error("deleted to cart", err);
+      // eslint-disable-next-line no-console
+      console.log(err);
     }
   },
-  async cartToCheckout({ commit }, data) {
+  async cartItemFxn({ commit }, cartPayload) {
     try {
-      commit("setCartToAllSelectedItem", data);
-      commit("checkout");
+      const { productId, cartId, payload } = cartPayload;
+      let cartFxn = await axios.post(`/api/v1/cart/${productId}`, payload, {
+        withCredentials: true
+      });
+
+      // cartFxn.data.cart.map(i => {
+      //   i.product.spinner = false;
+      //   i.selected = false;
+      // });
+      commit("cartFxn_request", {
+        type: payload.cartFxnType,
+        cartId: cartId,
+        data: cartFxn.data
+      });
+
+      return cartFxn;
     } catch (err) {
-      consola.error(err);
+      // eslint-disable-next-line no-console
+      console.log(err);
     }
   },
-  async order({ commit }, payload) {
+  async cartSelect({ commit }, cartPayload) {
     try {
-      commit("addingToOrderedCollection", payload);
+      const { selectAll } = cartPayload;
+
+      commit("cartSelect_request", selectAll);
     } catch (err) {
-      consola.error(err);
+      error(err);
+    }
+  },
+  async newOrder({ commit }, payload) {
+    try {
+      success("payload newOrder", payload.orderedProducts);
+      payload.orderedProducts.map(i => delete i["selected"]);
+
+      const orders = await axios.post("/api/v1/orders", payload, {
+        withCredentials: true
+      });
+
+      commit("newOrder_request", orders);
+
+      return orders;
+    } catch (err) {
+      error(err);
     }
   },
   async editOrder({ commit }, payload) {
     try {
       commit("editOrder_request", payload);
     } catch (err) {
-      consola.error(err);
+      error(err);
     }
   },
   async receivedOrder({ commit }, payload) {
     try {
       commit("orderReceived", payload);
     } catch (err) {
-      consola.error(err);
+      error(err);
     }
   },
   async cancelPurchasedItem({ commit }, payload) {
     try {
       commit("cancelRequest", payload);
     } catch (err) {
-      consola.error(err);
+      error(err);
     }
   },
   async addProduct({ commit }, payload) {
@@ -381,7 +197,7 @@ const actions = {
 
       return id;
     } catch (err) {
-      consola.error(err);
+      error(err);
     }
   },
   async saveEditedProduct({ commit }, payload) {
@@ -390,24 +206,59 @@ const actions = {
 
       return payload;
     } catch (err) {
-      consola.error(err);
+      error(err);
     }
   }
 };
 
 // Mutations-------------------------------------------------------------------------
 const mutations = {
-  getProduct_success(state) {
-    state.products = state.products.map(item => {
-      return { ...item, confirm: false, qty: parseInt(1) };
-    });
+  getProduct_request(state, payload) {
+    state.products = payload;
   },
-  addToCart_success(state, item) {
-    item.selected = true;
+  getCart_request(state, cartPayload) {
+    state.cart = cartPayload;
+  },
+  cartFxn_request(state, cartPayload) {
+    const { data, type, cartId } = cartPayload;
+    const newData = data.cart.find(i => i._id === cartId);
+    const fxnType = ["add", "minus", "changeQty"];
+    if (fxnType.includes(type) && newData) {
+      state.cart.cart.find(i => i._id === cartId).total = newData.total;
+      state.cart.cart.find(i => i._id === cartId).quantity = newData.quantity;
+      state.cart.cart.find(i => i._id === cartId).product.spinner = false;
 
-    item.stage = "cart";
-
-    state.cart.push({ ...item });
+      // const newCart = [...state.cart.cart];
+      // const cartIndex = state.cart.cart.findIndex(i => i._id === cartId);
+      // success("newcart", newCart);
+      // newCart[cartIndex].quantity = newSingleItemData.quantity;
+      // newCart[cartIndex].total = newSingleItemData.total;
+      // newCart[cartIndex].product.spinner = false;
+      // return (state.cart.cart = newCart);
+    } else if (
+      !fxnType.includes(type) ||
+      (type === "add" && !newData) ||
+      !newData
+    ) {
+      data.cart.map(e => (e.selected = false));
+      const remainSelected = state.cart.cart
+        .filter(i => i.selected)
+        .map(e => e._id);
+      success("remainSelected", remainSelected);
+      data.cart
+        .filter(i => remainSelected.indexOf(i._id) >= 0)
+        .map(e => (e.selected = true));
+      state.cart = data;
+    }
+  },
+  cartSelect_request(state, payload) {
+    if (payload) {
+      state.cart.cart.map(i => (i.selected = true));
+    } else {
+      state.cart.cart.map(i => {
+        i.selected = false;
+      });
+    }
   },
   deletetoCart(state, payload) {
     if (payload.type === "single") {
@@ -432,51 +283,47 @@ const mutations = {
     const checking = state.cart.filter(item => item.selected === true);
     state.checkoutCart = checking;
   },
-  addingToOrderedCollection(state, payload) {
-    const purchaseId = `${Date.now()}`;
-    const finalCart = [];
-
-    state.cart.forEach(item => {
-      if (item.selected) {
-        item.purchaseId = purchaseId;
-        item.stage = "ordered";
-        item.selected = false;
-        item.cancelled = false;
-        item.prepaired = false;
-        item.confirm = false;
-        item.datePurchased = Date.now();
-        finalCart.push(item);
-      }
-    });
-
-    state.products.map(i => (i.stage = ""));
-
-    state.ordered.push({
-      id: purchaseId,
-      user: {
-        name: "Edison Ocampo",
-        id: 123523312,
-        email: "edisonocampo.eo@gmail.com",
-        phone: "09958402424"
-      },
-      item: [...finalCart],
-      received: false,
-      receivedDate: null,
-      date: Date.now(),
-      dateProcessingDone: null,
-      datePackingDone: null,
-      dateDelivering: null,
-      stage: "Processing",
-      userNotification: null,
-      location: payload,
-      rider: "",
-      confirmedByRider: false,
-      riderStatus: "",
-      deliveryProgress: ""
-    });
-
-    state.finalCart = [];
-    state.cart = [];
+  newOrder_request() {
+    // const purchaseId = `${Date.now()}`;
+    // const finalCart = [];
+    // state.cart.forEach(item => {
+    //   if (item.selected) {
+    //     item.purchaseId = purchaseId;
+    //     item.stage = "ordered";
+    //     item.selected = false;
+    //     item.cancelled = false;
+    //     item.prepaired = false;
+    //     item.confirm = false;
+    //     item.datePurchased = Date.now();
+    //     finalCart.push(item);
+    //   }
+    // });
+    // state.products.map(i => (i.stage = ""));
+    // state.ordered.push({
+    //   id: purchaseId,
+    //   user: {
+    //     name: "Edison Ocampo",
+    //     id: 123523312,
+    //     email: "edisonocampo.eo@gmail.com",
+    //     phone: "09958402424"
+    //   },
+    //   item: [...finalCart],
+    //   received: false,
+    //   receivedDate: null,
+    //   date: Date.now(),
+    //   dateProcessingDone: null,
+    //   datePackingDone: null,
+    //   dateDelivering: null,
+    //   stage: "Processing",
+    //   userNotification: null,
+    //   location: payload,
+    //   rider: "",
+    //   confirmedByRider: false,
+    //   riderStatus: "",
+    //   deliveryProgress: ""
+    // });
+    // state.finalCart = [];
+    // state.cart = [];
   },
   editOrder_request(state, payload) {
     state.ordered = payload;

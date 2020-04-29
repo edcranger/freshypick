@@ -25,6 +25,8 @@ const routes = [
       },
       {
         path: "/checkout",
+        props: true,
+        name: "checkout",
         meta: {
           requiresAuth: true
         },
