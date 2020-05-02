@@ -44,6 +44,7 @@ const routes = [
         children: [
           {
             path: "",
+            name: "ordersWeb",
             props: true,
             component: () => import("components/account-page/orderviews/Order")
           },
@@ -55,6 +56,7 @@ const routes = [
           },
           {
             path: "/account/orders",
+            name: "ordersWeb",
             props: true,
             component: () => import("components/account-page/orderviews/Order")
           },
@@ -67,13 +69,13 @@ const routes = [
           },
           {
             path: "/account/received",
-            component: () =>
-              import("components/account-page/receivedviews/Received")
+            name: "receivedWeb",
+            component: () => import("components/account-page/orderviews/Order")
           },
           {
             path: "/account/cancelled",
-            component: () =>
-              import("components/account-page/cancelviews/Cancelled")
+            name: "canceledWeb",
+            component: () => import("components/account-page/orderviews/Order")
           },
           {
             path: "/account/profile",
@@ -97,6 +99,7 @@ const routes = [
       },
       {
         path: "/account/morder",
+        name: "ordersMobile",
         component: () => import("components/account-page/orderviews/Order")
       },
       {
@@ -106,12 +109,13 @@ const routes = [
       },
       {
         path: "/account/mreceived",
-        component: () =>
-          import("components/account-page/receivedviews/Received")
+        name: "receivedMobile",
+        component: () => import("components/account-page/orderviews/Order")
       },
       {
         path: "/account/mcancelled",
-        component: () => import("components/account-page/cancelviews/Cancelled")
+        name: "canceledMobile",
+        component: () => import("components/account-page/orderviews/Order")
       },
       {
         path: "/account/mprofile",
@@ -123,7 +127,7 @@ const routes = [
       },
       {
         path: "/account/mhelp",
-        component: () => import("components/account-page/cancelviews/Cancelled")
+        component: () => import("../pages/Settings")
       },
       {
         path: "/account/authentication",

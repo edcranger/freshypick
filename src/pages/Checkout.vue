@@ -35,11 +35,18 @@
                 <q-card-section>
                   <div
                     class="row q-pa-sm"
-                    v-for="item in selectedFromCart"
+                    v-for="item in getFromCart"
                     :key="item._id"
                   >
                     <div class="col-md-3 col-4">
+                      <q-skeleton
+                        width="100px"
+                        height="50px"
+                        class="q-mt-lg"
+                        v-if="item.deleting"
+                      />
                       <q-img
+                        v-if="!item.deleting"
                         :src="`http://localhost:3000/${item.product.photos[0]}`"
                         spinner-color="white"
                         style="height: 100px; max-width: 100px"
@@ -47,9 +54,25 @@
                     </div>
                     <div class="col">
                       <div class="q-mt-lg">
-                        <strong>{{ item.product.name }}</strong>
+                        <q-skeleton
+                          type="text"
+                          width="100px"
+                          v-if="item.deleting"
+                        />
+                        <strong v-if="!item.deleting">
+                          {{ item.product.name }}
+                        </strong>
                       </div>
-                      <div class="q-ma-none">₱{{ item.product.price }}/kg</div>
+                      <div class="q-ma-none">
+                        <q-skeleton
+                          type="text"
+                          width="100px"
+                          v-if="item.deleting"
+                        />
+                        <span v-if="!item.deleting"
+                          >₱{{ item.product.price }}/kg</span
+                        >
+                      </div>
 
                       <div
                         class="fit row wrap justify-end items-start content-start q-mt-md q-mb-none"
@@ -63,7 +86,7 @@
                               flat
                               round
                               dense
-                              @click="deleteItem(item)"
+                              @click="deleteItem(item._id)"
                               icon="delete"
                             />
                           </div>
@@ -150,11 +173,18 @@
           <div class="col-12 bg-white">
             <div
               class="row shadow-1 q-pa-sm"
-              v-for="item in selectedFromCart"
+              v-for="item in getFromCart"
               :key="item._id"
             >
               <div class="col-md-3 col-4">
+                <q-skeleton
+                  width="100px"
+                  height="60px"
+                  class="q-mt-lg"
+                  v-if="item.deleting"
+                />
                 <q-img
+                  v-if="!item.deleting"
                   :src="`http://localhost:3000/${item.product.photos[0]}`"
                   spinner-color="white"
                   style="height: 100px; max-width: 100px"
@@ -162,9 +192,15 @@
               </div>
               <div class="col">
                 <div class="q-mt-lg">
-                  <strong>{{ item.product.name }}</strong>
+                  <q-skeleton type="text" width="100px" v-if="item.deleting" />
+                  <strong v-if="!item.deleting">{{ item.product.name }}</strong>
                 </div>
-                <div class="q-ma-none">₱{{ item.product.price }}/kg</div>
+                <div class="q-ma-none">
+                  <q-skeleton type="text" width="100px" v-if="item.deleting" />
+                  <span v-if="!item.deleting"
+                    >₱{{ item.product.price }}/kg</span
+                  >
+                </div>
 
                 <div
                   class="fit row wrap justify-end items-start content-start q-mt-md q-mb-none"
@@ -179,7 +215,7 @@
                         round
                         dense
                         icon="delete"
-                        @click="deleteItem(item)"
+                        @click="deleteItem(item._id)"
                       />
                     </div>
                   </div>
@@ -203,7 +239,7 @@
       <div class="row q-mt-none">
         <div class="col-8">
           <p class="q-mt-none">
-            Subtotal ({{ selectedFromCart.length || 0 }} items)
+            Subtotal ({{ getFromCart.length || 0 }} items)
           </p>
         </div>
         <div class="col-4 text-right">₱{{ checkOutTotal }}</div>
@@ -286,22 +322,24 @@ export default {
     }
   },
   computed: {
-    ...mapGetters([]),
+    ...mapGetters(["cart"]),
     checkOutTotal() {
       return this.selectedFromCart.reduce(
         (total, items) => items.total + total,
         0
       );
+    },
+    getFromCart() {
+      const ids = this.selectedFromCart.map(i => i._id);
+      return this.cart.cart.filter(i => ids.indexOf(i._id) > -1);
     }
   },
   methods: {
-    ...mapActions(["newOrder", "deleteFromCart"]),
+    ...mapActions(["newOrder", "deleteToCart", "getCart"]),
     ordering() {
-      //const { province, city, brgy, zipcode, detailedAdd } = this.userAdd;
-      //const address = `${detailedAdd} ${brgy} ${city}, ${zipcode} ${province}`;
-      this.newOrder({ orderedProducts: this.selectedFromCart }).then(res =>
-        this.$consola.success("Order Made", res.data)
-      );
+      this.newOrder({ orderedProducts: this.getFromCart }).then(() => {
+        this.getCart();
+      });
     },
     onClickChild(value) {
       this.paymentMethod = value;
@@ -309,17 +347,22 @@ export default {
       this.$refs.expandableItem2.hide();
     },
     deleteItem(item) {
-      this.deleteFromCart({ type: "single", item: item.id });
+      this.deleteToCart([item]).then(() => {});
     }
   },
   created() {
     this.$consola.success("cartSelected", this.selectedFromCart);
-    if (!this.selectedFromCart || this.selectedFromCart.length === 0) {
+    if (
+      !this.selectedFromCart ||
+      this.selectedFromCart.length === 0 ||
+      !this.getFromCart ||
+      this.getFromCart.length === 0
+    ) {
       this.$router.replace("/cart");
     }
   },
   watch: {
-    selectedFromCart(newCount, oldCount) {
+    getFromCart(newCount, oldCount) {
       if (newCount.length === 0 || oldCount.length === 0) {
         // eslint-disable-next-line no-console
         this.$router.replace("/cart");

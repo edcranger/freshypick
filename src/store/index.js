@@ -5,6 +5,7 @@ import Products from "./modules/product";
 import User from "./modules/user";
 import Riders from "./modules/riders";
 import Log from "./modules/logsinfo";
+import Orders from "./modules/orders";
 
 // import example from './module-example'
 
@@ -23,13 +24,12 @@ const store = new Vuex.Store({
   modules: {
     Riders,
     Log,
+    Orders,
     User,
     Products
   },
 
-  state: {
-    products: Products.products
-  },
+  state: {},
   mutations: {},
   actions: {},
   getters: {}

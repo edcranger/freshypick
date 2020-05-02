@@ -18,7 +18,7 @@
           <q-item-label lines="1">{{ item.btnName }}</q-item-label>
         </q-item-section>
 
-        <q-item-section
+        <!-- <q-item-section
           side
           v-if="filterBadge.length !== 0 ? item.label : (item.label = false)"
         >
@@ -27,7 +27,7 @@
             text-color="black"
             :label="filterBadge.length"
           />
-        </q-item-section>
+        </q-item-section>-->
       </q-item>
 
       <q-separator spaced />
@@ -60,10 +60,10 @@ export default {
   },
   props: ["menu1", "menu2"],
   computed: {
-    ...mapGetters(["ordered"]),
-    filterBadge() {
-      return this.ordered.filter(i => i.userNotification === "Yes");
-    }
+    ...mapGetters(["allOrders"])
+    // filterBadge() {
+    //   return this.allOrders.orders.filter(i => i.userNotification === "Yes");
+    // }
   }
 };
 </script>

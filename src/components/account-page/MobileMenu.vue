@@ -112,11 +112,9 @@ export default {
   },
   props: ["mobile1", "mobile2"],
   computed: {
-    ...mapGetters(["cart", "ordered", "receivedItems", "userProfile"]),
+    ...mapGetters(["cart", "allOrders", "receivedItems", "userProfile"]),
     filterBadge() {
-      return this.ordered.filter(
-        i => i.userNotification === "Yes" && i.riderStatus === "done"
-      );
+      return this.allOrders;
     }
   }
 };

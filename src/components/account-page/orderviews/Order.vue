@@ -6,33 +6,48 @@
     "
   >
     <q-page class="row">
+      <q-spinner-hourglass
+        color="light-green"
+        v-if="loading"
+        size="10rem"
+        class="fixed-center"
+      />
       <NoItems
+        v-if="!loading"
         :mobile="mobile"
         :desc="desc"
         :itemLength="filteredOrder.length"
       />
 
-      <div class="col-12" v-if="filteredOrder.length !== 0">
+      <div class="col-12" v-if="filteredOrder.length !== 0 && !loading">
         <q-list bordered separator class="bg-white">
           <q-item-label header>
-            <h5 class="q-my-none">My Orders</h5>
+            <h5 class="q-my-none" v-text="dynamicTitle" />
           </q-item-label>
 
           <q-item
-            v-for="item in filteredOrder"
-            :key="item.id"
+            v-for="order in filteredOrder"
+            :key="order._id"
             :to="{
               name: $mq === 'sm' ? 'mview-orders' : 'view-orders',
-              params: { itemId: item.id }
+              params: { itemId: order._id }
             }"
           >
             <q-item-section>
               <q-item-label caption>
                 <div class="row">
-                  <div class="col">{{ item.id }}</div>
+                  <div class="col">
+                    ORDER ID
+                    {{
+                      order._id
+                        .toString()
+                        .toUpperCase()
+                        .slice(0, 12)
+                    }}
+                  </div>
 
                   <div class="col text-right">
-                    <p>Processing</p>
+                    <p>{{ order.orderStatus }}</p>
                   </div>
                 </div>
               </q-item-label>
@@ -40,16 +55,17 @@
               <q-item-label overline>
                 <div
                   class="row text-grey-8"
-                  v-for="i in item.item"
-                  :key="i.purchaseid"
+                  v-for="list in order.orderList"
+                  :key="list._id"
                 >
-                  <div class="col" v-if="!i.cancelled">
+                  <!-- <p>{{ list.products }}</p> -->
+                  <div class="col">
                     <q-img
-                      :src="i.photo[0].url"
+                      :src="`http://localhost:3000/${list.product.photos[0]}`"
                       spinner-color="white"
                       style="height: 30px; max-width: 30px"
                     />
-                    x {{ i.qty }} {{ i.name }}
+                    x {{ list.quantity }} {{ list.product.name }}
                   </div>
                 </div>
               </q-item-label>
@@ -57,11 +73,11 @@
               <q-item-label>
                 <div class="row text-grey-8">
                   <div class="col-6 text-left text-caption">
-                    Date ordered - {{ datefxn(item.date) }}
+                    Date ordered - {{ datefxn(order.dates.orderDate) }}
                   </div>
                   <div class="col-6 text-right">
                     <p class="text-green text-italic">
-                      <strong>Total: ₱{{ calCulateItem(item.id) }}</strong>
+                      <strong>Total: ₱{{ order.total }}</strong>
                     </p>
                   </div>
                 </div>
@@ -82,40 +98,70 @@ export default {
   data() {
     return {
       mobile: false,
-      desc: "No Pending Orders"
+      desc: "No Pending Orders",
+      loading: true,
+      order: ["ordersWeb", "ordersMobile"],
+      receive: ["receivedWeb", "receivedMobile"],
+      canceled: ["canceledWeb", "canceledMobile"]
     };
   },
-  created() {
-    // eslint-disable-next-line no-console
-  },
   computed: {
-    ...mapGetters(["checkoutCart", "totalInCart", "ordered"]),
+    ...mapGetters(["allOrders"]),
     filteredOrder() {
-      const wew = this.ordered.filter(
-        i => !i.received && i.stage !== "canceled"
-      );
-      return wew;
+      let query;
+
+      if (this.order.includes(this.$route.name)) {
+        const status = ["Processing", "Preparing", "Delivering"];
+        query = this.allOrders.filter(order =>
+          status.includes(order.orderStatus)
+        );
+      }
+
+      if (this.receive.includes(this.$route.name)) {
+        query = this.allOrders.filter(
+          order => order.orderStatus === "Completed"
+        );
+      }
+
+      if (this.canceled.includes(this.$route.name)) {
+        query = this.allOrders.filter(
+          order => order.orderStatus === "Canceled"
+        );
+      }
+      return query;
+    },
+    dynamicTitle() {
+      let title;
+      if (this.order.includes(this.$route.name)) {
+        title = "My Orders";
+      }
+
+      if (this.receive.includes(this.$route.name)) {
+        title = "Received";
+      }
+
+      if (this.canceled.includes(this.$route.name)) {
+        title = "Canceled";
+      }
+
+      return title;
     }
   },
+
   methods: {
-    ...mapActions(["receivedOrder", "editOrder"]),
-    calCulateItem(id) {
-      const pow = this.ordered.filter(item => item.id === id);
+    ...mapActions(["getAllOrders"]),
 
-      const notCancelled = pow.map(i => i.item.filter(x => !x.cancelled));
-
-      const totalPrice = notCancelled.map(i =>
-        i.reduce((currentTotal, x) => x.price * x.qty + currentTotal, 0)
-      );
-
-      return parseInt(totalPrice);
-    },
-    receive(id) {
-      this.receivedOrder(id);
-      this.editOrder(this.ordered);
-    },
     datefxn(timestamp) {
       return date.formatDate(timestamp, "MM/DD/YYYY ");
+    }
+  },
+  created() {
+    if (this.allOrders.length !== 0) {
+      this.loading = false;
+    } else {
+      this.getAllOrders().then(() => {
+        this.loading = false;
+      });
     }
   },
   components: {

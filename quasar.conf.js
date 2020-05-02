@@ -94,6 +94,8 @@ module.exports = function(ctx) {
           }
         }
       },
+      host: `0.0.0.0`,
+      public: `http://192.168.254.101:8080`,
       https: false,
       port: 8080,
       open: true // opens browser window automatically

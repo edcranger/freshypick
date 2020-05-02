@@ -57,41 +57,13 @@
           class="text-body2 text-grey-8 q-mt-md q-ml-sm"
           v-html="getProduct.description"
         />
-        <div
-          class="full-width row wrap justify-center items-start content-center"
-        >
-          <q-input
-            outlined
-            bottom-slots
-            style="max-width: 150px;"
-            v-model="getProduct.qty"
-            type="number"
-            maxlength="12"
-            dense
-          >
-            <template v-slot:before>
-              <q-btn
-                flat
-                :disable="getProduct.qty < 2"
-                @click="getProduct.qty--"
-                round
-                icon="fas fa-minus-square"
-              />
-            </template>
-
-            <template v-slot:after>
-              <q-btn
-                flat
-                round
-                icon="fas fa-plus-square"
-                @click="getProduct.qty++"
-              />
-            </template>
-          </q-input>
-        </div>
 
         <div class="q-ml-sm">
-          <q-btn color="green" label="ADD TO CART" @click="addCart" />
+          <q-btn
+            color="green"
+            label="ADD TO CART"
+            @click="cartAction(getProduct._id, 1, 'add')"
+          />
         </div>
       </div>
     </div>
@@ -134,7 +106,7 @@
               @click="product.confirm = !product.confirm"
             />
             <q-dialog v-model="product.confirm" persistent>
-              <AddtoCart :productInfo="product" />
+              <AddtoCart :product="product" />
             </q-dialog>
           </q-card-actions>
 
@@ -176,9 +148,12 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["getAllProducts"]),
-    async addCart() {
-      await this.addToCart(this.product).then(() => {});
+    ...mapActions(["cartItemFxn"]),
+    cartAction(id, qty, type) {
+      this.cartItemFxn({
+        productId: id,
+        payload: { quantity: qty, cartFxnType: type }
+      });
     },
     viewSingleProduct(product) {
       // eslint-disable-next-line no-console

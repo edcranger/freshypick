@@ -127,7 +127,7 @@ export default {
         email: this.email,
         password: this.password
         // eslint-disable-next-line no-console
-      }).then(user => console.log(user.data.user));
+      }).then(() => this.$router.push("/"));
     }
   }
 };

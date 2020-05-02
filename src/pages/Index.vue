@@ -67,7 +67,7 @@ export default {
   computed: {
     ...mapGetters(["products", "cart"]),
     getProducts() {
-      return this.newProducts;
+      return this.products;
     }
   },
   methods: {
@@ -77,14 +77,7 @@ export default {
       this.$router.push({ name: "product", params: { name: product.name } });
     }
   },
-  async created() {
-    const prods = await this.getAllProducts();
-    // eslint-disable-next-line no-console
-    console.log("prods", prods);
-    this.newProducts = this.products;
-    // eslint-disable-next-line no-console
-    console.log("newprods", this.newProducts);
-  },
+  async created() {},
   components: {
     AddtoCart
   }

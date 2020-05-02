@@ -1,47 +1,67 @@
 <template>
   <q-page>
-    <div bordered padding class="bg-white">
-      <q-item-label header>My Order</q-item-label>
+    <q-spinner-hourglass
+      color="light-green"
+      v-if="loading"
+      size="10rem"
+      class="fixed-center"
+    />
+    <div bordered padding class="bg-white" v-else>
+      <q-item-label header v-text="`My Order`" />
 
-      <q-item-label header>Order ID: {{ orderedItems[0].id }}</q-item-label>
+      <q-item-label header>
+        ORDER ID:
+        {{
+          orderedInfo._id
+            .toString()
+            .toUpperCase()
+            .slice(0, 12)
+        }}
+        <q-chip
+          class="q-ml-sm q-pa-sm text-white text-bold q-pa-sm"
+          :color="colorFxn"
+          :label="orderedInfo.orderStatus"
+        />
+      </q-item-label>
 
-      <div v-for="item in orderedItems" :key="item.id">
-        <q-item v-for="i in item.item" :key="i.id">
-          <q-item-section>
-            <q-img
-              :class="i.cancelled ? 'grayscale' : ''"
-              :src="i.photo[0].url"
-              spinner-color="white"
-              :width="$mq === 'sm' ? '50px' : '100px'"
-            />
-          </q-item-section>
-          <q-item-section :class="i.cancelled ? 'col text-strike' : 'col'">
-            <q-item-label class="text-grey-8 text-subtitle1"
-              >{{ i.name }} x{{ i.qty }}</q-item-label
-            >
-          </q-item-section>
-          <q-item-section side center>
-            <q-btn
-              flat
-              v-if="!item.received && i.stage !== 'prepaired'"
-              :color="!i.cancelled ? `red` : `grey`"
-              :dense="$mq === 'sm'"
-              :disable="i.cancelled"
-              @click="i.confirm = !i.confirm"
-              :label="!i.cancelled ? 'Cancel' : 'Cancelled'"
-            />
-            <q-btn
-              flat
-              dense
-              disable
-              v-else-if="item.received"
-              :label="!i.cancelled ? 'Received' : 'Canceled'"
-            ></q-btn>
-            <q-dialog v-model="i.confirm" persistent>
-              <CancelItem :i="i" />
-            </q-dialog>
-          </q-item-section>
-        </q-item>
+      <q-item v-for="item in orderedInfo.orderList" :key="item._id">
+        <q-item-section>
+          <!-- :class="i.cancelled ? 'grayscale' : ''" -->
+          <q-img
+            :src="`http://localhost:3000/${item.product.photos[0]}`"
+            spinner-color="white"
+            :width="$mq === 'sm' ? '50px' : '100px'"
+          />
+        </q-item-section>
+        <!-- :class="i.cancelled ? 'col text-strike' : 'col'" -->
+        <q-item-section class="col">
+          <q-item-label
+            class="text-grey-9 text-subtitle1"
+            v-html="`${item.product.name} x${item.quantity}`"
+          />
+        </q-item-section>
+        <q-item-section side center>
+          <q-item-label
+            class="text-grey-9 text-subtitle1"
+            v-html="` ₱ ${item.total}/${item.product.unit}`"
+          />
+        </q-item-section>
+      </q-item>
+      <div class="row justify-end q-pa-sm">
+        <p class="col-xs-4 text-h6 text-right q-mr-md text-green">
+          Total ₱{{ orderedInfo.total }}
+        </p>
+      </div>
+      <div
+        class="row justify-end q-pa-sm"
+        v-if="orderedInfo.orderStatus === 'Processing'"
+      >
+        <q-btn
+          color="red"
+          class="col-xs-12 col-sm-3"
+          @click="cancel()"
+          label="Cancel"
+        />
       </div>
 
       <q-separator inset />
@@ -49,59 +69,11 @@
       <q-item class="q-pa-none">
         <q-item-section class="q-pa-none">
           <q-item-label caption>
-            <div class="row q-px-lg">
-              <div class="col-xs-12 col-sm-6 q-px-sm">
-                <q-timeline color="secondary">
-                  <q-timeline-entry
-                    :subtitle="
-                      orderedItems[0].dateProcessingDone
-                        ? datefxn(orderedItems[0].dateProcessingDone)
-                        : datefxn(orderedItems[0].date)
-                    "
-                    icon="fas fa-clipboard-check"
-                    color="grey"
-                  >
-                    <div v-if="orderedItems[0].dateProcessingDone === null">
-                      Product is still for processing.
-                    </div>
-                    <div v-else>Product was processed.</div>
-                  </q-timeline-entry>
-                  <q-timeline-entry
-                    v-if="orderedItems[0].datePackingDone"
-                    :subtitle="datefxn(orderedItems[0].datePackingDone)"
-                    icon="fas fa-box-open"
-                    color="grey"
-                  >
-                    <div>Item is already packed</div>
-                  </q-timeline-entry>
-                  <q-timeline-entry
-                    v-if="orderedItems[0].dateDelivering"
-                    :subtitle="datefxn(orderedItems[0].dateDelivering)"
-                    icon="fas fa-truck"
-                    color="grey"
-                  >
-                    <div>Item is on the way.</div>
-                  </q-timeline-entry>
-                  <q-timeline-entry
-                    v-if="orderedItems[0].received"
-                    :subtitle="datefxn(orderedItems[0].receivedDate)"
-                    icon="fas fa-check-square"
-                    color="green"
-                  >
-                    <div class="text-green">Item is delivered</div>
-                    <h6 class="text-green text-subtitle2 q-ma-none">
-                      Completed
-                    </h6>
-                  </q-timeline-entry>
-                </q-timeline>
-              </div>
+            <div class="row q-px-sm">
+              <!-- End of Time line -->
               <div class="col-xs-12 col-sm-6 q-mb-md">
-                <q-separator inset v-if="$mq === 'sm'"></q-separator>
-                <div
-                  v-for="(i, index) in orderedItems"
-                  :key="index"
-                  class="q-mt-xs q-mx-md q-mt-sm"
-                >
+                <q-separator inset v-if="$mq === 'sm'" />
+                <div class="q-mt-xs q-mt-sm">
                   <q-item>
                     <q-item-section>
                       <q-item-label caption class="text-bold"
@@ -119,31 +91,48 @@
                   <q-item>
                     <q-item-section>
                       <q-item-label caption class="text-bold"
-                        >Date Ordered</q-item-label
-                      >
-                      <q-item-label caption>{{ datefxn(i.date) }}</q-item-label>
-                    </q-item-section>
-                  </q-item>
-
-                  <q-item v-if="i.received">
-                    <q-item-section>
-                      <q-item-label caption class="text-bold"
-                        >Receive Date</q-item-label
-                      >
-                      <q-item-label caption>{{
-                        datefxn(i.receivedDate)
-                      }}</q-item-label>
-                    </q-item-section>
-                  </q-item>
-                  <q-item>
-                    <q-item-section>
-                      <q-item-label caption class="text-bold"
                         >Payment method</q-item-label
                       >
                       <q-item-label caption>COD</q-item-label>
                     </q-item-section>
                   </q-item>
+
+                  <q-item>
+                    <q-item-section>
+                      <q-item-label caption class="text-bold"
+                        >Date Ordered</q-item-label
+                      >
+                      <q-item-label caption>
+                        {{ datefxn(orderedInfo.dates.orderDate) }}
+                      </q-item-label>
+                    </q-item-section>
+                  </q-item>
+
+                  <q-item>
+                    <q-item-section>
+                      <q-item-label caption class="text-bold"
+                        >Receive Date</q-item-label
+                      >
+                      <q-item-label caption>
+                        {{ datefxn(orderedInfo.dates.orderDate) }}
+                      </q-item-label>
+                    </q-item-section>
+                  </q-item>
                 </div>
+              </div>
+              <div class="col-xs-12 col-sm-6 q-px-sm">
+                <!-- Start of Time line -->
+                <q-timeline color="secondary" class="q-ml-md">
+                  <q-timeline-entry
+                    v-for="(i, index) in timeLine"
+                    :key="index"
+                    :subtitle="datefxn(i.data)"
+                    :icon="i.icon"
+                    :color="i.color"
+                  >
+                    <p v-html="i.message" />
+                  </q-timeline-entry>
+                </q-timeline>
               </div>
             </div>
           </q-item-label>
@@ -156,58 +145,133 @@
 <script>
 import { date } from "quasar";
 import { mapGetters, mapActions } from "vuex";
-import CancelItem from "../../modals/CancelItem";
 export default {
   data() {
     return {
-      step: 3,
-      routeParams: this.$route.params.itemId
+      routeParams: this.$route.params.itemId,
+      loading: true
     };
   },
 
   created() {
-    // eslint-disable-next-line no-console
-    console.log(this.ordered);
+    if (this.allOrders.length !== 0) {
+      this.loading = false;
+    } else {
+      this.getAllOrders().then(() => {
+        this.loading = false;
+        this.$consola.info("badge", this.timeLine);
+      });
+    }
   },
   computed: {
-    ...mapGetters(["ordered", "userAdd"]),
-    stepperOrientation() {
-      return this.$mq === "sm" ? true : false;
+    ...mapGetters(["allOrders", "userAdd"]),
+    orderedInfo() {
+      return this.allOrders.find(item => item._id === this.routeParams);
     },
+    timeLine() {
+      const timeLineData = [];
+      const {
+        orderDate,
+        prepDate,
+        deliveringDate,
+        completedDate,
+        canceledDate
+      } = this.orderedInfo.dates;
 
-    orderedItems() {
-      return this.ordered.filter(item => item.id === this.routeParams);
-    },
-    calCulateItem() {
-      const pow = this.ordered.filter(item => item.id === this.routeParams);
-
-      const notCancelled = pow.map(i => {
-        return i.item.filter(x => {
-          return !x.cancelled;
+      if (orderDate) {
+        timeLineData.push({
+          data: orderDate,
+          message: "Processing order.",
+          icon: "fas fa-clipboard-check",
+          color: "orange"
         });
-      });
+      }
 
-      const totalPrice = notCancelled.map(i => {
-        return i.reduce((currentTotal, x) => {
-          return x.price * x.qty + currentTotal;
-        }, 0);
-      });
+      if (prepDate) {
+        timeLineData.push({
+          data: prepDate,
+          message: "Preparing for delivery.",
+          icon: "fas fa-box-open",
+          color: "cyan"
+        });
+      }
 
-      return parseInt(totalPrice);
+      if (deliveringDate) {
+        timeLineData.push({
+          data: deliveringDate,
+          message: "Your order is on its way.",
+          icon: "fas fa-truck",
+          color: "blue"
+        });
+      }
+
+      if (completedDate) {
+        timeLineData.push({
+          data: completedDate,
+          message: "Order completed.",
+          icon: "fas fa-check-square",
+          color: "green"
+        });
+      }
+
+      if (canceledDate) {
+        timeLineData.push({
+          data: canceledDate,
+          message: "Order is canceled.",
+          icon: "close",
+          color: "red"
+        });
+      }
+
+      return timeLineData;
+    },
+    colorFxn() {
+      const colors = [
+        { type: "Processing", color: "blue" },
+        { type: "Preparing", color: "blue" },
+        { type: "Delivering", color: "cyan" },
+        { type: "Completed", color: "green" },
+        { type: "Canceled", color: "red" }
+      ];
+
+      return colors.find(i => i.type === this.orderedInfo.orderStatus).color;
     }
   },
   methods: {
-    ...mapActions(["editOrder", "cancelPurchasedItem", "receivedOrder"]),
+    ...mapActions(["getAllOrders", "cancelOrder"]),
+    cancel() {
+      this.$q
+        .dialog({
+          title: "Confirm",
+          message: "Would you like to cancel the order?",
+          cancel: true,
+          persistent: true
+        })
+        .onOk(() => {
+          this.cancelOrder(this.orderedInfo._id).then(() =>
+            this.$q.notify({
+              message: "Order Canceled.",
+              color: "red",
+              position: "right"
+            })
+          );
+        })
+        .onOk(() => {
+          // console.log('>>>> second OK catcher')
+        })
+        .onCancel(() => {
+          // console.log('>>>> Cancel')
+        })
+        .onDismiss(() => {
+          // console.log('I am triggered on both OK and Cancel')
+        });
+    },
     datefxn(timestamp) {
       return date.formatDate(timestamp, "MMM-DD-YYYY h:mmA");
-    },
-    receive(id) {
-      this.$consola.info("iddd", id);
-      this.receivedOrder(id);
     }
   },
   components: {
-    CancelItem
+    // CancelItem
   }
 };
 </script>
