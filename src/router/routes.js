@@ -21,6 +21,10 @@ const routes = [
       },
       {
         path: "/cart",
+        meta: {
+          requiresAuth: true
+        },
+        beforeEnter: ifAuthenticated,
         component: () => import("../pages/Cart.vue")
       },
       {

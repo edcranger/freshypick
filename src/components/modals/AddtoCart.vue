@@ -40,6 +40,12 @@ export default {
       this.cartItemFxn({
         productId: this.product._id,
         payload: { quantity: 1, cartFxnType: "add" }
+      }).then(() => {
+        this.$q.notify({
+          message: `Added ${this.product.name} to cart.`,
+          color: "green",
+          position: "right"
+        });
       });
     }
   },

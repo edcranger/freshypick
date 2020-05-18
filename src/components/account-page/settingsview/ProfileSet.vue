@@ -4,7 +4,7 @@
       <div class="col-6 q-px-sm">
         <q-input
           filled
-          v-model="userProfile.username"
+          v-model="user.name"
           label="Username*"
           lazy-rules
           :rules="[val => (val && val.length > 0) || 'Please type something']"
@@ -13,7 +13,7 @@
       <div class="col-6 q-px-sm">
         <q-input
           filled
-          v-model="userProfile.phone"
+          v-model="user.phone"
           label="Phone"
           mask="(####) ### - ####"
           hint="Ex: (09##) ### - ####"
@@ -23,7 +23,7 @@
 
     <q-input
       filled
-      v-model="userProfile.name"
+      v-model="user.name"
       label="Your name *"
       hint="Name and surname"
       lazy-rules
@@ -31,7 +31,7 @@
     />
 
     <q-input
-      v-model="userProfile.email"
+      v-model="user.email"
       filled
       type="email"
       hint="Example: edison@gmail.com"
@@ -51,7 +51,7 @@ export default {
     return {};
   },
   computed: {
-    ...mapGetters(["userProfile"])
+    ...mapGetters(["user"])
   },
   methods: {
     onSubmit() {

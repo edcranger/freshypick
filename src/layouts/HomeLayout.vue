@@ -44,9 +44,10 @@
                 <div class="chipNotMove col-xs-12 col-sm-3" v-if="$mq !== 'sm'">
                   <q-chip square>
                     <q-avatar v-if="isLoggedIn">
-                      <img :src="userProfile.photo" />
+                      <img :src="user.photo" />
                     </q-avatar>
-                    <q-avatar v-else icon="fas fa-user" color="primary" />John
+                    <q-avatar v-else icon="fas fa-user" color="primary" />
+                    {{ firstName }}
                     <q-menu v-if="isLoggedIn">
                       <q-list style="min-width: 100px">
                         <q-item clickable v-close-popup>
@@ -54,6 +55,17 @@
                         </q-item>
                         <q-item clickable v-close-popup @click="logOut()">
                           <q-item-section>Logout</q-item-section>
+                        </q-item>
+                      </q-list>
+                    </q-menu>
+                    <q-menu v-if="!isLoggedIn">
+                      <q-list style="min-width: 100px">
+                        <q-item
+                          clickable
+                          v-close-popup
+                          to="/account/authentication"
+                        >
+                          <q-item-section>Login</q-item-section>
                         </q-item>
                       </q-list>
                     </q-menu>
@@ -181,9 +193,9 @@
                 style="height: 30px; max-width: 30px"
               />
               <span class="text-caption">Cart</span>
-              <q-badge color="red" v-if="cart.cartCount > 0" floating>
-                {{ cart.cartCount }}
-              </q-badge>
+              <q-badge color="red" v-if="cart.cartCount > 0" floating>{{
+                cart.cartCount
+              }}</q-badge>
             </q-route-tab>
             <q-route-tab name="account" to="/account">
               <q-img
@@ -212,20 +224,33 @@ export default {
   name: "MyLayout",
 
   data() {
-    return {};
+    return {
+      currentUser: ""
+    };
   },
   computed: {
-    ...mapGetters(["cart", "userProfile", "isLoggedIn", "userRole"])
+    ...mapGetters(["cart", "isLoggedIn", "user"]),
+    firstName() {
+      return this.currentUser.split(" ")[0];
+    }
   },
   methods: {
-    ...mapActions(["logoutUser", "getCart"]),
+    ...mapActions(["logoutUser", "getCart", "getUser"]),
     logOut() {
+      // Cookies.remove("token");
       this.logoutUser().then(() => {
-        this.$router.push("/");
+        this.$router.go("/");
       });
     }
   },
-  created() {}
+  created() {
+    if (this.isLoggedIn) {
+      this.getUser().then(
+        res => (this.currentUser = res.data.user.name.split(" ")[0])
+      );
+      this.getCart();
+    }
+  }
 
   //   .web {
   //   padding-left: 250px;

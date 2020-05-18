@@ -34,5 +34,6 @@ const store = new Vuex.Store({
   actions: {},
   getters: {}
 });
+
 store.dispatch("initAction");
 export default store;

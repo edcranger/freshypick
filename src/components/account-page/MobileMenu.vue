@@ -16,7 +16,7 @@
             color="teal"
             text-color="white"
           >
-            <q-img :src="userProfile.photo" />
+            <q-img :src="user.photo" />
           </q-avatar>
         </div>
         <div
@@ -112,7 +112,7 @@ export default {
   },
   props: ["mobile1", "mobile2"],
   computed: {
-    ...mapGetters(["cart", "allOrders", "receivedItems", "userProfile"]),
+    ...mapGetters(["cart", "allOrders", "user"]),
     filterBadge() {
       return this.allOrders;
     }

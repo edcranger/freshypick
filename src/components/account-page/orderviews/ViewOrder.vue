@@ -80,10 +80,11 @@
                         >Shipping Address</q-item-label
                       >
                       <q-item-label caption>
-                        {{ userAdd.detailedAdd }} {{ userAdd.city }} City
-                        {{ userAdd.brgy }}
-                        {{ userAdd.province }}
-                        {{ userAdd.zipcode }}
+                        {{ user.addresses[0].detailedAddress }}
+                        {{ user.addresses[0].cityMun }} City
+                        {{ user.addresses[0].barangay }}
+                        {{ user.addresses[0].province }}
+                        {{ user.addresses[0].zipcode }}
                       </q-item-label>
                     </q-item-section>
                   </q-item>
@@ -102,9 +103,9 @@
                       <q-item-label caption class="text-bold"
                         >Date Ordered</q-item-label
                       >
-                      <q-item-label caption>
-                        {{ datefxn(orderedInfo.dates.orderDate) }}
-                      </q-item-label>
+                      <q-item-label caption>{{
+                        datefxn(orderedInfo.dates.orderDate)
+                      }}</q-item-label>
                     </q-item-section>
                   </q-item>
 
@@ -113,9 +114,9 @@
                       <q-item-label caption class="text-bold"
                         >Receive Date</q-item-label
                       >
-                      <q-item-label caption>
-                        {{ datefxn(orderedInfo.dates.orderDate) }}
-                      </q-item-label>
+                      <q-item-label caption>{{
+                        datefxn(orderedInfo.dates.orderDate)
+                      }}</q-item-label>
                     </q-item-section>
                   </q-item>
                 </div>
@@ -164,7 +165,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["allOrders", "userAdd"]),
+    ...mapGetters(["allOrders", "user"]),
     orderedInfo() {
       return this.allOrders.find(item => item._id === this.routeParams);
     },
@@ -238,7 +239,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["getAllOrders", "cancelOrder"]),
+    ...mapActions(["getAllOrders", "updateOrder"]),
     cancel() {
       this.$q
         .dialog({
@@ -248,22 +249,16 @@ export default {
           persistent: true
         })
         .onOk(() => {
-          this.cancelOrder(this.orderedInfo._id).then(() =>
+          this.updateOrder({
+            id: this.orderedInfo._id,
+            updateType: "cancel"
+          }).then(() =>
             this.$q.notify({
               message: "Order Canceled.",
               color: "red",
               position: "right"
             })
           );
-        })
-        .onOk(() => {
-          // console.log('>>>> second OK catcher')
-        })
-        .onCancel(() => {
-          // console.log('>>>> Cancel')
-        })
-        .onDismiss(() => {
-          // console.log('I am triggered on both OK and Cancel')
         });
     },
     datefxn(timestamp) {

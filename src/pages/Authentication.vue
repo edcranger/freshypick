@@ -49,6 +49,7 @@
                   size="15px"
                   icon="fab fa-facebook"
                   class="q-ma-sm"
+                  @click="facebook"
                 >
                   <span class="q-ml-sm">facebook</span>
                 </q-btn>
@@ -90,12 +91,16 @@
                   size="15px"
                   icon="fab fa-facebook"
                   class="q-ma-sm"
-                  @click="loginRegUser()"
-                  to="/account"
+                  @click="facebook"
                 >
                   <span class="q-ml-sm">facebook</span>
                 </q-btn>
-                <q-btn size="15px" icon="fab fa-google" class="q-ma-sm">
+                <q-btn
+                  size="15px"
+                  icon="fab fa-google"
+                  class="q-ma-sm"
+                  @click="google"
+                >
                   <span class="q-ml-sm">Google</span>
                 </q-btn>
               </div>
@@ -121,13 +126,22 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["loginUser"]),
+    ...mapActions(["loginUser", "getCart"]),
     loginRegUser() {
       this.loginUser({
         email: this.email,
         password: this.password
         // eslint-disable-next-line no-console
-      }).then(() => this.$router.push("/"));
+      }).then(() => {
+        this.getCart();
+        this.$router.replace("/");
+      });
+    },
+    facebook() {
+      window.open("http://localhost:3000/api/v1/auth/facebook", "_self");
+    },
+    google() {
+      window.open("http://localhost:3000/api/v1/auth/google", "_self");
     }
   }
 };

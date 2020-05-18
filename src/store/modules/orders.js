@@ -40,13 +40,19 @@ const actions = {
       error(err);
     }
   },
-  async cancelOrder({ commit }, payload) {
-    try {
-      const order = await Api.put(`/api/v1/orders/cancel/${payload}`);
 
-      if (order.data.success) {
-        commit("cancelOrder_request", payload);
-      }
+  async updateOrder({ commit }, payload) {
+    try {
+      const { id, updateType } = payload;
+
+      const order = await Api.put(`/api/v1/orders/${id}`, { updateType });
+
+      commit("updateOrder_req", {
+        type: updateType,
+        orders: order.data.order
+      });
+
+      return order;
     } catch (err) {
       error(err);
     }
@@ -60,36 +66,27 @@ const mutations = {
   },
 
   newOrder_request(state, orderPayload) {
-    // eslint-disable-next-line no-console
-    console.log("newOrder_request -> state.orders", orderPayload);
     state.orders.push({ ...orderPayload.order });
 
-    //   received: false,
-    //   receivedDate: null,
-    //   date: Date.now(),
-    //   dateProcessingDone: null,
-    //   datePackingDone: null,
-    //   dateDelivering: null,
-    //   stage: "Processing",
-    //   userNotification: null,
     //   location: payload,
     //   rider: "",
     //   confirmedByRider: false,
     //   riderStatus: "",
     //   deliveryProgress: ""
-    // });
-    // state.finalCart = [];
-    // state.cart = [];
   },
-  cancelOrder_request(state, payload) {
-    const waa = state.orders.find(i => i._id === payload);
 
-    waa.orderStatus = "Canceled";
-    // const index = state.orders.findIndex(i => i._id === payload);
+  updateOrder_req(state, payload) {
+    const { type, orders } = payload;
 
-    // const item = state.orders[index];
+    const update = state.orders.find(order => order._id === orders._id);
 
-    // item.orderStatus = "Canceled";
+    if (type === "clicked") {
+      update.notificationClicked = true;
+    } else if (type === "cancel") {
+      update.orderStatus = "Canceled";
+    } else if (type === "confirmReceived") {
+      update.orderStatus = "Completed";
+    }
   }
 };
 

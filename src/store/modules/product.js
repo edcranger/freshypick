@@ -22,7 +22,6 @@ const actions = {
   async initAction({ dispatch }) {
     try {
       dispatch("getAllProducts");
-      dispatch("getCart");
     } catch (err) {
       error(err);
     }
@@ -46,7 +45,6 @@ const actions = {
   },
   async getCart({ commit }) {
     try {
-      success("getCart dispatched");
       const cart = await Api.get("/api/v1/cart/");
       cart.data.cart.map(i => {
         i.product.spinner = false;
@@ -139,9 +137,10 @@ const mutations = {
     const newData = data.cart.find(i => i._id === cartId);
     const fxnType = ["add", "minus", "changeQty"];
     if (fxnType.includes(type) && newData) {
-      state.cart.cart.find(i => i._id === cartId).total = newData.total;
-      state.cart.cart.find(i => i._id === cartId).quantity = newData.quantity;
-      state.cart.cart.find(i => i._id === cartId).product.spinner = false;
+      const cartData = state.cart.cart.find(i => i._id === cartId);
+      cartData.total = newData.total;
+      cartData.quantity = newData.quantity;
+      cartData.product.spinner = false;
     } else if (
       !fxnType.includes(type) ||
       (type === "add" && !newData) ||
@@ -161,7 +160,7 @@ const mutations = {
         .map(e => {
           e.selected = true;
           e.product.spinner = false;
-          e.deleting = true;
+          e.deleting = false;
         });
       state.cart = data;
     }

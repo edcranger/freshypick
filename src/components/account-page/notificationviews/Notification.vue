@@ -28,11 +28,9 @@
             <q-item
               v-ripple
               :class="
-                item.userNotification === 'Yes'
-                  ? 'q-py-md bg-green-1'
-                  : 'q-py-md'
+                !item.notificationClicked ? 'q-py-md bg-green-1' : 'q-py-md'
               "
-              @click="touched(item.id)"
+              @click="touched(item._id)"
               v-for="item in mixed"
               :key="item.id"
               clickable
@@ -40,11 +38,11 @@
               <q-item-section
                 top
                 avatar
-                v-for="i in item.item.slice(0, 1)"
+                v-for="i in item.orderList.slice(0, 1)"
                 :key="i.id"
               >
                 <q-avatar>
-                  <img :src="i.photo[0].url" />
+                  <img :src="`http://localhost:3000/${i.product.photos[0]}`" />
                 </q-avatar>
               </q-item-section>
 
@@ -68,13 +66,17 @@
                 </q-item-label>
               </q-item-section>
 
-              <q-item-section side center v-if="!item.received">
+              <q-item-section
+                side
+                center
+                v-if="item.orderStatus === 'Delivering'"
+              >
                 <q-btn
                   color="deep-orange"
                   dense
                   glossy
                   label="Yes"
-                  @click="receive(item.id)"
+                  @click="receive(item._id)"
                 />
               </q-item-section>
             </q-item>
@@ -95,53 +97,36 @@ export default {
       desc: "No New Notifications"
     };
   },
-  created() {},
+  created() {
+    this.getAllOrders();
+  },
   computed: {
-    ...mapGetters(["ordered", "receivedItems"]),
-    mixed: function() {
-      const arr = [...this.ordered, ...this.receivedItems];
-      const newArray = new Set(arr);
-      return [...newArray]
-        .filter(
-          i =>
-            (i.stage !== "canceled" &&
-              i.riderStatus === "done" &&
-              i.userNotification === "Yes") ||
-            i.userNotification === "No"
-        )
-        .sort((a, b) => (a.date < b.date ? 1 : -1));
+    ...mapGetters(["allOrders", "receivedItems"]),
+    mixed() {
+      const showIfIncluded = ["Delivering", "Completed"];
+      return this.allOrders.filter(
+        i => showIfIncluded.includes(i.orderStatus) && i.riderStatus === "done"
+      );
+      // .sort((a, b) => (a.rider.date.dateCompleted < b.date ? 1 : -1));
     }
   },
   methods: {
-    ...mapActions(["receivedOrder", "editOrder"]),
+    ...mapActions([
+      "receivedOrder",
+      "editOrder",
+      "getAllOrders",
+      "updateOrder"
+    ]),
     datefxn(timestamp) {
       return date.formatDate(timestamp, "MMM-DD-YYYY");
     },
-    calCulateItem(id) {
-      const pow = this.ordered.filter(item => item.id === id);
 
-      const notCancelled = pow.map(i => i.item.filter(x => !x.cancelled));
-
-      const totalPrice = notCancelled.map(i =>
-        i.reduce((currentTotal, x) => x.price * x.qty + currentTotal, 0)
-      );
-
-      return parseInt(totalPrice);
-    },
     receive(id) {
-      this.receivedOrder(id);
-      this.editOrder(this.ordered);
+      this.updateOrder({ id, updateType: "confirmReceived" });
     },
     touched(id) {
-      this.ordered
-        .filter(i => i.id === id)
-        .map(x => {
-          if (x.userNotification === "Yes") {
-            x.userNotification = "No";
-
-            this.editOrder(this.ordered);
-          }
-        });
+      this.mixed.find(order => order._id === id).notificationClicked = true;
+      this.updateOrder({ id, updateType: "clicked" });
     }
   },
   components: {

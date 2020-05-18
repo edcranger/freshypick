@@ -1,81 +1,122 @@
-import axios from "axios";
+import { error } from "consola";
+import Api from "../../api/Api";
+import { Cookies } from "quasar";
 
 const state = {
-  isLoggedIn: true,
+  token: Cookies.get("token") || "",
   role: "user",
-  user: null,
-  userProfile: {
-    name: "Edison Ocampo",
-    username: "edisonocampo.eo",
-    phone: "09958402424",
-    email: "edisonocampo.eo@gmail.com",
-    photo:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQc3ubLuqk5JB2XQLklC5fCEUTUejV-DNLgTFY0-9HeI-W6MJEr"
-  },
-  userAddress: {
-    name: "Home",
-    region: "NCR",
-    province: "Metro Manila",
-    city: "Caloocan",
-    brgy: "Brgy 117",
-    zipcode: 1442,
-    detailedAdd: "Blk 22 Lot 12 Hibiscus Street Castle Spring Heights Camarin",
-    default: true
-  },
-  wareHouse: [{ name: "Main Store" }, { name: "Branch 1" }]
+  user: {},
 };
 
 // GETTERS-------------------------------------------------------------------------
+
 const getters = {
-  isLoggedIn: state => !!state.isLoggedIn,
-  userProfile: state => state.userProfile,
-  userAdd: state => state.userAddress,
-  userRole: state => state.role
+  isLoggedIn: (state) => !!state.token,
+  user: (state) => state.user,
+  user_addresses: (state) => state.user.addresses,
 };
 
 // Actions-------------------------------------------------------------------------
 const actions = {
   async loginUser({ commit }, loginPayload) {
     try {
-      // eslint-disable-next-line no-console
-      console.log("login", loginPayload);
-      const user = await axios.post("/api/v1/users/login", loginPayload, {
-        withCredentials: true
-      });
+      const user = await Api.post("/api/v1/users/login", loginPayload);
 
       commit("regularUserLogin", user.data);
 
       return user;
     } catch (err) {
       // eslint-disable-next-line no-console
-      console.error(err);
+      error(err);
+    }
+  },
+  async getUser({ commit }) {
+    try {
+      const user = await Api.get("/api/v1/users/authenticate");
+
+      if (user.data.success) {
+        commit("getUser_request", user.data);
+      }
+      return user;
+    } catch (err) {
+      error(err);
     }
   },
   async logoutUser({ commit }) {
     try {
-      commit("regularUserOut");
+      const user = await Api.post("/api/v1/users/logout");
+      commit("logout_request");
+      return user;
     } catch (err) {
-      // eslint-disable-next-line no-console
-      console.error(err);
+      error(err);
     }
-  }
+  },
+  async shippingAdd({ commit }, payload) {
+    try {
+      error("errrror", payload);
+      const address = await Api.post("/api/v1/users/address", { ...payload });
+
+      commit("shippingAdd_req", address.data);
+
+      return address;
+    } catch (err) {
+      error(err);
+    }
+  },
+  async updateShippingAdd({ commit }, payload) {
+    try {
+      const { id, data } = payload;
+      const address = await Api.put(`/api/v1/users/address/${id}`, { ...data });
+
+      commit("UpdateShippingAdd_req", address.data);
+
+      return address;
+    } catch (err) {
+      error(err);
+    }
+  },
+  async deleteShippingAdd({ commit }, payload) {
+    try {
+      const address = await Api.delete(`/api/v1/users/address/${payload}`);
+
+      commit("deleteShippingAdd", address.data);
+
+      return address;
+    } catch (err) {
+      error(err);
+    }
+  },
 };
 
 // Mutations-------------------------------------------------------------------------
 const mutations = {
   regularUserLogin(state, user) {
-    state.isLoggedIn = true;
-    // eslint-disable-next-line no-console
-    state.user = user;
+    state.token = Cookies.get("token");
+
+    state.user = user.user;
   },
-  regularUserOut(state) {
-    state.isLoggedIn = false;
-  }
+  getUser_request(state, payload) {
+    state.user = payload.user;
+    state.user.addresses.sort((a, b) =>
+      a.shippingDefault < b.shippingDefault ? 1 : -1
+    );
+  },
+  logout_request(state, rootState) {
+    error("rootState", rootState);
+    Cookies.remove("token");
+    state.token = "";
+    state.user = {};
+    state.profile = {};
+    state.userAddress = {};
+  },
+  shippingAdd_req() {},
+  UpdateShippingAdd_req() {},
+  deleteShippingAdd() {},
 };
 
 export default {
   state,
   actions,
   mutations,
-  getters
+  getters,
 };

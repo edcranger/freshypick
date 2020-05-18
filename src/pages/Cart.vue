@@ -304,6 +304,10 @@ export default {
   created() {
     if (this.cart.length !== 0) {
       this.loading = false;
+    } else {
+      this.getCart().then(() => {
+        this.loading = false;
+      });
     }
   },
   watch: {

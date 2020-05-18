@@ -153,6 +153,12 @@ export default {
       this.cartItemFxn({
         productId: id,
         payload: { quantity: qty, cartFxnType: type }
+      }).then(() => {
+        this.$q.notify({
+          message: `Added ${this.getProduct.name} to cart.`,
+          color: "green",
+          position: "right"
+        });
       });
     },
     viewSingleProduct(product) {
