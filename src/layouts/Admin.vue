@@ -61,9 +61,9 @@
               <q-icon :name="i.icon" :color="i.color" />
             </q-item-section>
 
-            <q-item-section class="text-caption">
-              {{ i.btnName }}
-            </q-item-section>
+            <q-item-section class="text-caption">{{
+              i.btnName
+            }}</q-item-section>
           </q-item>
         </q-list>
       </q-scroll-area>
@@ -124,7 +124,7 @@ export default {
         },
         {
           id: 3,
-          btnName: " Packing",
+          btnName: " Preparing",
           color: "teal",
           icon: "fas fa-box-open",
           route: "/admining/packing"

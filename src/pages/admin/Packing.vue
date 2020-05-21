@@ -23,7 +23,7 @@
                 color="blue"
                 :to="{
                   name: 'viewItemPacking',
-                  params: { productOrderId: props.row.name }
+                  params: { orderId: props.row.name }
                 }"
                 :label="props.row.name"
               />
@@ -123,29 +123,30 @@ export default {
       tData: [this.tableData]
     };
   },
-  created() {},
+  created() {
+    this.getAdminOrders();
+  },
   computed: {
-    ...mapGetters(["ordered"]),
+    ...mapGetters(["AllOrdersByAdmin"]),
     tableData() {
-      const forProcessing = this.ordered.filter(x => x.stage === "Packing");
-      const wew = forProcessing.map(x => {
-        const itemNum = x.item.filter(i => !i.cancelled);
-        return {
-          name: x.id,
-          date: this.datefxn(x.date),
-          processDone: x.dateProcessingDone,
-          packingDone: x.datePackingDone,
-          user: "Edison Ocampo",
-          numItems: itemNum.length,
-          status: x.stage
-        };
-      });
-
-      return wew.sort((a, b) => (a.processDone > b.processDone ? 1 : -1));
+      const preparing = this.AllOrdersByAdmin.filter(
+        order => order.orderStatus === "Preparing"
+      );
+      return preparing
+        .map(x => {
+          return {
+            name: x._id,
+            date: x.dates.orderDate,
+            user: "Edison Ocampo",
+            numItems: x.orderList.length,
+            status: x.orderStatus
+          };
+        })
+        .sort((a, b) => (a.date > b.date ? 1 : -1));
     }
   },
   methods: {
-    ...mapActions([]),
+    ...mapActions(["getAdminOrders"]),
     datefxn(timestamp) {
       return date.formatDate(timestamp, "M-DD-YYYY h:m A");
     }

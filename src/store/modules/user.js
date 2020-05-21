@@ -5,15 +5,15 @@ import { Cookies } from "quasar";
 const state = {
   token: Cookies.get("token") || "",
   role: "user",
-  user: {},
+  user: {}
 };
 
 // GETTERS-------------------------------------------------------------------------
 
 const getters = {
-  isLoggedIn: (state) => !!state.token,
-  user: (state) => state.user,
-  user_addresses: (state) => state.user.addresses,
+  isLoggedIn: state => !!state.token,
+  user: state => state.user,
+  user_addresses: state => state.user.addresses
 };
 
 // Actions-------------------------------------------------------------------------
@@ -85,7 +85,7 @@ const actions = {
     } catch (err) {
       error(err);
     }
-  },
+  }
 };
 
 // Mutations-------------------------------------------------------------------------
@@ -111,12 +111,12 @@ const mutations = {
   },
   shippingAdd_req() {},
   UpdateShippingAdd_req() {},
-  deleteShippingAdd() {},
+  deleteShippingAdd() {}
 };
 
 export default {
   state,
   actions,
   mutations,
-  getters,
+  getters
 };

@@ -36,22 +36,22 @@ const routes = [
         component: () => import("../pages/admin/ItemManagement")
       },
       {
-        path: "/admining/item-processing/:productOrderId",
+        path: "/admining/item-processing/:orderId",
         name: "viewItemProcessing",
         component: () => import("../pages/admin/ViewItemProcessing")
       },
       {
-        path: "/admining/item-packing/:productOrderId",
+        path: "/admining/item-packing/:orderId",
         name: "viewItemPacking",
         component: () => import("../pages/admin/ViewItemPacking")
       },
       {
-        path: "/admining/item-delivering/:productOrderId",
+        path: "/admining/item-delivering/:orderId",
         name: "viewItemDelivering",
         component: () => import("../pages/admin/ViewItemDelivering")
       },
       {
-        path: "/admining/product-completed/:productOrderId",
+        path: "/admining/product-completed/:orderId",
         name: "viewItemCompleted",
         component: () => import("../pages/admin/ViewItemCompleted")
       },

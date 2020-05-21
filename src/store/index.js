@@ -6,7 +6,7 @@ import User from "./modules/user";
 import Riders from "./modules/riders";
 import Log from "./modules/logsinfo";
 import Orders from "./modules/orders";
-
+import adminOrders from "./modules/admin-orders";
 // import example from './module-example'
 
 Vue.use(Vuex);
@@ -26,7 +26,8 @@ const store = new Vuex.Store({
     Log,
     Orders,
     User,
-    Products
+    Products,
+    adminOrders
   },
 
   state: {},

@@ -18,9 +18,9 @@
           <q-tr :props="props">
             <q-td key="name" :props="props">
               <q-icon
-                :color="props.row.dateDelivering === null ? `orange` : `green`"
+                :color="props.row.riderStatus === 'na' ? `orange` : `green`"
                 :name="
-                  props.row.dateDelivering === null
+                  props.row.riderStatus === 'na'
                     ? `fas fa-truck-loading`
                     : `fas fa-truck`
                 "
@@ -32,7 +32,7 @@
                 color="blue"
                 :to="{
                   name: 'viewItemDelivering',
-                  params: { productOrderId: props.row.name }
+                  params: { orderId: props.row.name }
                 }"
                 :label="props.row.name"
               ></q-btn>
@@ -43,14 +43,12 @@
             <q-td key="items" :props="props">{{ props.row.numItems }}</q-td>
             <q-td key="status" :props="props">
               <q-btn
-                :color="props.row.dateDelivering === null ? `orange` : `green`"
+                :color="props.row.riderStatus === 'na' ? `orange` : `green`"
                 flat
                 dense
               >
                 {{
-                  props.row.dateDelivering === null
-                    ? "To Courier"
-                    : "Delivering"
+                  props.row.riderStatus === "na" ? "To Courier" : "Delivering"
                 }}
               </q-btn>
             </q-td>
@@ -138,34 +136,34 @@ export default {
           field: "numItems",
           sortable: true
         }
-      ],
-      tData: [this.tableData]
+      ]
     };
   },
-  created() {},
+  created() {
+    this.getAdminOrders();
+  },
   computed: {
-    ...mapGetters(["ordered"]),
+    ...mapGetters(["AllOrdersByAdmin"]),
     tableData() {
-      const forProcessing = this.ordered.filter(x => x.stage === "Delivering");
-      const wew = forProcessing.map(x => {
-        const itemNum = x.item.filter(i => !i.cancelled);
-        return {
-          name: x.id,
-          date: this.datefxn(x.date),
-          processDone: x.dateProcessingDone,
-          packingDone: x.datePackingDone,
-          dateDelivering: x.dateDelivering,
-          user: "Edison Ocampo",
-          numItems: itemNum.length,
-          status: x.stage
-        };
-      });
-
-      return wew.sort((a, b) => (a.packingDone > b.packingDone ? 1 : -1));
+      const preparing = this.AllOrdersByAdmin.filter(
+        order => order.orderStatus === "Delivering"
+      );
+      return preparing
+        .map(x => {
+          return {
+            name: x._id,
+            date: this.datefxn(x.dates.orderDate),
+            user: "Edison Ocampo",
+            numItems: x.orderList.length,
+            status: x.orderStatus,
+            riderStatus: x.riderStatus
+          };
+        })
+        .sort((a, b) => (a.date > b.date ? 1 : -1));
     }
   },
   methods: {
-    ...mapActions([]),
+    ...mapActions(["getAdminOrders"]),
     datefxn(timestamp) {
       return date.formatDate(timestamp, "M-DD-YYYY h:m A");
     }

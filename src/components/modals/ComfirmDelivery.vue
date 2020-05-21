@@ -50,7 +50,7 @@
     </ModalBody>
     <ModalActions>
       <q-btn flat label="No" color="primary" v-close-popup />
-      <q-btn flat label="Yes" color="primary" @click="confirmDelivery(sel)" />
+      <q-btn flat label="Yes" color="primary" @click="confirmDelivery()" />
     </ModalActions>
   </q-card>
 </template>
@@ -67,7 +67,7 @@ export default {
       sel: null,
       error: null,
       userID: null,
-      routeParams: this.$route.params.productOrderId,
+      routeParams: this.$route.params.orderId,
       thumbStyle: {
         right: "4px",
         borderRadius: "5px",
@@ -85,45 +85,30 @@ export default {
       }
     };
   },
-  props: ["i", "dataTitle"],
-  created() {
-    this.$consola.success("cancelview", this.dataTitle);
-  },
+  created() {},
   computed: {
-    ...mapGetters(["ordered", "getRiders"])
+    ...mapGetters(["AllOrdersByAdmin", "getRiders"])
   },
   methods: {
-    ...mapActions(["editOrder", "addItemsToRider"]),
-    confirmDelivery(i) {
-      // eslint-disable-next-line no-console
-      console.log(i);
-      let data = [];
+    ...mapActions(["getAdminOrders", "orderStatusUpdate", "addItemsToRider"]),
+    confirmDelivery() {
+      const order = this.AllOrdersByAdmin.find(
+        order => order._id === this.routeParams
+      );
 
-      const pow = this.ordered.filter(item => item.id === this.routeParams);
+      const itemTorider = { item: order, rider: this.sel };
 
-      for (const item in pow) {
-        const iterate = pow[item];
-        for (const i in iterate.item) {
-          iterate.item[i].confirm = false;
-          data.push(iterate.item[i]);
-        }
-      }
-
-      const itemTorider = { id: pow[0], rider: this.sel };
-
-      this.addItemsToRider(itemTorider);
-
-      if (this.sel !== null) {
-        pow.forEach(i => {
-          (i.stage = "Delivering"),
-            (i.dateDelivering = new Date()),
-            (i.userNotification = "Yes"),
-            (i.rider = this.sel.id);
+      if (this.sel) {
+        this.orderStatusUpdate({
+          type: "delivering",
+          id: this.routeParams,
+          rider: this.sel.id
+        }).then(res => {
+          // eslint-disable-next-line no-console
+          console.log(res);
+          this.$router.replace("/admining/delivering");
         });
-
-        this.editOrder(this.ordered);
-
-        this.$router.replace("/admining/delivering");
+        this.addItemsToRider(itemTorider);
       } else {
         this.error = "Credentials Invalid";
       }

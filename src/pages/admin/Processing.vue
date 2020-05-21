@@ -22,13 +22,13 @@
                 color="blue"
                 :to="{
                   name: 'viewItemProcessing',
-                  params: { productOrderId: props.row.name }
+                  params: { orderId: props.row.name }
                 }"
                 :label="props.row.name"
               />
             </q-td>
 
-            <q-td key="date" :props="props">{{ datefxn(props.row.date) }}</q-td>
+            <q-td key="date" :props="props">{{ props.row.date }}</q-td>
             <q-td key="user" :props="props">{{ props.row.user }}</q-td>
             <q-td key="items" :props="props">{{ props.row.numItems }}</q-td>
             <q-td key="status" :props="props">
@@ -55,6 +55,7 @@
 </template>
 
 <script>
+// import { info } from "consola";
 import { mapGetters, mapActions } from "vuex";
 import { date } from "quasar";
 export default {
@@ -122,27 +123,30 @@ export default {
       tData: [this.tableData]
     };
   },
-  created() {},
+  async created() {
+    this.getAdminOrders();
+  },
   computed: {
-    ...mapGetters(["ordered"]),
+    ...mapGetters(["AllOrdersByAdmin"]),
     tableData() {
-      const forProcessing = this.ordered.filter(x => x.stage === "Processing");
-      const wew = forProcessing.map(x => {
-        const itemNum = x.item.filter(i => !i.cancelled);
-        return {
-          name: x.id,
-          date: x.date,
-          user: "Edison Ocampo",
-          numItems: itemNum.length,
-          status: x.stage
-        };
-      });
-
-      return wew.sort((a, b) => (a.date > b.date ? 1 : -1));
+      const forProcessing = this.AllOrdersByAdmin.filter(
+        order => order.orderStatus === "Processing"
+      );
+      return forProcessing
+        .map(x => {
+          return {
+            name: x._id,
+            date: this.datefxn(x.dates.orderDate),
+            user: "Edison Ocampo",
+            numItems: x.orderList.length,
+            status: x.orderStatus
+          };
+        })
+        .sort((a, b) => (a.date > b.date ? 1 : -1));
     }
   },
   methods: {
-    ...mapActions([]),
+    ...mapActions(["getAdminOrders"]),
     datefxn(timestamp) {
       return date.formatDate(timestamp, "M-DD-YYYY h:m A");
     }

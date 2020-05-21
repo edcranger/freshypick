@@ -77,7 +77,7 @@ export default {
       this.$router.push({ name: "product", params: { name: product.name } });
     }
   },
-  async created() {
+  created() {
     // eslint-disable-next-line no-console
   },
   components: {
