@@ -10,7 +10,7 @@
     </div>
     <q-list bordered separator>
       <q-item
-        class="bg-white q-"
+        class="bg-white"
         clickable
         v-ripple
         v-for="(i, index) in getCustomerDetails"
@@ -21,9 +21,9 @@
         </q-item-section>
 
         <q-item-section>
-          <q-item-label class="text-bold text-grey-7">{{
-            i.data
-          }}</q-item-label>
+          <q-item-label class="text-bold text-grey-7">
+            {{ i.data }}
+          </q-item-label>
           <q-item-label></q-item-label>
         </q-item-section>
       </q-item>
@@ -45,9 +45,9 @@
         </q-item-section>
 
         <q-item-section>
-          <q-item-label class="text-bold text-grey-7">{{
-            i.data
-          }}</q-item-label>
+          <q-item-label class="text-bold text-grey-7">
+            {{ i.data }}
+          </q-item-label>
         </q-item-section>
       </q-item>
       <q-separator />

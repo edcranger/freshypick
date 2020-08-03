@@ -1,9 +1,10 @@
+// @ts-nocheck
 import { error } from "consola";
 import Api from "../../api/Api";
 import { Cookies } from "quasar";
 
 const state = {
-  token: Cookies.get("token") || "",
+  token: Cookies.get("csrf_id") || "",
   role: "user",
   user: {}
 };
@@ -44,7 +45,7 @@ const actions = {
   },
   async logoutUser({ commit }) {
     try {
-      const user = await Api.post("/api/v1/users/logout");
+      const user = await Api.get("/api/v1/users/logout");
       commit("logout_request");
       return user;
     } catch (err) {
@@ -103,7 +104,6 @@ const mutations = {
   },
   logout_request(state, rootState) {
     error("rootState", rootState);
-    Cookies.remove("token");
     state.token = "";
     state.user = {};
     state.profile = {};

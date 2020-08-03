@@ -219,6 +219,7 @@
 </template>
 
 <script>
+import { Cookies } from "quasar";
 import { mapGetters, mapActions } from "vuex";
 export default {
   name: "MyLayout",
@@ -237,7 +238,7 @@ export default {
   methods: {
     ...mapActions(["logoutUser", "getCart", "getUser"]),
     logOut() {
-      // Cookies.remove("token");
+      Cookies.remove("csrf_id");
       this.logoutUser().then(() => {
         this.$router.go("/");
       });

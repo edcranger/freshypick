@@ -96,19 +96,15 @@ export default {
         order => order._id === this.routeParams
       );
 
-      const itemTorider = { item: order, rider: this.sel };
-
       if (this.sel) {
         this.orderStatusUpdate({
           type: "delivering",
           id: this.routeParams,
           rider: this.sel.id
-        }).then(res => {
-          // eslint-disable-next-line no-console
-          console.log(res);
+        }).then(() => {
+          this.addItemsToRider({ rider: this.sel.id, package: order });
           this.$router.replace("/admining/delivering");
         });
-        this.addItemsToRider(itemTorider);
       } else {
         this.error = "Credentials Invalid";
       }

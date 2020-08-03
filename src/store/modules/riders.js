@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { success, error } from "consola";
 
 const state = {
